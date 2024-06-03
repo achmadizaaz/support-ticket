@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,7 +29,32 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $clientIp = $this->getIpClient($request);
+
+        $request->user()->update([
+            'last_login_at' => Carbon::now()->toDateTimeString(),
+            'last_login_ip' => $clientIp,
+        ]);
+
         return redirect()->intended(route('dashboard', absolute: false));
+    }
+
+    /**
+     * Get ip address user login.
+     */
+    public function getIpClient($request)
+    {
+        $clientIp = $request->getClientIp();
+        // Jika server menggunakan reverse proxy
+        $reserveProxy = $request->header('X-Forwarded-For');
+        // Cek jika terdapat reserve proxy
+       	if(isset($reserveProxy)){
+            // Membagi header jika terdapat beberapa alamat IP dan mengambil yang pertama
+            $ipReserveProxy = explode(',', $reserveProxy);
+            // Mengambil alamat IP pertama
+            $clientIp = trim($ipReserveProxy[0]); 
+        }
+        return $clientIp;
     }
 
     /**
