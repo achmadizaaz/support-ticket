@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="auto">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,12 +7,11 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-        <meta content="Themesbrand" name="author" />
-         
         <!-- Scripts -->
-         {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+        <!-- Scripts Dark Mode Bootstrap -->
+        {{-- <script src="{{ asset('assets/js/color-modes.js') }}"></script> --}}
 
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -27,10 +26,8 @@
         <!-- App Css-->
         <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
-       
-
+        <!-- Push Script Head-->
         @stack('head')
-
     </head>
     
     <body>
@@ -74,7 +71,6 @@
     
             <!-- JAVASCRIPT -->
             <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-            <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
             <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
             <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
             <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
