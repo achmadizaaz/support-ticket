@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class SyncPermissionController extends Controller
 {
     protected $role, $permission;
-    private function __construct(Role $role, Permission $permission)
+    public function __construct(Role $role, Permission $permission)
     {
         $this->role = $role;
         $this->permission = $permission;

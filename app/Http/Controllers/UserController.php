@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\AddtionalInformation;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -12,11 +15,12 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-    protected $model;
+    protected $model, $addtionalInformation;
 
-    private function __construct(User $user)
+    public function __construct(User $user, AddtionalInformation $addtionalInformation)
     {
         $this->model = $user;
+        $this->addtionalInformation = $addtionalInformation;
     }
 
     public function index()
@@ -27,12 +31,14 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     public function store(UserRequest $request)
     {
         try{
+            DB::beginTransaction();
             $image = NULL;
             // Jika terdapat upload file image
             if($request->image){
@@ -41,17 +47,35 @@ class UserController extends Controller
                 $fileNameToStore = $filenameWithExt. '-'. time().'.'.$extension;
                 $image = $request->file('image')->storeAs('users/images', $fileNameToStore, 'public');
             }
-
+            
             // Menambahkan data ke database
-            $this->model->create([
-                'image' => $image,
+            $user = $this->model->create([
+                'image'    => $image,
                 'username' => $request->username,
-                'name' => $request->name,
-                'email' => $request->email,
+                'name'     => $request->name,
+                'email'    => $request->email,
                 'password' => Hash::make($request->password),
-                'is_active' => $request->is_active,
+                'is_active'=> $request->is_active,
             ]);
+
+            // Relation addtional informasi user
+            $this->addtionalInformation->create([
+                'user_id'   => $user->id,
+                'phone'     => $request->phone,
+                'mobile'    => $request->mobile,
+                'country'   => $request->country,
+                'address'   => $request->address,
+                'bio'       => $request->bio,
+                'website'   => $request->website,
+                'instagram' => $request->instagram,
+                'facebook'  => $request->facebook,
+                'twitter'   => $request->twitter,
+                'youtube'   => $request->youtube,
+            ]);
+
+            DB::commit();
         }catch(\Exception $exception){
+            DB::rollBack();
             // Menyimpan log kegagalan sistem
             Log::error($exception->getMessage());
             return back()->withInput($request->all())->with('failed', 'Terjadi kesalahan sistem, silakan coba nanti');
