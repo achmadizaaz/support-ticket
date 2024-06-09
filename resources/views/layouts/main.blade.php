@@ -11,7 +11,7 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
         <!-- Scripts Dark Mode Bootstrap -->
-        {{-- <script src="{{ asset('assets/js/color-modes.js') }}"></script> --}}
+        <script src="{{ asset('assets/js/color-modes.js') }}"></script>
 
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -63,7 +63,7 @@
     
             
             <!-- Right Sidebar  Customize Theme-->
-            @include('layouts.customize')
+            {{-- @include('layouts.customize') --}}
             <!-- END Right-bar Customize Theme-->
     
             <!-- Right bar overlay-->

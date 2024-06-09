@@ -47,15 +47,7 @@
         });
     }
     function d() {
-        for (
-            let t = document
-                    .getElementById("topnav-menu-content")
-                    .getElementsByTagName("a"),
-                e = 0,
-                a = t.length;
-            e < a;
-            e++
-        )
+        for (let e = 0, a = t.length; e < a; e++)
             t[e] &&
                 t[e].parentElement &&
                 "nav-item dropdown active" ===
@@ -63,9 +55,6 @@
                 (t[e].parentElement.classList.remove("active"),
                 t[e].nextElementSibling &&
                     t[e].nextElementSibling.classList.remove("show"));
-    }
-    function l(t) {
-        document.getElementById(t).checked = !0;
     }
     function c() {
         document.webkitIsFullScreen ||
@@ -82,8 +71,7 @@
             }),
                 1024 <= window.innerWidth &&
                     window.innerWidth <= 1366 &&
-                    (document.body.setAttribute("data-sidebar-size", "sm"),
-                    l("sidebar-size-small"));
+                    document.body.setAttribute("data-sidebar-size", "sm");
         }),
         a("#vertical-menu-btn").on("click", function (t) {
             t.preventDefault(),
@@ -245,132 +233,6 @@
         }),
         a(window).on("load", function () {
             a("#status").fadeOut(), a("#preloader").delay(350).fadeOut("slow");
-        }),
-        (n = document.getElementsByTagName("body")[0]),
-        a(".right-bar-toggle").on("click", function (t) {
-            a("body").toggleClass("right-bar-enabled");
-        }),
-        a("#mode-setting-btn").on("click", function (t) {
-            n.hasAttribute("data-bs-theme") &&
-            "dark" == n.getAttribute("data-bs-theme")
-                ? (document.body.setAttribute("data-bs-theme", "light"),
-                  document.body.setAttribute("data-topbar", "light"),
-                  document.body.setAttribute("data-sidebar", "light"),
-                  (n.hasAttribute("data-layout") &&
-                      "horizontal" == n.getAttribute("data-layout")) ||
-                      document.body.setAttribute("data-sidebar", "light"),
-                  l("topbar-color-light"),
-                  l("sidebar-color-light"),
-                  l("topbar-color-light"))
-                : (document.body.setAttribute("data-bs-theme", "dark"),
-                  document.body.setAttribute("data-topbar", "dark"),
-                  document.body.setAttribute("data-sidebar", "dark"),
-                  (n.hasAttribute("data-layout") &&
-                      "horizontal" == n.getAttribute("data-layout")) ||
-                      document.body.setAttribute("data-sidebar", "dark"),
-                  l("layout-mode-dark"),
-                  l("sidebar-color-dark"),
-                  l("topbar-color-dark"));
-        }),
-        a(document).on("click", "body", function (t) {
-            0 < a(t.target).closest(".right-bar-toggle, .right-bar").length ||
-                a("body").removeClass("right-bar-enabled");
-        }),
-        n.hasAttribute("data-layout") &&
-        "horizontal" == n.getAttribute("data-layout")
-            ? (l("layout-horizontal"), a(".sidebar-setting").hide())
-            : l("layout-vertical"),
-        n.hasAttribute("data-bs-theme") &&
-        "dark" == n.getAttribute("data-bs-theme")
-            ? l("layout-mode-dark")
-            : l("layout-mode-light"),
-        n.hasAttribute("data-layout-size") &&
-        "boxed" == n.getAttribute("data-layout-size")
-            ? l("layout-width-boxed")
-            : l("layout-width-fuild"),
-        n.hasAttribute("data-layout-scrollable") &&
-        "true" == n.getAttribute("data-layout-scrollable")
-            ? l("layout-position-scrollable")
-            : l("layout-position-fixed"),
-        n.hasAttribute("data-topbar") && "dark" == n.getAttribute("data-topbar")
-            ? l("topbar-color-dark")
-            : l("topbar-color-light"),
-        n.hasAttribute("data-sidebar-size") &&
-        "sm" == n.getAttribute("data-sidebar-size")
-            ? l("sidebar-size-small")
-            : n.hasAttribute("data-sidebar-size") &&
-              "md" == n.getAttribute("data-sidebar-size")
-            ? l("sidebar-size-compact")
-            : l("sidebar-size-default"),
-        n.hasAttribute("data-sidebar") &&
-        "brand" == n.getAttribute("data-sidebar")
-            ? l("sidebar-color-brand")
-            : n.hasAttribute("data-sidebar") &&
-              "dark" == n.getAttribute("data-sidebar")
-            ? l("sidebar-color-dark")
-            : l("sidebar-color-light"),
-        document.getElementsByTagName("html")[0].hasAttribute("dir") &&
-        "rtl" == document.getElementsByTagName("html")[0].getAttribute("dir")
-            ? l("layout-direction-rtl")
-            : l("layout-direction-ltr"),
-        a("input[name='layout']").on("change", function () {
-            window.location.href =
-                "vertical" == a(this).val()
-                    ? "index.html"
-                    : "layouts-horizontal.html";
-        }),
-        a("input[name='layout-mode']").on("change", function () {
-            "light" == a(this).val()
-                ? (document.body.setAttribute("data-bs-theme", "light"),
-                  document.body.setAttribute("data-topbar", "light"),
-                  document.body.setAttribute("data-sidebar", "light"),
-                  (n.hasAttribute("data-layout") &&
-                      "horizontal" == n.getAttribute("data-layout")) ||
-                      document.body.setAttribute("data-sidebar", "light"),
-                  l("topbar-color-light"),
-                  l("sidebar-color-light"))
-                : (document.body.setAttribute("data-bs-theme", "dark"),
-                  document.body.setAttribute("data-topbar", "dark"),
-                  document.body.setAttribute("data-sidebar", "dark"),
-                  (n.hasAttribute("data-layout") &&
-                      "horizontal" == n.getAttribute("data-layout")) ||
-                      document.body.setAttribute("data-sidebar", "dark"),
-                  l("topbar-color-dark"),
-                  l("sidebar-color-dark"));
-        }),
-        a("input[name='layout-direction']").on("change", function () {
-            "ltr" == a(this).val()
-                ? (document
-                      .getElementsByTagName("html")[0]
-                      .removeAttribute("dir"),
-                  document
-                      .getElementById("bootstrap-style")
-                      .setAttribute("href", "assets/css/bootstrap.min.css"),
-                  document
-                      .getElementById("app-style")
-                      .setAttribute("href", "assets/css/app.min.css"))
-                : (document
-                      .getElementById("bootstrap-style")
-                      .setAttribute("href", "assets/css/bootstrap-rtl.min.css"),
-                  document
-                      .getElementById("app-style")
-                      .setAttribute("href", "assets/css/app-rtl.min.css"),
-                  document
-                      .getElementsByTagName("html")[0]
-                      .setAttribute("dir", "rtl"));
-        }),
-        Waves.init(),
-        a("#checkAll").on("change", function () {
-            a(".table-check .form-check-input").prop(
-                "checked",
-                a(this).prop("checked")
-            );
-        }),
-        a(".table-check .form-check-input").change(function () {
-            a(".table-check .form-check-input:checked").length ==
-            a(".table-check .form-check-input").length
-                ? a("#checkAll").prop("checked", !0)
-                : a("#checkAll").prop("checked", !1);
         });
 })(jQuery),
     feather.replace();

@@ -90,11 +90,33 @@
                 </div>
             </div>
 
-            <div class="dropdown d-none d-sm-inline-block">
-                <button type="button" class="btn header-item" id="mode-setting-btn">
-                    <i data-feather="moon" class="icon-lg layout-mode-dark"></i>
-                    <i data-feather="sun" class="icon-lg layout-mode-light"></i>
+            <div class="dropdown d-none d-sm-inline-block bd-mode-toggle">
+                <button class="btn btn-bd-primary py-2 dropdown-toggle header-item" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
+                    <span class="bi my-1 theme-icon-active">
+                        <i class="theme-change-icon"></i>
+                    </span>
+                    <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
                 </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+                    <li>
+                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                        <i class="bi bi-sun-fill me-2"></i>
+                        Light
+                    </button>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                        <i class="bi bi-moon-stars-fill me-2"></i>
+                            Dark
+                        </button>
+                    </li>
+                    <li>
+                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+                    <i class="bi bi-circle-half me-2"></i>
+                        Auto
+                    </button>
+                    </li>
+                </ul>
             </div>
 
             <div class="dropdown d-none d-lg-inline-block ms-1">
