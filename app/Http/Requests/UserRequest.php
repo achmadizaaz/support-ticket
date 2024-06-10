@@ -23,11 +23,12 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'mimes:png,jpg|max:2048',
+            'image' => $this->image ? 'mimes:png,jpg|max:2048':'',
             'username' => 'required',
             'email' => 'required|email',
             'is_active' => 'required|boolean',
-            'password' => 'required|min:5'
+            'password' => 'required|min:5',
+            'role' => 'required',
         ];
     }
 }

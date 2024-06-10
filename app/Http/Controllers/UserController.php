@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Models\AddtionalInformation;
+use App\Models\AdditionalInformation;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -15,12 +16,13 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-    protected $model, $addtionalInformation;
+    protected $model, $addtionalInformation, $role;
 
-    public function __construct(User $user, AddtionalInformation $addtionalInformation)
+    public function __construct(User $user, AdditionalInformation $addtionalInformation, Role $role)
     {
         $this->model = $user;
         $this->addtionalInformation = $addtionalInformation;
+        $this->role = $role;
     }
 
     public function index()
@@ -31,7 +33,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
+        $roles = $this->role->all();
         return view('users.create', compact('roles'));
     }
 
@@ -86,17 +88,19 @@ class UserController extends Controller
 
     public function show($slug)
     {
-        $this->model->where('slug', $slug)->first();
+        $user = $this->model->where('slug', $slug)->first();
         return view('users.show', compact('user'));
     }
     public function edit($slug)
     {
-        $this->model->where('slug', $slug)->first();
-        return view('users.edit', compact('user'));
+        $user = $this->model->where('slug', $slug)->first();
+        $roles = $this->role->all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     public function update(UserRequest $request, $slug)
     {
+        dd($request);
         try{
             $user = $this->model->where('slug', $slug)->first();
             $image = $user->image;
@@ -128,9 +132,19 @@ class UserController extends Controller
         return to_route('users.show', $slug)->with('success', 'Data user berhasil diupdate!');
     }
 
-    public function destroy($slug)
+    public function destroy(Request $request, $slug)
     {
         $user = $this->model->where('slug', $slug)->first();
+        // Check confirmation
+        if($user->username != $request->confirm){
+            return back()->with('failed', 'Konfirmasi penghapusan salah atau tidak sesuai.');
+        }
+
+        // Check level role user
+        if(Auth::user()->roles()->max('level') < $user->roles()->max('level')){
+            return  back()->with('failed', 'User tidak bisa dihapus, level role user lebih tinggi.');
+        }
+        // Remove user
         $user->delete();
 
         return to_route('users')->with('success',' User telah berhasil dihapus!');
