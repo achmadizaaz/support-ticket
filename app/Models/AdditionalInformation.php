@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AddtionalInformation extends Model
+class AdditionalInformation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'phone', 'mobile', 'address', 'bio',
+        'user_id','phone', 'mobile', 'country', 'address', 'bio',
         'website','instragram', 'facebook', 'twitter', 'youtube'
     ];
 

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('additional_informations', function (Blueprint $table) {
+        Schema::create('additional_information', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userd_id');
+            $table->foreignUlid('user_id');
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
+            $table->string('country')->nullable();
             $table->string('address')->nullable();
             $table->string('bio')->nullable();
             $table->string('website')->nullable();
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->string('youtube')->nullable();
             $table->timestamps();
 
-            $table->foreignUlid('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
