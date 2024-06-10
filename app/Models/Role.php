@@ -10,4 +10,6 @@ use Spatie\Permission\Models\Role as SpatieRole;
 class Role extends SpatieRole
 {
     use HasFactory, HasUlids;
+
+    protected $fillable = ['level'];
 }
