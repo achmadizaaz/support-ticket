@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function addtionalInformation()
     {
-        return $this->hasOne(addtionalInformation::class);
+        return $this->hasOne(AdditionalInformation::class);
     }
 
 }
