@@ -14,7 +14,7 @@
                 </li>
                 <li class="menu-title mt-2" data-key="t-components">Management User</li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('users') }}">
                         <i class="bi bi-people"></i>
                         <span data-key="t-users">Users</span>
                     </a>
