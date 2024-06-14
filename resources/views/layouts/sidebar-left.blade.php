@@ -27,12 +27,12 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('roles') }}">
                                 <span data-key="t-role">Role</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('sync.permissions') }}">
                                 <span data-key="t-permission">Sync Permission</span>
                             </a>
                         </li>
