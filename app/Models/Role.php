@@ -11,5 +11,5 @@ class Role extends SpatieRole
 {
     use HasFactory, HasUlids;
 
-    protected $fillable = ['level'];
+    protected $fillable = ['name','level', 'guard_name'];
 }
