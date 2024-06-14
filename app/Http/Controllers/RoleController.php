@@ -33,12 +33,13 @@ class RoleController extends Controller
             $this->model->create([
                 'name' => $request->name,
                 'level'=> $request->level,
+                'guard_name' => 'web',
             ]);
         }catch(\Exception $exception){
             Log::error($exception->getMessage());
-            return back()->withInput($request->all())->with('Terjadi kesalahan sistem, silakan coba nanti');
+            return back()->withInput($request->all())->with('failed','Terjadi kesalahan sistem, silakan coba nanti');
         }
-        return to_route('roles')->with('success', 'Role berhasil ditambahkan!');
+        return to_route('roles')->with('success', 'Role '.$request->name.', berhasil ditambahkan!');
     }
 
     public function show($id)
@@ -63,10 +64,15 @@ class RoleController extends Controller
         return back()->with('success', 'Role berhasil diupdate!');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $role = $this->model->findOrFail($id);
+        // Check confirmation deleted
+        if($role->name != $request->confirm){
+            return back()->with('failed', 'Konfirmasi penghapusan tidak sesuai');
+        }
         $role->delete();
-        return back()->with('success', 'Role berhasil dihapus!');
+
+        return back()->with('success', 'Role '.$request->confirm.', berhasil dihapus!');
     }
 }
