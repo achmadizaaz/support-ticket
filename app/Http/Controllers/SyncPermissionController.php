@@ -20,6 +20,12 @@ class SyncPermissionController extends Controller
         $roles = $this->role->latest()->get();
         return view('sync.index', compact('roles'));
     }
+    public function assign(Request $request)
+    {
+        $roles = $this->role->latest()->get();
+        $role = $this->role->findOrFail($request->role);
+        return view('sync.assign', compact('roles', 'role'));
+    }
 
     public function create($role){
         $role = $this->role->find($role);

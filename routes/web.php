@@ -36,6 +36,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     // sync permission role route
     Route::controller(SyncPermissionController::class)->prefix('sync-permissions')->group(function(){
         Route::get('/', 'index')->name('sync.permissions');
+        Route::get('assign', 'assign')->name('sync.permissions.role');
         Route::get('{role}/show', 'show')->name('sync.permissions.show');
         Route::get('{role}', 'create')->name('sync.permissions.create');
         Route::post('{role}', 'store')->name('sync.permissions.store');
