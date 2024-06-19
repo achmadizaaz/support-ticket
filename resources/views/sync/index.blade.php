@@ -54,107 +54,11 @@
         <!-- start page main -->
         
         {{-- Change Role --}}
-        @include('sync.components.change-role')
+        @include('sync.select-role')
         {{-- END Change Role --}}
 
-        <div class="card p-3">
-            <table class="table">
-                <thead>
-                    <th>Modul</th>
-                    <th>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="checkAll">
-                            <label class="form-check-label" for="checkAll">
-                                Check All
-                            </label>
-                          </div>
-                    </th>
-                    <th>Create</th>
-                    <th>Read</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                    <th>Other</th>
-                </thead>
-                <tbody>
-                    {{-- Modul User --}}
-                    <tr>
-                        <td class="fw-bold">User</td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="checkUser">
-                            <label class="form-check-label" for="checkUser">
-                                All User
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="createUser">
-                            <label class="form-check-label" for="createUser">
-                                Create
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="readUser">
-                            <label class="form-check-label" for="readUser">
-                                Read
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="updateUser">
-                            <label class="form-check-label" for="updateUser">
-                                Update
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="deleteUser">
-                            <label class="form-check-label" for="deleteUser">
-                                Delete
-                            </label>
-                        </td>
-                        <td>
-                            -
-                        </td>
-                    </tr>
-                    {{-- End Modul User --}}
-
-                    {{-- Modul Role --}}
-                    <tr>
-                        <td class="fw-bold">Role</td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="checkRole">
-                            <label class="form-check-label" for="checkRole">
-                                All Role
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="createRole">
-                            <label class="form-check-label" for="createRole">
-                                Create
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="readRole">
-                            <label class="form-check-label" for="readRole">
-                                Read
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="updateRole">
-                            <label class="form-check-label" for="updateRole">
-                                Update
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="deleteRole">
-                            <label class="form-check-label" for="deleteRole">
-                                Delete
-                            </label>
-                        </td>
-                        <td>
-                            -
-                        </td>
-                    </tr>
-                    {{-- End Modul Role --}}
-                </tbody>
-            </table>
+        <div class="alert alert-warning text-center fst-italic" role="alert">
+            Tidak ada role yang terpilih, silakan pilih role dan klik button <b>Change Role</b>.
         </div>
         <!-- end page main -->
     </div>

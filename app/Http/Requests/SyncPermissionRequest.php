@@ -22,7 +22,7 @@ class SyncPermissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            '*.permissions' => 'required',
+            'role' => 'required',
         ];
     }
 }

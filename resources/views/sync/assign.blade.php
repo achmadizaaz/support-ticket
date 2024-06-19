@@ -7,10 +7,10 @@
         <!-- start page title -->
         <div class="card p-3">
             <div class="d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Sync Permission: {{ $role->name }}</h4>
+                <h4 class="mb-sm-0 font-size-18">Sync Permission: {{ $currentRole->name }}</h4>
                 <div class="page-title-right">
                     <div class="page-title-right">
-                        <button type="button" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary" form="assignForm">
                             <i class="bi bi-arrow-repeat me-1"></i> Synchronize
                         </button>
                     </div>
@@ -23,7 +23,7 @@
         {{-- Alert Success --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
+                <i class="bi bi-check-circle me-2"></i> {!! session('success') !!}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -54,109 +54,140 @@
         <!-- start page main -->
         
          {{-- Change Role --}}
-         @include('sync.components.change-role')
+         @include('sync.select-role')
          {{-- END Change Role --}}
+        <form action="{{ route('sync.permissions.store') }}" method="POST" id="assignForm">
+            <input type="hidden" name="role" value="{{ $currentRole->id }}">
+            @csrf
+            <div class="card p-3">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Modul</th>
+                        <th>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="selectAll">
+                                <label class="form-check-label" for="selectAll">
+                                    Check All
+                                </label>
+                            </div>
+                        </th>
+                        <th>Create</th>
+                        <th>Read</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                        <th>Other</th>
+                    </thead>
+                    <tbody>
+                        {{-- Modul User --}}
+                        <tr>
+                            <td class="fw-bold">User</td>
+                            <td>
+                                <input class="form-check-input me-2 checkbox checkAllUser" type="checkbox" id="all-user" onclick="checkAllUser(this)">
+                                <label class="form-check-label" for="all-user">
+                                    All User
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'create-users')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox user-group" type="checkbox" id="createUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('create-users'))>
+                                <label class="form-check-label" for="createUser">
+                                    Create
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'read-users')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox user-group" type="checkbox" id="readUser"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('read-users'))>
+                                <label class="form-check-label" for="readUser">
+                                    Read
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'update-users')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox user-group" type="checkbox" id="updateUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-users'))>
+                                <label class="form-check-label" for="updateUser">
+                                    Update
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'delete-users')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox user-group" type="checkbox" id="deleteUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('delete-users'))>
+                                <label class="form-check-label" for="deleteUser">
+                                    Delete
+                                </label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        {{-- End Modul User --}}
 
-        <div class="card p-3">
-            <table class="table">
-                <thead>
-                    <th>Modul</th>
-                    <th>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="checkAll">
-                            <label class="form-check-label" for="checkAll">
-                                Check All
-                            </label>
-                          </div>
-                    </th>
-                    <th>Create</th>
-                    <th>Read</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                    <th>Other</th>
-                </thead>
-                <tbody>
-                    {{-- Modul User --}}
-                    <tr>
-                        <td class="fw-bold">User</td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="checkUser">
-                            <label class="form-check-label" for="checkUser">
-                                All User
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="createUser">
-                            <label class="form-check-label" for="createUser">
-                                Create
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="readUser">
-                            <label class="form-check-label" for="readUser">
-                                Read
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="updateUser">
-                            <label class="form-check-label" for="updateUser">
-                                Update
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="deleteUser">
-                            <label class="form-check-label" for="deleteUser">
-                                Delete
-                            </label>
-                        </td>
-                        <td>
-                            -
-                        </td>
-                    </tr>
-                    {{-- End Modul User --}}
-
-                    {{-- Modul Role --}}
-                    <tr>
-                        <td class="fw-bold">Role</td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="checkRole">
-                            <label class="form-check-label" for="checkRole">
-                                All Role
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="createRole">
-                            <label class="form-check-label" for="createRole">
-                                Create
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="readRole">
-                            <label class="form-check-label" for="readRole">
-                                Read
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="updateRole">
-                            <label class="form-check-label" for="updateRole">
-                                Update
-                            </label>
-                        </td>
-                        <td>
-                            <input class="form-check-input me-2" type="checkbox" id="deleteRole">
-                            <label class="form-check-label" for="deleteRole">
-                                Delete
-                            </label>
-                        </td>
-                        <td>
-                            -
-                        </td>
-                    </tr>
-                    {{-- End Modul Role --}}
-                </tbody>
-            </table>
-        </div>
+                        {{-- Modul Role --}}
+                        <tr>
+                            <td class="fw-bold">Role</td>
+                            <td>
+                                <input class="form-check-input me-2 checkbox checkAllRole" type="checkbox" id="all-role" onclick="checkAllRole(this)">
+                                <label class="form-check-label" for="all-role">
+                                    All Role
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'create-roles')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox role-group" type="checkbox" id="createRole" value="{{ $permission->id }}"  name="permission[]" @checked($currentRole->hasPermissionTo('create-roles'))>
+                                <label class="form-check-label" for="createRole">
+                                    Create
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'read-roles')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox role-group" type="checkbox" id="readRole"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('read-roles'))>
+                                <label class="form-check-label" for="readRole">
+                                    Read
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'update-roles')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox role-group" type="checkbox" id="updateRole"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-roles'))>
+                                <label class="form-check-label" for="updateRole">
+                                    Update
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'delete-roles')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox role-group" type="checkbox" id="deleteRole"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-roles'))>
+                                <label class="form-check-label" for="deleteRole">
+                                    Delete
+                                </label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        {{-- End Modul Role --}}
+                    </tbody>
+                </table>
+            </div>
+        </form>
         <!-- end page main -->
     </div>
 @endsection
 
+
+@push('scripts')
+    <script src="{{ asset('assets/js/sync-permission-role/sync.js') }}" defer></script>
+@endpush
