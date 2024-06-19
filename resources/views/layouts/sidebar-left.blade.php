@@ -13,8 +13,8 @@
                     </a>
                 </li>
                 <li class="menu-title mt-2" data-key="t-components">Management User</li>
-                <li>
-                    <a href="{{ route('users') }}">
+                <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
+                    <a href="{{ route('users') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <i class="bi bi-people"></i>
                         <span data-key="t-users">Users</span>
                     </a>
@@ -31,8 +31,8 @@
                                 <span data-key="t-role">Role</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ route('sync.permissions') }}">
+                        <li class="{{ request()->routeIs('sync.permissions.*') ? 'mm-active' : '' }}">
+                            <a href="{{ route('sync.permissions') }}" class="{{ request()->routeIs('sync.permissions.*') ? 'active' : '' }}">
                                 <span data-key="t-permission">Sync Permission</span>
                             </a>
                         </li>
