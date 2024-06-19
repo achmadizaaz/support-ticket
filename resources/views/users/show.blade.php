@@ -178,7 +178,7 @@
                         <div class="h4 py-2 border-bottom">Media social</div>
                         <div class="row mb-4">
                             <label for="website" class="col-sm-3 col-form-label">
-                                <i class="bi bi-mask me-2"></i> Website
+                                <i class="bi bi-globe me-2"></i> Website
                             </label>
                             <div class="col-sm-9 col-form-label">
                                 {!! $user->addtionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
