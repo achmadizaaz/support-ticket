@@ -26,10 +26,7 @@
         <!-- App Css-->
         <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
-        {{-- <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2.min.css') }}" /> --}}
         <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2-bootstrap-5-theme.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2-bootstrap5.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/libs/select2/select2-bootstrap5-dark.min.css') }}" />
 
         <!-- Push Script Head-->
         @stack('head')
@@ -81,8 +78,6 @@
             <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
             <script src="{{ asset('assets/libs/feather-icons/feather.min.js') }}"></script>
             
-
-            <script src="{{ asset('assets/libs/select2/select.min.js') }}"></script>
             <!-- pace js -->
             <script src="{{ asset('assets/libs/pace-js/pace.min.js') }}"></script>
     
