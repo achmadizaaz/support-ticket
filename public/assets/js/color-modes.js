@@ -60,7 +60,6 @@
 
         btnToActive.classList.add("active");
         btnToActive.setAttribute("aria-pressed", "true");
-        console.log(activeTheme);
         if (activeTheme == "dark") {
             activeThemeIcon.removeChild(changeThemeIcon);
             const icon = document.createElement("i");
