@@ -18,7 +18,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     // user routes
     Route::controller(UserController::class)->prefix('users')->group(function(){
         Route::get('/', 'index')->name('users');
-        Route::get('{slug}', 'show')->name('users.show');
+        Route::get('{slug}/show', 'show')->name('users.show');
         Route::get('create', 'create')->name('users.create');
         Route::post('store', 'store')->name('users.store');
         Route::get('{slug}/edit', 'edit')->name('users.edit');
