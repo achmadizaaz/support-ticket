@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Users')
+@section('title', $user->name)
 
 @section('content')
     <div class="container-fluid">
@@ -19,7 +19,7 @@
                     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form action="{{ route('users.delete', $user->slug) }}" method="POST">
+                                <form action="{{ route('users.delete', $user->id) }}" method="POST">
                                     @csrf
                                     @method("DELETE")
                                     <div class="modal-header">
@@ -27,7 +27,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <label for="confirm" class="form-label">
+                                        <label class="form-label">
                                             Untuk melanjutkan penghapusan pengguna, silakan ketik: <span class="fst-italic text-danger">{{ $user->username }}</span>
                                         </label>
                                         <input type="text" class="form-control" name="confirm" placeholder="Enter confirmation: {{ $user->username }}">
@@ -57,9 +57,22 @@
         <!-- end page title -->
 
         <!-- start alert -->
+        {{-- Success --}}
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Successfully</h4>
+                <hr>
+                <p class="mb-0">{{ session('success') }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- Failed --}}
         @if (session('failed'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-circle me-2"></i> {{ session('failed') }}
+                <h4 class="alert-heading">Failed</h4>
+                <hr>
+                <p class="mb-0">{{ session('failed') }}</p>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -67,173 +80,160 @@
 
         <!-- start page main -->
         <div class="card p-3">
-            <form method="post" id="createForm">
-                @csrf
-                <div class="row mb-3">
-                    <div class="col-md-3 text-center">
-                        <div class="mb-3">
-                            <img src="{{ asset('assets/images/no-image.webp') }}" alt="Upload a image" class="rounded-3 img-cover" width="265px" height="300px" id="preview-image">
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Username</h6>
-                                    {{ $user->username }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Name</h6>
-                                    {{ $user->name }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Email</h6>
-                                    {{ $user->email }}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Active?</h6>
-                                    {{ $user->is_active ? 'Active' : 'Non active' }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Role</h6>
-                                    {{-- {{ $user->roles->pluck('name')[0] }} --}}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Last login at</h6>
-                                    {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <h6>Last login ip</h6>
-                                    {!! $user->last_login_ip ?? '<span class="fst-italic">Belum pernah login</span>' !!}
-                                </div>
-                            </div>
-                        </div>
-                        
+            <div class="row mb-3">
+                <div class="col-md-3 text-center">
+                    <div class="mb-3">
+                        @if (isset($user->image))
+                            <img src="{{ asset('storage/'.$user->image) }}" alt="{{ $user->username }}" class="rounded-3 img-cover" width="265px" height="300px">
+                        @else
+                            <img src="{{ asset('assets/images/no-image.webp') }}"alt="{{ $user->username }}" class="rounded-3 img-cover" width="265px" height="300px">
+                        @endif
                     </div>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-xl-6 col-md-12">
-                        <div class="h4 py-2 border-bottom">Additional information</div>
-                        <div class="row mb-4">
-                            <label for="phone" class="col-sm-3 col-form-label">
-                                <i class="bi bi-telephone me-2"></i> Phone
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->phone ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                <div class="col-md-9">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Username</h6>
+                                {{ $user->username }}
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="mobile" class="col-sm-3 col-form-label">
-                                <i class="bi bi-phone me-2"></i> Mobile
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->mobile ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="country" class="col-sm-3 col-form-label">
-                                <i class="bi bi-flag me-2"></i> Country
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->country ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="address" class="col-sm-3 col-form-label">
-                                <i class="bi bi-person-vcard me-2"></i> Address
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->address ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="bio" class="col-sm-3 col-form-label">
-                                <i class="bi bi-bookmark me-2"></i> Bio
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->bio ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Name</h6>
+                                {{ $user->name }}
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-md-12">
-                        <div class="h4 py-2 border-bottom">Media social</div>
-                        <div class="row mb-4">
-                            <label for="website" class="col-sm-3 col-form-label">
-                                <i class="bi bi-globe me-2"></i> Website
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Email</h6>
+                                {{ $user->email }}
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="instagram" class="col-sm-3 col-form-label">
-                                <i class="bi bi-instagram me-2"></i> Instagram
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->instagram ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Active?</h6>
+                                {{ $user->is_active ? 'Active' : 'Non active' }}
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="facebook" class="col-sm-3 col-form-label">
-                                <i class="bi bi-facebook me-2"></i> Facebook
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->facebook ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Role</h6>
+                                {{ $user->roles->pluck('name') }}
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="twitter" class="col-sm-3 col-form-label">
-                                <i class="bi bi-twitter me-2"></i> Twitter
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->twitter ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Last login at</h6>
+                                {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="youtube" class="col-sm-3 col-form-label">
-                                <i class="bi bi-youtube me-2"></i> Youtube
-                            </label>
-                            <div class="col-sm-9 col-form-label">
-                                {!! $user->addtionalInformation->youtube ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="mb-3">
+                                <h6>Last login ip</h6>
+                                {!! $user->last_login_ip ?? '<span class="fst-italic">Belum pernah login</span>' !!}
                             </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xl-6 col-md-12">
+                    <div class="h4 py-2 border-bottom">Additional information</div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-telephone me-2"></i> Phone
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->phone ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-phone me-2"></i> Mobile
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->mobile ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-flag me-2"></i> Country
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->country ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-person-vcard me-2"></i> Address
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->address ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-bookmark me-2"></i> Bio
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->bio ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
                         </div>
                     </div>
                 </div>
-
-            </form>
+                <div class="col-xl-6 col-md-12">
+                    <div class="h4 py-2 border-bottom">Media social</div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-globe me-2"></i> Website
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-instagram me-2"></i> Instagram
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->instagram ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-facebook me-2"></i> Facebook
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->facebook ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-twitter me-2"></i> Twitter
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->twitter ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-sm-3 col-form-label">
+                            <i class="bi bi-youtube me-2"></i> Youtube
+                        </label>
+                        <div class="col-sm-9 col-form-label">
+                            {!! $user->additionalInformation->youtube ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- end page main -->
     </div>
 @endsection
-
-@push('scripts')
-<script>
-    // PREVIEW IMAGE
-    $('#uploadImage').change(function(){
-           let reader = new FileReader();
-           reader.onload = (e) => {
-               $('#preview-image').attr('src', e.target.result); 
-           }
-           reader.readAsDataURL(this.files[0]); 
-       });
-</script>
-@endpush

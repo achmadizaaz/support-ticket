@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
 
 
-    public function addtionalInformation()
+    public function additionalInformation()
     {
         return $this->hasOne(AdditionalInformation::class);
     }

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Edit User')
+@section('title', 'Edit User: '.$user->name)
 
 @section('content')
     <div class="container-fluid">
@@ -22,14 +22,33 @@
         </div>
         <!-- end page title -->
 
+        {{-- Alert errors --}}
+        @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading">Errors:</h4>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        {{-- End Alert errors --}}
+
         <!-- start page main -->
         <div class="card p-3">
-            <form method="post" id="createForm">
+            <form method="post" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data"  id="updateForm">
                 @csrf
+                @method('PUT')
                 <div class="row mb-3">
                     <div class="col-md-3 text-center">
                         <div class="mb-3">
+                           @if (isset($user->image))
+                            <img src="{{ asset('storage/'.$user->image) }}" alt="Upload a image" class="rounded-3 img-cover" width="265px" height="300px" id="preview-image">
+                           @else
                             <img src="{{ asset('assets/images/no-image.webp') }}" alt="Upload a image" class="rounded-3 img-cover" width="265px" height="300px" id="preview-image">
+                           @endif
                         </div>
                         <label for="uploadImage" class="btn btn-sm btn-info rounded-3 px-4">
                             <i class="bi bi-cloud-arrow-up me-2"></i> Upload a image
@@ -76,7 +95,7 @@
                                     <select name="role" id="role" class="form-select">
                                         <option>Silakan pilih role pengguna</option>
                                         @foreach ($roles as $role)
-                                            {{-- <option value="{{ $role->id }}" @selected($user->roles->pluck('name')[0] == $role->name)>{{ $role->name }}</option> --}}
+                                            <option value="{{ $role->id }}" @selected($user->roles->pluck('name')[0] == $role->name)>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

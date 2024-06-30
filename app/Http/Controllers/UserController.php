@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\AdditionalInformation;
 use App\Models\Role;
@@ -16,12 +17,12 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-    protected $model, $addtionalInformation, $role;
+    protected $model, $additionalInformation, $role;
 
-    public function __construct(User $user, AdditionalInformation $addtionalInformation, Role $role)
+    public function __construct(User $user, AdditionalInformation $additionalInformation, Role $role)
     {
         $this->model = $user;
-        $this->addtionalInformation = $addtionalInformation;
+        $this->additionalInformation = $additionalInformation;
         $this->role = $role;
     }
 
@@ -61,7 +62,7 @@ class UserController extends Controller
             ]);
 
             // Relation addtional informasi user
-            $this->addtionalInformation->create([
+            $this->additionalInformation->create([
                 'user_id'   => $user->id,
                 'phone'     => $request->phone,
                 'mobile'    => $request->mobile,
@@ -75,38 +76,41 @@ class UserController extends Controller
                 'youtube'   => $request->youtube,
             ]);
 
+            // Assign role user
+            $user->assignRole($request->role);
             DB::commit();
         }catch(\Exception $exception){
             DB::rollBack();
             // Menyimpan log kegagalan sistem
             Log::error($exception->getMessage());
-            return back()->withInput($request->all())->with('failed', 'Terjadi kesalahan sistem, silakan coba nanti');
+            return back()->withInput($request->all())->with('failed', 'A system error occurred, please try later');
         }
 
-        return to_route('users')->with('success', 'User telah berhasil ditambahkan');
+        return to_route('users')->with('success', 'User '.$user->name.' has been successfully added!');
     }
 
     public function show($slug)
     {
-        $user = $this->model->where('slug', $slug)->first();
-        return view('users.show', compact('user'));
+        return view('users.show', ['user' => $this->model->where('slug', $slug)->first()]);
     }
     public function edit($slug)
     {
+        // Get user
         $user = $this->model->where('slug', $slug)->first();
+        // Get all roles
         $roles = $this->role->all();
+
         return view('users.edit', compact('user', 'roles'));
     }
 
-    public function update(UserRequest $request, $slug)
+    public function update(UserRequest $request, $id)
     {
-        dd($request);
         try{
-            $user = $this->model->where('slug', $slug)->first();
+            $user = $this->model->findOrFail($id);
             $image = $user->image;
             // Jika terdapat file upload image
             // Update image 
-            if($request->image){
+            if(isset($request->image)){
                 $filenameWithExt = $request->file('image')->getClientOriginalName();
                 $extension = $request->file('image')->getClientOriginalExtension();
                 $fileNameToStore = $filenameWithExt. '-'. time().'.'.$extension;
@@ -114,7 +118,7 @@ class UserController extends Controller
 
                 // Menghapus image user lama
                 // Jika user memiliki image sebelumnya
-                if($user->image){
+                if(isset($user->image)){
                     Storage::delete($user->image);
                 }
             }
@@ -122,48 +126,72 @@ class UserController extends Controller
             $user->update([ 
                 'image' => $image,
                 'name' => $request->name,
-                'password' => Hash::make($request->password),
                 'is_active' => $request->is_active,
             ]);
+
+            // Update or create additional information user
+            $this->additionalInformation->updateOrInsert(
+                ['user_id'  => $user->id],
+                ['phone'    => $request->phone,
+                'mobile'    => $request->mobile,
+                'country'   => $request->country,
+                'address'   => $request->address,
+                'bio'       => $request->bio,
+                'website'   => $request->website,
+                'instagram' => $request->instagram,
+                'facebook'  => $request->facebook,
+                'twitter'   => $request->twitter,
+                'youtube'   => $request->youtube,
+                'updated_at'=> now(),]
+            );
+            // Change role user
+            $user->syncRoles($request->role);
+
         }catch(\Exception $exception){
             Log::error($exception->getMessage());
-            return back()->withInput($request->all())->with('failed', 'Terjadi kesalahan sistem, silakan coba nanti');
+            return to_route('users.show', $user->slug)->with('failed', 'A system error occurred, please try later');
         }
-        return to_route('users.show', $slug)->with('success', 'Data user berhasil diupdate!');
+        return to_route('users.show', $user->slug)->with('success', $user->name.' user data has been successfully updated!');
     }
 
-    public function destroy(Request $request, $slug)
+    public function destroy(Request $request, $id)
     {
-        $user = $this->model->where('slug', $slug)->first();
+        $user = $this->model->findOrFail($id);
         // Check confirmation
         if($user->username != $request->confirm){
-            return back()->with('failed', 'Konfirmasi penghapusan salah atau tidak sesuai.');
+            return back()->with('failed', 'Confirmation code to remove the user is incorrect');
         }
 
         // Check level role user
         if(Auth::user()->roles()->max('level') < $user->roles()->max('level')){
-            return  back()->with('failed', 'User tidak bisa dihapus, level role user lebih tinggi.');
+            return  back()->with('failed', 'Users cannot be deleted, because the user is of a higher level.');
+        }
+
+        // Remove image user
+        if(isset($user->image)){
+            Storage::delete($user->image);
         }
         // Remove user
         $user->delete();
 
-        return to_route('users')->with('success',' User telah berhasil dihapus!');
+        return to_route('users')->with('success',' The user has been successfully deleted!');
     }
 
-    public function changePassword(UserRequest $request, $slug)
+    public function changePassword(UserChangePasswordRequest $request, $id)
     {
         try{
-            $user = $this->model->where('slug', $slug)->first();
+            // Get user
+            $user = $this->model->findOrFail($id);
             // Update password user
             $user->update([
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($request->change_password),
             ]);
         }catch(\Exception $exception){
             Log::error($exception->getMessage());
-            return back()->with('failed', 'Terjadi kesalahan sistem, silakan coba nanti');
+            return back()->with('failed', 'A system error occurred, please try later');
         }
 
-        return back()->with('success', 'Katasandi berhasil diupdate!');
+        return back()->with('success', $user->name.' user password has been updated!');
     }
 
     // End User Controller

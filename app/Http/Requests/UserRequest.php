@@ -23,12 +23,19 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => $this->image ? 'mimes:png,jpg|max:2048':'',
-            'username' => 'required',
+            'image' => $this->image ? 'mimes:png,jpg,jpeg|max:2048':'',
+            'username' => ['required', Rule::unique('users', 'username')->ignore($this->id)],
             'email' => 'required|email',
             'is_active' => 'required|boolean',
-            'password' => 'required|min:5',
+            'password' => $this->method() == 'POST' ? 'required|string|min:5|max:16' :'',
             'role' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'is_active.boolean' => 'The is active field must be active or non-active.'
         ];
     }
 }
