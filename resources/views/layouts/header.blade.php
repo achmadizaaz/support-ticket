@@ -236,7 +236,9 @@
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     <a class="dropdown-item" href="apps-contacts-profile.html"><i class="mdi mdi mdi-face-man font-size-16 align-middle me-1"></i> Profile</a>
-                    <a class="dropdown-item" href="auth-lock-screen.html"><i class="mdi mdi-lock font-size-16 align-middle me-1"></i> Lock Screen</a>
+                    <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                        <i class="bi bi-shield-lock-fill me-1"></i> Change Password
+                    </button>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="auth-logout.html"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Logout</a>
                 </div>
@@ -245,3 +247,75 @@
         </div>
     </div>
 </header>
+ {{-- Modal Change Password --}}
+ <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('password.update') }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="changePasswordLabel">Change Password</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="current_password" class="form-label">Current Password <span class="text-danger fst-italic">*</span></label>
+                    <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Enter current password">
+                  </div>
+                  <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <label for="new_password" class="form-label">
+                            New Password <span class="text-danger fst-italic">*</span>
+                        </label>
+                        <div onclick="showPassword()" style="cursor:pointer;" class="small"> 
+                            <i class="bi bi-eye-slash" id="icon-password"></i> <span id="text-icon-password">Show password</span> 
+                        </div>
+                    </div>
+                    <input type="password" class="form-control" name="new_password" placeholder="Enter new password" id="new_password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Confirmation Password <span class="text-danger fst-italic">*</span></label>
+                    <input type="password" class="form-control" name="confirm_password" placeholder="Enter confirmation password" id="confirm_password">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success">
+                    <i class="bi bi-shield-lock-fill me-1"></i> Change Password
+                </button>
+                </div>
+              </div>
+        </form>
+    </div>
+  </div>
+{{-- END Modal Change Password --}}
+
+@push('scripts')
+  <script>
+    function showPassword() {
+        let icon_eye = document.getElementById("icon-password");
+        let current_password = document.getElementById("current_password");
+        let new_password = document.getElementById("new_password");
+        let confirm_password = document.getElementById("confirm_password");
+
+        if (current_password.type  && new_password.type && confirm_password.type === "password") {
+            document.getElementById("icon-password").classList.remove('bi-eye-slash');
+            document.getElementById("icon-password").classList.add('bi-eye');
+            document.getElementById("text-icon-password").innerHTML = "Hide password"
+            // Input Field
+            current_password.type = "text";
+            new_password.type = "text";
+            confirm_password.type = "text";
+        } else {
+            document.getElementById("icon-password").classList.remove('bi-eye');
+            document.getElementById("icon-password").classList.add('bi-eye-slash');
+            document.getElementById("text-icon-password").innerHTML = "Show password"
+            // Input Field
+            current_password.type = "password";
+            new_password.type = "password";
+            confirm_password.type = "password";
+        }
+    }
+  </script>
+@endpush
