@@ -6,6 +6,7 @@ use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class RoleController extends Controller
 {
@@ -16,10 +17,18 @@ class RoleController extends Controller
         $this->model = $role;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $roles = $this->model->latest()->get();
+        $showPage = Session::get('showPageRoles');
+        $roles = $this->model->latest()->filter(request(['search']))->paginate( $showPage ?? 10);
         return view('roles.index', compact('roles'));
+    }
+
+    public function showPage(Request $request)
+    {
+        // Add session show page
+        Session::put('showPageRoles', $request->show);
+        return back();
     }
 
     public function create()

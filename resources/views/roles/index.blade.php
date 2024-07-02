@@ -87,6 +87,46 @@
 
         <!-- start page main -->
         <div class="card p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex align-items-center" style="width: 250px">
+                    <div class="me-2 fw-bold">
+                        Show :
+                    </div>
+                    <form action="{{ route('roles.show.page')}}" method="GET">
+                        <select name="show" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 100px">
+                            <option value="10" @if (session('showPageRoles') == 10)
+                                selected
+                            @endif>10</option>
+                            <option value="25" @if (session('showPageRoles') == 25)
+                            selected
+                            @endif>25</option>
+                            <option value="50" @if (session('showPageRoles') == 50)
+                            selected
+                            @endif>50</option>
+                            <option value="100" @if (session('showPageRoles') == 100)
+                            selected
+                            @endif>100</option>
+                        </select>
+                    </form>
+                    <div class="ms-2 fw-bold">
+                        Data
+                    </div>
+                </div>
+               <div class="d-flex gap-1">
+                    {{-- Input Pencarian --}}
+                    <form action="{{ route('roles')}}" method="GET" class="d-flex gap-1">
+                        <input type="text" name="search" class="form-control"  placeholder="Searching" value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+
+                    {{-- Button Reset --}}
+                    <a href="{{ route('roles') }}" class="btn btn-info text-white" title="Reset">
+                        <i class="bi bi-circle"></i>
+                    </a>
+               </div>
+            </div>
             <table class="table">
                 <thead>
                     <th>No</th>
@@ -120,6 +160,14 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-between">
+                <div class="py-2">
+                    Total : ({{ $roles->total()}} / Roles)
+                </div>
+                <div class="d-flex align-items-center flex-row-reverse">
+                    {{ $roles->onEachSide(0)->links('vendor.paginate') }}
+                </div>
+            </div>
         </div>
         <!-- end page main -->
     </div>

@@ -41,6 +41,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::post('store', 'store')->name('roles.store');
         Route::put('{id}/update', 'update')->name('roles.update');
         Route::delete('{id}/delete', 'destroy')->name('roles.delete');
+        Route::get('showPage', 'showPage')->name('roles.show.page');
     });
 
     // sync permission role route

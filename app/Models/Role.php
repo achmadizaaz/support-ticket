@@ -12,4 +12,12 @@ class Role extends SpatieRole
     use HasFactory, HasUlids;
 
     protected $fillable = ['name','level', 'guard_name'];
+    
+       // Scope
+    public function scopeFilter($query, array $filters){
+    $query->when($filters['search'] ?? false, function($query, $search){
+        return $query->where('name', 'like', '%' . $search . '%') 
+                ->orWhere('level', 'like', '%' . $search . '%');
+    });
+}
 }
