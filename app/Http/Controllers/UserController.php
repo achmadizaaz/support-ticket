@@ -200,9 +200,9 @@ class UserController extends Controller
         return back();
     }
 
-    public function trashed()
+    public function trashed(Request $request)
     {
-        $trashed = $this->model->onlyTrashed()->get();
+        $trashed = $this->model->onlyTrashed()->filter(request(['search']))->paginate( $showPage ?? 10);
         return view('users.trashed', compact('trashed'));
     }
 
