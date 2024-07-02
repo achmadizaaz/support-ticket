@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -26,10 +27,12 @@ class UserController extends Controller
         $this->role = $role;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->model->latest()->get();
-        return view('users.index', compact('users'));
+        $showPage = Session::get('showPageUsers');
+        $users = $this->model->latest()->filter(request(['search']))->paginate( $showPage ?? 10);
+        $trashed = $this->model->onlyTrashed()->count();
+        return view('users.index', compact('users', 'trashed'));
     }
 
     public function create()
@@ -167,10 +170,6 @@ class UserController extends Controller
             return  back()->with('failed', 'Users cannot be deleted, because the user is of a higher level.');
         }
 
-        // Remove image user
-        if(isset($user->image)){
-            Storage::delete($user->image);
-        }
         // Remove user
         $user->delete();
 
@@ -193,6 +192,54 @@ class UserController extends Controller
 
         return back()->with('success', $user->name.' user password has been updated!');
     }
+
+    public function showPage(Request $request)
+    {
+        // Add session show page users
+        Session::put('showPageUsers', $request->show);
+        return back();
+    }
+
+    public function trashed()
+    {
+        $trashed = $this->model->onlyTrashed()->get();
+        return view('users.trashed', compact('trashed'));
+    }
+
+    // Restore all users
+    public function restoreAll()
+    {
+        $this->model->onlyTrashed()->restore();
+
+        return back()->with('success', 'All user data has been successfully recovered');
+    }
+
+    // Restore user
+    public function trashRestore($id)
+    {
+        $user = $this->model->withTrashed()->find($id);
+        $user->restore();
+
+        return back()->with('success', 'User has been successfully recovered');
+    }
+
+    // Remove permanent all users
+    public function forceDeleteAll()
+    {
+        $this->model->onlyTrashed()->forceDelete();
+
+        return back()->with('success', 'All user data has been successfully permanent deleted');
+    }
+
+    // Remove permanent user
+    public function forceDelete($id)
+    {
+        $user = $this->model->withTrashed()->find($id);
+        $user->forceDelete();
+
+        return back()->with('success', 'User has been successfully permanent deleted');
+    }
+
 
     // End User Controller
 }

@@ -55,6 +55,60 @@
 
         <!-- start page main -->
         <div class="card p-3">
+            <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex align-items-center" style="width: 250px">
+                    <div class="me-2 fw-bold">
+                        Show :
+                    </div>
+                    <form action="{{ route('users.show.page')}}" method="GET">
+                        <select name="show" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 100px">
+                            <option value="10" @if (session('showPageUsers') == 10)
+                                selected
+                            @endif>10</option>
+                            <option value="25" @if (session('showPageUsers') == 25)
+                            selected
+                            @endif>25</option>
+                            <option value="50" @if (session('showPageUsers') == 50)
+                            selected
+                            @endif>50</option>
+                            <option value="100" @if (session('showPageUsers') == 100)
+                            selected
+                            @endif>100</option>
+                        </select>
+                    </form>
+                    <div class="ms-2 fw-bold">
+                        Data
+                    </div>
+                </div>
+               <div class="d-flex gap-1">
+                    {{-- Input Pencarian --}}
+                    <form action="{{ route('users')}}" method="GET" class="d-flex gap-1">
+                        <input type="text" name="search" class="form-control"  placeholder="Searching" value="{{request('search') }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+
+                    {{-- Button Reset --}}
+                    <a href="{{ route('users') }}" class="btn btn-info text-white" title="Reset">
+                        <i class="bi bi-circle"></i>
+                    </a>
+                    {{-- Button Recycle Bin --}}
+                    <a href="{{ route('users.trashed') }}" class="btn btn-secondary text-white" title="Recycle Bin">
+                        <i class="bi bi-trash2"></i>
+                    </a>
+                    {{-- Button print label --}}
+                    {{-- @sarpraspermission('print-label sarana-sarpras')
+                        <form action="{{ route('sarpras.cetakLabel') }}" method="POST" id="form-cetak">
+                            @csrf
+                            <button type="submit" formtarget="_blank" class="float-start btn btn-success" title="Cetak">
+                                <i class="bi bi-printer"></i>
+                            </button>
+                        </form>
+                    @endsarpraspermission --}}
+               </div>
+            </div>
+            
             <table class="table">
                 <thead>
                     <th>No</th>
@@ -69,7 +123,9 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
-                            <td class="align-middle">{{ $loop->iteration }}</td>
+                            <td class="align-middle">
+                                {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}
+                            </td>
                             <td class="align-middle">
                                 @if (isset($user->image))
                                     <img src="{{ asset('storage/'.$user->image) }}" class="object-fit-cover border rounded-5" alt="{{ $user->username }}" height="40px" width="40px">
@@ -108,6 +164,14 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="d-flex justify-content-between">
+                <div class="py-2">
+                    Total : ({{ $users->total()}} / Users)
+                </div>
+                <div class="d-flex align-items-center flex-row-reverse">
+                    {{ $users->onEachSide(0)->links('vendor.paginate') }}
+                </div>
+            </div>
         </div>
         <!-- end page main -->
     </div>

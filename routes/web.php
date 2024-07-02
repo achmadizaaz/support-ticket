@@ -25,6 +25,12 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::put('{id}/update', 'update')->name('users.update');
         Route::delete('{id}/delete', 'destroy')->name('users.delete');
         Route::put('{id}/change-password', 'changePassword')->name('users.change.password');
+        Route::get('trashed', 'trashed')->name('users.trashed');
+        Route::delete('trashed/delete/{id}', 'forceDelete')->name('users.force.delete');
+        Route::delete('trashed/delete-permanent-all', 'forceDeleteAll')->name('users.force.delete.all');
+        Route::put('trashed/restore/{id}', 'trashRestore')->name('users.restore');
+        Route::put('trashed/restore-all', 'restoreAll')->name('users.restore.all');
+        Route::get('showPage', 'showPage')->name('users.show.page');
     });
 
     // role routes
