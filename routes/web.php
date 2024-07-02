@@ -33,7 +33,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('showPage', 'showPage')->name('users.show.page');
     });
 
-    // role routes
+    // Role routes
     Route::controller(RoleController::class)->prefix('roles')->group(function(){
         Route::get('/', 'index')->name('roles');
         Route::get('{id}/show', 'show')->name('roles.show');
@@ -42,6 +42,17 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::put('{id}/update', 'update')->name('roles.update');
         Route::delete('{id}/delete', 'destroy')->name('roles.delete');
         Route::get('showPage', 'showPage')->name('roles.show.page');
+    });
+
+    // Permission route
+    Route::controller(PermissionController::class)->prefix('permissions')->group(function(){
+        Route::get('/', 'index')->name('permissions');
+        Route::get('{id}/show', 'show')->name('permissions.show');
+        Route::get('create', 'create')->name('permissions.create');
+        Route::post('store', 'store')->name('permissions.store');
+        Route::put('{id}/update', 'update')->name('permissions.update');
+        Route::delete('{id}/delete', 'destroy')->name('permissions.delete');
+        Route::get('showPage', 'showPage')->name('permissions.show.page');
     });
 
     // sync permission role route
