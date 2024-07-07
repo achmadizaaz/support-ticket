@@ -11,7 +11,7 @@ class Role extends SpatieRole
 {
     use HasFactory, HasUlids;
 
-    protected $fillable = ['name','level', 'guard_name'];
+    protected $fillable = ['id', 'name','level', 'guard_name'];
     
        // Scope
     public function scopeFilter($query, array $filters){
