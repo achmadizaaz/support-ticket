@@ -8,12 +8,26 @@ Route::get('/page', function(){
     return view('page');
 });
 
+// Jika user belum diaktifkan
+Route::get('dashboard/profile/activated', function(){
+    return view('profile.is_active');
+})->middleware('auth')->name('not_active');
+
 // Route utama
-Route::prefix('dashboard')->middleware('auth')->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
     
     // dashboard route
     Route::get('/', function () { return view('dashboard');
     })->name('dashboard');
+    
+    // Profile user
+    Route::controller(ProfileController::class)->prefix('profile')->group(function() {
+        Route::get('/', 'index')->name('profile');
+        Route::get('/edit', 'edit')->name('profile.edit');
+        Route::put('/edit', 'update')->name('profile.update');
+        Route::put('/change-password', 'changePassword')->name('profile.change.password');
+        Route::post('/delete', 'destroy')->name('profile.delete');
+    });
 
     // user routes
     Route::controller(UserController::class)->prefix('users')->group(function(){

@@ -38,7 +38,7 @@
                         </li>
                         <li class="{{ request()->routeIs('sync.permissions.*') ? 'mm-active' : '' }}">
                             <a href="{{ route('sync.permissions') }}" class="{{ request()->routeIs('sync.permissions.*') ? 'active' : '' }}">
-                                <span data-key="t-permission">Sync Permission</span>
+                                <span data-key="t-permission">Sync Permission Role</span>
                             </a>
                         </li>
                     </ul>
