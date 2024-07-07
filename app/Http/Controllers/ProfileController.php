@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileChangePasswordRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\AdditionalInformation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+    public function index()
+    {
+        return view('profile.index', [
+            'user' => Auth::user(),
+        ]);
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -26,15 +38,59 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
+        $pathImage = $user->image;
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if(isset($request->image)){
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = time().'-'.$filenameWithExt;
+            $pathImage = $request->file('image')->storeAs('users/images', $fileNameToStore, 'public');
+
+            // Menghapus image user lama
+            // Jika user memiliki image sebelumnya
+            if(isset($user->image)){
+                Storage::disk('public')->delete($user->image);
+            }
         }
 
-        $request->user()->save();
+       
+       $user->update([
+            'name' => $request->name,
+            'image' => $pathImage,
+       ]);
+       // Update or create additional information user
+        AdditionalInformation::updateOrInsert(
+            ['user_id'  => $user->id],
+            ['phone'    => $request->phone,
+            'mobile'    => $request->mobile,
+            'country'   => $request->country,
+            'address'   => $request->address,
+            'bio'       => $request->bio,
+            'website'   => $request->website,
+            'instagram' => $request->instagram,
+            'facebook'  => $request->facebook,
+            'twitter'   => $request->twitter,
+            'youtube'   => $request->youtube,
+            'updated_at'=> now(),]
+        );
+        return back()->with('success', 'Your user data has been successfully updated');
+    }
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    /**
+     * Change password the user's account.
+     */
+
+    public function changePassword(ProfileChangePasswordRequest $request)
+    {
+        if(Hash::check($request->current_password, Auth::user()->password)){
+            $user = Auth::user();
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return back()->with('success', 'Katasandi pengguna berhasil diubah');
+        }
+        
+        return back()->with('failed', 'Gagal mengubah katasandi pengguna');
     }
 
     /**
@@ -42,6 +98,7 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // dd($request);
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
