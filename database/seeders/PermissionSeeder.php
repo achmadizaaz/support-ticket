@@ -29,6 +29,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-roles']);
         Permission::create(['name' => 'delete-roles']);
 
+        // Create permission sync role
+        Permission::create(['name' => 'read-sync-permission-role']);
+        Permission::create(['name' => 'create-sync-permission-role']);
+        Permission::create(['name' => 'update-sync-permission-role']);
+        Permission::create(['name' => 'delete-sync-permission-role']);
+
         //  Create role Super Administrator
         $role = Role::create(['name' => 'Super Administrator', 'level' => 10]);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
