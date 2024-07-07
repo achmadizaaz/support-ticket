@@ -12,7 +12,7 @@
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-title mt-2" data-key="t-components">Management User</li>
+                <li class="menu-title" data-key="t-components">Management User</li>
                 <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('users') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <i class="bi bi-people"></i>
@@ -42,6 +42,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                {{-- Option Menu --}}
+                <li class="menu-title" data-key="t-components">Options</li>
+                <li>
+                    <a href="{{ route('options') }}">
+                        <i class="bi bi-gear"></i>
+                        <span data-key="t-rolepermission">Settings</span>
+                    </a>
                 </li>
             </ul>
         </div>

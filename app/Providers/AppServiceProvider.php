@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Option;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $option = Option::get();
+        view()->composer(
+            'layouts.main',
+            function ($view) use ($option) {
+                $view->with([
+                    'option'=>  $option->keyBy('name'),
+                ]);
+            }
+        );
+        view()->composer(
+            'layouts.header',
+            function ($view) use ($option) {
+                $view->with([
+                    'option'=>  $option->keyBy('name'),
+                ]);
+            }
+        );
+        view()->composer(
+            'layouts.footer',
+            function ($view) use ($option) {
+                $view->with([
+                    'option'=>  $option->keyBy('name'),
+                ]);
+            }
+        );
     }
 }
