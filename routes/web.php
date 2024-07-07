@@ -61,6 +61,13 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::get('assign', 'assign')->name('sync.permissions.assign');
         Route::post('assign', 'store')->name('sync.permissions.store');
     });
+
+    // option route
+    Route::controller(OptionController::class)->prefix('options')->group(function(){
+        Route::get('/', 'index')->name('options');
+        Route::put('/', 'update')->name('options.update');
+    });
+
 });
 
 require __DIR__.'/auth.php';
