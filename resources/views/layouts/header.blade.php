@@ -236,12 +236,20 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="apps-contacts-profile.html"><i class="mdi mdi mdi-face-man font-size-16 align-middle me-1"></i> Profile</a>
+                    <a class="dropdown-item" href="{{ route('profile') }}">
+                        <i class="bi bi-person-circle me-2"></i> Profile
+                    </a>
                     <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
                         <i class="bi bi-shield-lock-fill me-1"></i> Change Password
                     </button>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="auth-logout.html"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Logout</a>
+
+                    <form action="{{ route('logout') }}" method="POST" >
+                        @csrf
+                        <button type="submit" class="dropdown-item btn btn-default text-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </button>
+                    </form>
                 </div>
             </div>
 
