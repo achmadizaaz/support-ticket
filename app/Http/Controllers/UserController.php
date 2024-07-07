@@ -49,8 +49,7 @@ class UserController extends Controller
             // Jika terdapat upload file image
             if($request->image){
                 $filenameWithExt = $request->file('image')->getClientOriginalName();
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $fileNameToStore = $filenameWithExt. '-'. time().'.'.$extension;
+                $fileNameToStore = time().'-'.$filenameWithExt;
                 $image = $request->file('image')->storeAs('users/images', $fileNameToStore, 'public');
             }
             
@@ -115,14 +114,13 @@ class UserController extends Controller
             // Update image 
             if(isset($request->image)){
                 $filenameWithExt = $request->file('image')->getClientOriginalName();
-                $extension = $request->file('image')->getClientOriginalExtension();
-                $fileNameToStore = $filenameWithExt. '-'. time().'.'.$extension;
+                $fileNameToStore = time().'-'.$filenameWithExt;
                 $image = $request->file('image')->storeAs('users/images', $fileNameToStore, 'public');
 
                 // Menghapus image user lama
                 // Jika user memiliki image sebelumnya
                 if(isset($user->image)){
-                    Storage::delete($user->image);
+                    Storage::disk('public')->delete($user->image);
                 }
             }
             // Update data user
