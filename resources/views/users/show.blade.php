@@ -145,6 +145,45 @@
                 </div>
             </div>
             <hr>
+            <ul class="nav nav-tabs" id="myTabUser" role="tablist">
+                {{-- For tab additional --}}
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="additional-tab" data-bs-toggle="tab" data-bs-target="#additional-tab-pane" type="button" role="tab" aria-controls="additional-tab-pane" aria-selected="true">
+                    <i class="bi bi-person-vcard"></i> Additional
+                  </button>
+                </li>
+                {{-- For tab media social --}}
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane" aria-selected="false">
+                    <i class="bi bi-globe"></i>  Media Social
+                </button>
+                </li>
+                {{-- For tab contact --}}
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
+                    <i class="bi bi-person-lines-fill"></i> Contact
+                </button>
+                </li>
+                {{-- For tab homebase --}}
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
+                    <i class="bi bi-house"></i> Homebase
+                </button>
+                </li>
+              </ul>
+            <div class="tab-content" id="myTabContentUser">
+                {{-- Tab Additional --}}
+                <div class="tab-pane fade show active" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab" tabindex="0">
+                   Additional Informasi
+                </div>
+                {{-- Tab Media --}}
+                <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
+                    Media Social
+                </div>
+                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
+                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+            </div>
+
             <div class="row">
                 <div class="col-xl-6 col-md-12">
                     <div class="h4 py-2 border-bottom">Additional information</div>
