@@ -45,9 +45,9 @@
                     <div class="col-md-3 text-center">
                         <div class="mb-3">
                            @if (isset($user->image))
-                            <img src="{{ asset('storage/'.$user->image) }}" alt="Upload a image" class="rounded-3 img-cover" width="265px" height="300px" id="preview-image">
+                            <img src="{{ asset('storage/'.$user->image) }}" alt="Upload a image" class="rounded-3 img-cover" width="100%" max-width="265%" height="100%" max-height="300px" id="preview-image">
                            @else
-                            <img src="{{ asset('assets/images/no-image.webp') }}" alt="Upload a image" class="rounded-3 img-cover" width="265px" height="300px" id="preview-image">
+                            <img src="{{ asset('assets/images/no-image.webp') }}" alt="Upload a image" class="rounded-3 img-cover" width="100%" max-width="265%" height="100%" max-height="300px" id="preview-image">
                            @endif
                         </div>
                         <label for="uploadImage" class="btn btn-sm btn-info rounded-3 px-4">
