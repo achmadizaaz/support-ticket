@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -31,17 +32,13 @@ class RoleController extends Controller
         return back();
     }
 
-    public function create()
-    {
-        return view('roles.create');
-    }
-
     public function store(RoleRequest $request)
     {
         try{
             $this->model->create([
                 'name' => $request->name,
                 'level'=> $request->level,
+                'is_admin' => $request->admin == 'admin' ? 1 : 0,
                 'guard_name' => 'web',
             ]);
         }catch(\Exception $exception){
@@ -64,6 +61,7 @@ class RoleController extends Controller
             $role->update([
                 'name' => $request->name,
                 'level' => $request->level,
+                'is_admin' => $request->admin == 'admin' ? 1 : 0,
             ]);
         }catch(\Exception $exception){
             Log::error($exception->getMessage());
@@ -76,12 +74,25 @@ class RoleController extends Controller
     public function destroy(Request $request, $id)
     {
         $role = $this->model->findOrFail($id);
-        // Check confirmation deleted
+
+        // Pengecekan kode konfirmasi delete
         if($role->name != $request->confirm){
             return back()->with('failed', 'Konfirmasi penghapusan tidak sesuai');
         }
+        // Pengecekan menghapus role (admin)
+        // Role hanya bisa dihapus oleh user dengan role admin dan level harus lebih tinggi
+        if(!Auth::user()->hasRole('Super Administrator') && Auth::user()->roles()->max('is_admin') < $role->is_admin && Auth::user()->roles()->max('level') < $role->level){
+            return back()->with('failed', 'Anda tidak dapat menghapus role (admin), status lebih tinggi.');
+        }
+
+        // Pengecekan menghapus role berdasarkan level
+        // Role hanya bisa dihapus user dengan role yang lebih tinggi
+        if(!Auth::user()->hasRole('Super Administrator') && Auth::user()->roles()->max('level') < $role->level){
+            return back()->with('failed', 'Anda tidak dapat menghapus role, levelnya lebih tinggi.');
+        }
+
         $role->delete();
 
-        return back()->with('success', 'Role '.$request->confirm.', berhasil dihapus!');
+        return back()->with('success', 'Role '.$request->confirm.', telah berhasil dihapus!');
     }
 }

@@ -31,8 +31,15 @@
                                                 <input type="text" class="form-control" name="name" placeholder="Enter name role" value="{{ old('name') }}" required>
                                             </div>
                                             <div class="mb-3">
+                                                <label for="isAdmin" class="form-label me-1">Is admin</label>
+                                                <select name="admin" id="isAdmin" class="form-select">
+                                                    <option value="nonAdmin">Non Admin</option>
+                                                    <option value="admin">Admin</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="level" class="form-lavel">Level <span class="fst-italic">*</span></label>
-                                                <input type="number" class="form-control" name="level" min="1" max="10" placeholder="Enter level role" value="{{ old('level') }}" required>
+                                                <input type="number" class="form-control" name="level" min="1" max="10" placeholder="Enter level role" value="{{ old('level', 1) }}" required>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -131,6 +138,7 @@
                 <thead>
                     <th>No</th>
                     <th>Name</th>
+                    <th>Is Admin</th>
                     <th>Level</th>
                     <th>Created at</th>
                     <th>Action</th>
@@ -140,12 +148,13 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $role->name }}</td>
+                            <td>{!! $role->is_admin ? '<span class="badge text-bg-primary">Admin</span>' : ' <span class="badge text-bg-secondary">Non admin</span>' !!}</td>
                             <td>{{ $role->level }}</td>
                             <td>{{ $role->created_at }}</td>
                             <td>
                                 <div class="d-flex gap-1">
                                     {{-- Edit Button --}}
-                                    <button type="button" class="btn btn-sm btn-warning confirm_edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-level="{{ $role->level }}" title="Edit role">
+                                    <button type="button" class="btn btn-sm btn-warning confirm_edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-level="{{ $role->level }}" data-admin="{{ $role->is_admin }}" title="Edit role">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
 
@@ -187,6 +196,13 @@
                         <div class="mb-3">
                             <label for="name" class="form-lavel">Name <span class="fst-italic">*</span></label>
                             <input type="text" class="form-control" name="name" required id="editName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAdmin" class="form-lavel">Admin <span class="fst-italic">*</span></label>
+                            <select name="admin" id="editAdmin" class="form-select">
+                                <option value="non-admin">Non admin</option>
+                                <option value="admin">Admin</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="level" class="form-lavel">Level <span class="fst-italic">*</span></label>
@@ -241,9 +257,13 @@
             let name = $(this).data('name');
             let level = $(this).data('level');
             let id = $(this).data('id');
+            let isAdmin = $(this).data('admin');
             // Insert Value Role
             $('#editName').val(name);
             $('#editLevel').val(level);
+            $('#editAdmin').val(isAdmin ? 'admin' : 'non-admin');
+            $('#editAdmin').trigger('change');
+
             // Route update
             let url = "{{ route('roles.update', ':id') }}";
             route = url.replace(':id', id);

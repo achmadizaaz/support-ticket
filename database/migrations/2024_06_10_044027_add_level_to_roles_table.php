@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->integer('level')->min(1)->max(10)->default(1)->after('name')->nullable();
+            $table->boolean('is_admin')->after('name')->default(0);
+            $table->integer('level')->min(1)->max(10)->default(1)->after('is_admin')->nullable();
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('roles', function (Blueprint $table) {
+            $table->dropColumn('is_admin');
             $table->dropColumn('level');
         });
     }
