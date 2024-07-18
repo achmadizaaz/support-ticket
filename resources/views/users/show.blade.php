@@ -174,103 +174,103 @@
             <div class="tab-content" id="myTabContentUser">
                 {{-- Tab Additional --}}
                 <div class="tab-pane fade show active" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab" tabindex="0">
-                   Additional Informasi
+                    <div class="row">
+                        <div class="col-xl-6 col-md-12">
+                            <div class="h4 py-2 border-bottom">Additional information</div>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-telephone me-2"></i> Phone
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->phone ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-phone me-2"></i> Mobile
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->mobile ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-flag me-2"></i> Country
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->country ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-person-vcard me-2"></i> Address
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->address ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-bookmark me-2"></i> Bio
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->bio ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {{-- Tab Media --}}
                 <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
-                    Media Social
+                    <div class="row p-2">
+                        <div class="col-6">
+                            <div class="row mb-2">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-globe me-2"></i> Website
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-instagram me-2"></i> Instagram
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->instagram ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-facebook me-2"></i> Facebook
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->facebook ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row mb-2">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-twitter me-2"></i> Twitter
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->twitter ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-3 col-form-label">
+                                    <i class="bi bi-youtube me-2"></i> Youtube
+                                </label>
+                                <div class="col-sm-9 col-form-label">
+                                    {!! $user->additionalInformation->youtube ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
                 <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
-            </div>
-
-            <div class="row">
-                <div class="col-xl-6 col-md-12">
-                    <div class="h4 py-2 border-bottom">Additional information</div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-telephone me-2"></i> Phone
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->phone ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-phone me-2"></i> Mobile
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->mobile ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-flag me-2"></i> Country
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->country ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-person-vcard me-2"></i> Address
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->address ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-bookmark me-2"></i> Bio
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->bio ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-md-12">
-                    <div class="h4 py-2 border-bottom">Media social</div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-globe me-2"></i> Website
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-instagram me-2"></i> Instagram
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->instagram ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-facebook me-2"></i> Facebook
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->facebook ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-twitter me-2"></i> Twitter
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->twitter ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <label class="col-sm-3 col-form-label">
-                            <i class="bi bi-youtube me-2"></i> Youtube
-                        </label>
-                        <div class="col-sm-9 col-form-label">
-                            {!! $user->additionalInformation->youtube ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- end page main -->

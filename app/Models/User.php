@@ -79,10 +79,9 @@ class User extends Authenticatable
         });
     }
 
-
-    public function additionalInformation()
+    public function profile()
     {
-        return $this->hasOne(AdditionalInformation::class);
+        return $this->hasOne(UserProfile::class);
     }
 
 }

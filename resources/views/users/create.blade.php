@@ -64,18 +64,24 @@
                             </div>
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Name<span class="fst-italic text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"  value="{{ old('name') }}" required>
+                                    <label for="password" class="form-label">Password<span class="fst-italic text-danger">*</span></label>
+                                    <div class="input-group mb-3">
+                                        <input type="password" class="form-control" name="password" placeholder="Enter password" required id="password">
+                                        <span class="input-group-text" id="showPassword" onclick="showPasswordUser()">
+                                            <i class="bi bi-eye-slash" id="icon-password-users"></i>
+                                        </span>
+                                      </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email<span class="fst-italic text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email, ex: your@example.com"  value="{{ old('email') }}"  required>
+                                    <label for="name" class="form-label">Name<span class="fst-italic text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"  value="{{ old('name') }}" required>
                                 </div>
                             </div>
+                            
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="is_active" class="form-label">Is active?<span class="fst-italic text-danger">*</span></label>
@@ -90,17 +96,12 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password<span class="fst-italic text-danger">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <input type="password" class="form-control" name="password" placeholder="Enter password" required id="password">
-                                        <span class="input-group-text" id="showPassword" onclick="showPasswordUser()">
-                                            <i class="bi bi-eye-slash" id="icon-password-users"></i>
-                                        </span>
-                                      </div>
+                                    <label for="email" class="form-label">Email<span class="fst-italic text-danger">*</span></label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email, ex: your@example.com"  value="{{ old('email') }}"  required>
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label for="role" class="form-label">Role<span class="fst-italic text-danger">*</span></label>
                                     <select name="role" id="role" class="form-select">
                                         <option value="">Choose one of the roles</option>
@@ -108,7 +109,7 @@
                                             <option value="{{ $role->id }}" @selected(old('role') == $role->id)>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
                             </div>
                             
                         </div>
@@ -116,68 +117,186 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-xl-6 col-md-12">
-                        <div class="h4">Additional information</div>
-                        <div class="row mb-4">
-                            <label for="phone" class="col-sm-3 col-form-label">Phone</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}">
+                <ul class="nav nav-tabs" id="myTabUser" role="tablist">
+                    {{-- For tab General --}}
+                    <li class="nav-item py-2" role="presentation">
+                      <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">
+                        <i class="bi bi-person-lines-fill me-1"></i> General<span class="text-danger fst-italic">*</span>
+                      </button>
+                    </li>
+                    {{-- For tab media social --}}
+                    <li class="nav-item py-2" role="presentation">
+                      <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane" aria-selected="false">
+                        <i class="bi bi-globe me-1"></i>  Media Social
+                    </button>
+                    </li>
+                    {{-- For tab homebase --}}
+                    <li class="nav-item py-2" role="presentation">
+                        <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
+                            <i class="bi bi-database-lock me-1"></i> Role<span class="text-danger fst-italic">*</span>
+                    </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContentUser">
+                    {{-- Tab Additional --}}
+                    <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
+                        <div class="row py-4">
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="phone" class="form-label">Phone</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="mobile" class="form-label">Mobile</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ old('mobile') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="address" class="form-label">Address</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="bio" class="form-label">Bio</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{old('bio')}}</textarea>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="mobile" name="mobile" value="{{ old('mobile') }}">
+
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="gender" class="form-label">Gender<span class="text-danger fst-italic">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select name="gender" id="gender" class="form-select">
+                                            <option value="">Choose a one</option>
+                                            <option value="man" @selected(old('gender') =='man')>Laki-laki</option>
+                                            <option value="woman" @selected(old('gender') =='woman')>Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="place_of_birth" class="form-label">Place of Birth</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth')}}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="date_of_birth" class="form-label">Date of Birth<span class="text-danger fst-italic">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth')}}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="religion" class="form-label">Religion<span class="text-danger fst-italic">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select name="religion" id="religion" class="form-select">
+                                            <option value="">Choose a one</option>
+                                            <option value="Islam" @selected(old('religion') == 'Islam')>Islam</option>
+                                            <option value="Kristen" @selected(old('religion') == 'Kristen')>Kristen</option>
+                                            <option value="Katolik" @selected(old('religion') == 'Katolik')>Katolik</option>
+                                            <option value="Hindu" @selected(old('religion') == 'Hindu')>Hindu</option>
+                                            <option value="Buddha" @selected(old('religion') == 'Buddha')>Buddha</option>
+                                            <option value="Khonghucu" @selected(old('religion') == 'Khonghucu')>Khonghucu</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="country" class="col-sm-3 col-form-label">Country</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="country" name="country" value="{{ old('country') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="address" class="col-sm-3 col-form-label">Address</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bio" class="form-label">Bio</label>
-                            <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{ old('bio') }}</textarea>
+                            
                         </div>
                     </div>
-                    <div class="col-xl-6 col-md-12">
-                        <div class="h4">Media social</div>
-                        <div class="row mb-4">
-                            <label for="website" class="col-sm-3 col-form-label">Website</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="website" placeholder="www.example.com" name="website" value="{{ old('website') }}">
+                    {{-- Tab Media --}}
+                    <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
+                         <div class="row py-4">
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="website" class="form-label">Website</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="website" id="website" value="{{ old('website') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="instagram" class="form-label">Instagram</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="instagram" id="instagram" value="{{ old('instagram') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="facebook" class="form-label">Facebook</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="facebook" id="facebook" value="{{ old('facebook') }}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="twitter" class="form-label">Twitter</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="twitter" id="twitter" value="{{ old('twitter') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="youtube" class="form-label">Youtube</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="youtube" id="youtube" value="{{ old('youtube') }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="other" class="form-label">Other</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="other" id="other" value="{{ old('other') }}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-4">
-                            <label for="instagram" class="col-sm-3 col-form-label">Instagram</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="instagram" placeholder="@example" name="instagram" value="{{ old('instagram') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="facebook" class="col-sm-3 col-form-label">Facebook</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="facebook" placeholder="@example" name="facebook" value="{{ old('facebook') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="twitter" class="col-sm-3 col-form-label">Twitter</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="twitter" placeholder="@example" name="twitter" value="{{ old('twitter') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="youtube" class="col-sm-3 col-form-label">Youtube</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="youtube" placeholder="@example" name="youtube" value="{{ old('youtube') }}">
+                    </div>
+
+                    {{-- Tab Pane Homebase  --}}
+                    <div class="tab-pane fade" id="homebase-tab-pane" role="tabpanel" aria-labelledby="homebase-tab" tabindex="0">
+                        <div class="row  py-4 mb-3">
+                            <div class="col-6">
+                                <div class="row align-items-center">
+                                    <label for="role" class="form-label col">Role<span class="fst-italic text-danger">*</span></label>
+                                    <select name="role" id="role" class="form-select col" required>
+                                        <option value="">Choose one of the roles</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}" @selected(old('role') == $role->id)>{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

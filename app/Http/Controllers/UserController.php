@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserRequest;
-use App\Models\AdditionalInformation;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-    protected $model, $additionalInformation, $role;
+    protected $model, $userProfile, $role;
 
-    public function __construct(User $user, AdditionalInformation $additionalInformation, Role $role)
+    public function __construct(User $user, UserProfile $userProfile, Role $role)
     {
         $this->model = $user;
-        $this->additionalInformation = $additionalInformation;
+        $this->userProfile = $userProfile;
         $this->role = $role;
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
             ]);
 
             // Relation addtional informasi user
-            $this->additionalInformation->create([
+            $this->userProfile->create([
                 'user_id'   => $user->id,
                 'phone'     => $request->phone,
                 'mobile'    => $request->mobile,
@@ -131,7 +131,7 @@ class UserController extends Controller
             ]);
 
             // Update or create additional information user
-            $this->additionalInformation->updateOrInsert(
+            $this->userProfile->updateOrInsert(
                 ['user_id'  => $user->id],
                 ['phone'    => $request->phone,
                 'mobile'    => $request->mobile,

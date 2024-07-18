@@ -29,6 +29,9 @@ class UserRequest extends FormRequest
             'is_active' => 'required|boolean',
             'password' => $this->method() == 'POST' ? 'required|string|min:5|max:16' :'',
             'role' => 'required',
+            'religion' => 'in:Islam,Kristen,Katolik,Hindu,Buddha,Khonghucu',
+            'gender' => 'in:man,woman',
+            'date_of_birth' => 'date',
         ];
     }
 

@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdditionalInformation extends Model
+class UserProfile extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id','phone', 'mobile', 'country', 'address', 'bio',
-        'website','instragram', 'facebook', 'twitter', 'youtube'
+        'user_id', 'date_of_birth', 'place_of_birth', 'gender', 'religion', 'phone', 'mobile', 'country', 'address', 'bio', 'website','instragram', 'facebook', 'twitter', 'youtube'
     ];
 
     public function user()
