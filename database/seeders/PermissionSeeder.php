@@ -24,17 +24,35 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'create-users']);
         Permission::create(['name' => 'update-users']);
         Permission::create(['name' => 'delete-users']);
+        
+        Permission::create(['name' => 'change-password-users']);
+        Permission::create(['name' => 'read-trashed-users']);
+        Permission::create(['name' => 'delete-trashed-users']);
+        Permission::create(['name' => 'delete-all-trashed-users']);
+        Permission::create(['name' => 'restore-trashed-users']);
+        Permission::create(['name' => 'restore-all-trashed-users']);
         // create permission roles
         Permission::create(['name' => 'read-roles']);
         Permission::create(['name' => 'create-roles']);
         Permission::create(['name' => 'update-roles']);
         Permission::create(['name' => 'delete-roles']);
+        // createa permission
+        Permission::create(['name' => 'read-permissions']);
+        Permission::create(['name' => 'create-permissions']);
+        Permission::create(['name' => 'update-permissions']);
+        Permission::create(['name' => 'delete-permissions']);
 
         // Create permission sync role
-        Permission::create(['name' => 'read-sync-permission-role']);
-        Permission::create(['name' => 'create-sync-permission-role']);
-        Permission::create(['name' => 'update-sync-permission-role']);
-        Permission::create(['name' => 'delete-sync-permission-role']);
+        Permission::create(['name' => 'read-sync-permission-roles']);
+        Permission::create(['name' => 'create-sync-permission-roles']);
+        Permission::create(['name' => 'update-sync-permission-roles']);
+        Permission::create(['name' => 'delete-sync-permission-roles']);
+        
+        // Create permission option
+        Permission::create(['name' => 'read-options']);
+        Permission::create(['name' => 'create-options']);
+        Permission::create(['name' => 'update-options']);
+        Permission::create(['name' => 'delete-options']);
 
         //  Create role Super Administrator
         $role = Role::create(['name' => 'Super Administrator', 'level' => 10]);

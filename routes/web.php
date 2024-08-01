@@ -31,55 +31,147 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
 
     // user routes
     Route::controller(UserController::class)->prefix('users')->group(function(){
-        Route::get('/', 'index')->name('users');
-        Route::get('{slug}/show', 'show')->name('users.show');
-        Route::get('create', 'create')->name('users.create');
-        Route::post('store', 'store')->name('users.store');
-        Route::get('{slug}/edit', 'edit')->name('users.edit');
-        Route::put('{id}/update', 'update')->name('users.update');
-        Route::delete('{id}/delete', 'destroy')->name('users.delete');
-        Route::put('{id}/change-password', 'changePassword')->name('users.change.password');
-        Route::get('trashed', 'trashed')->name('users.trashed');
-        Route::delete('trashed/delete/{id}', 'forceDelete')->name('users.force.delete');
-        Route::delete('trashed/delete-permanent-all', 'forceDeleteAll')->name('users.force.delete.all');
-        Route::put('trashed/restore/{id}', 'trashRestore')->name('users.restore');
-        Route::put('trashed/restore-all', 'restoreAll')->name('users.restore.all');
-        Route::get('showPage', 'showPage')->name('users.show.page');
+        Route::get('/', 'index')
+            ->middleware('can:read-users')
+            ->name('users');
+
+        Route::get('{slug}/show', 'show')
+            ->middleware('can:read-users')
+            ->name('users.show');
+
+        Route::get('create', 'create')
+            ->middleware('can:create-users')
+            ->name('users.create');
+
+        Route::post('store', 'store')
+            ->middleware('can:create-users')
+            ->name('users.store');
+
+        Route::get('{slug}/edit', 'edit')
+            ->middleware('can:update-users')
+            ->name('users.edit');
+
+        Route::put('{id}/update', 'update')
+            ->middleware('can:update-users')
+            ->name('users.update');
+
+        Route::delete('{id}/delete', 'destroy')
+            ->middleware('can:delete-users')
+            ->name('users.delete');
+
+        Route::put('{id}/change-password', 'changePassword')
+        ->middleware('can:change-password-users')
+        ->name('users.change.password');
+
+        Route::get('trashed', 'trashed')
+        ->middleware('can:read-trashed-users')
+        ->name('users.trashed');
+
+        Route::delete('trashed/delete/{id}', 'forceDelete')
+        ->middleware('can:delete-trashed-users')
+        ->name('users.force.delete');
+
+        Route::delete('trashed/delete-permanent-all', 'forceDeleteAll')
+        ->middleware('can:delete-all-trashed-users')
+        ->name('users.force.delete.all');
+
+        Route::put('trashed/restore/{id}', 'trashRestore')
+        ->middleware('can:restore-trashed-users')
+        ->name('users.restore');
+
+        Route::put('trashed/restore-all', 'restoreAll')
+        ->middleware('can:restore-all-trashed-users')
+        ->name('users.restore.all');
+
+        Route::get('showPage', 'showPage')
+        ->name('users.show.page');
+
     });
 
     // Role routes
     Route::controller(RoleController::class)->prefix('roles')->group(function(){
-        Route::get('/', 'index')->name('roles');
-        Route::get('{id}/show', 'show')->name('roles.show');
-        Route::get('create', 'create')->name('roles.create');
-        Route::post('store', 'store')->name('roles.store');
-        Route::put('{id}/update', 'update')->name('roles.update');
-        Route::delete('{id}/delete', 'destroy')->name('roles.delete');
-        Route::get('showPage', 'showPage')->name('roles.show.page');
+        Route::get('/', 'index')
+            ->middleware('can:read-roles')
+            ->name('roles');
+
+        Route::get('{id}/show', 'show')
+            ->middleware('can:read-roles')
+            ->name('roles.show');
+
+        Route::get('create', 'create')
+            ->middleware('can:create-roles')
+            ->name('roles.create');
+
+        Route::post('store', 'store')
+            ->middleware('can:create-roles')
+            ->name('roles.store');
+
+        Route::put('{id}/update', 'update')
+            ->middleware('can:update-roles')
+            ->name('roles.update');
+
+        Route::delete('{id}/delete', 'destroy')
+            ->middleware('can:delete-roles')
+            ->name('roles.delete');
+
+        Route::get('showPage', 'showPage')
+            ->name('roles.show.page');
     });
 
     // Permission route
     Route::controller(PermissionController::class)->prefix('permissions')->group(function(){
-        Route::get('/', 'index')->name('permissions');
-        Route::get('{id}/show', 'show')->name('permissions.show');
-        Route::get('create', 'create')->name('permissions.create');
-        Route::post('store', 'store')->name('permissions.store');
-        Route::put('{id}/update', 'update')->name('permissions.update');
-        Route::delete('{id}/delete', 'destroy')->name('permissions.delete');
-        Route::get('showPage', 'showPage')->name('permissions.show.page');
+        Route::get('/', 'index')
+            ->middleware('can:read-permissions')
+            ->name('permissions');
+
+        Route::get('{id}/show', 'show')
+            ->middleware('can:read-permissions')
+            ->name('permissions.show');
+
+        Route::get('create', 'create')
+            ->middleware('can:create-permissions')
+            ->name('permissions.create');
+
+        Route::post('store', 'store')
+            ->middleware('can:create-permissions')
+            ->name('permissions.store');
+
+        Route::put('{id}/update', 'update')
+            ->middleware('can:update-permissions')
+            ->name('permissions.update');
+
+        Route::delete('{id}/delete', 'destroy')
+            ->middleware('can:delete-permissions')
+            ->name('permissions.delete');
+
+        Route::get('showPage', 'showPage')
+            ->name('permissions.show.page');
     });
 
     // sync permission role route
     Route::controller(SyncPermissionController::class)->prefix('sync-permissions')->group(function(){
-        Route::get('/', 'index')->name('sync.permissions');
-        Route::get('assign', 'assign')->name('sync.permissions.assign');
-        Route::post('assign', 'store')->name('sync.permissions.store');
+        Route::get('/', 'index')
+            ->middleware('can:read-sync-permission-roles')
+            ->name('sync.permissions');
+
+        Route::get('assign', 'assign')
+            ->middleware('can:create-sync-permission-roles')
+            ->name('sync.permissions.assign');
+
+        Route::post('assign', 'store')
+            ->middleware('can:create-sync-permission-roles')
+            ->name('sync.permissions.store');
     });
 
     // option route
     Route::controller(OptionController::class)->prefix('options')->group(function(){
-        Route::get('/', 'index')->name('options');
-        Route::put('/', 'update')->name('options.update');
+        Route::get('/', 'index')
+            ->middleware('can:read-options')
+            ->name('options');
+            
+        Route::put('/', 'update')
+            ->middleware('can:update-options')
+            ->name('options.update');
     });
 
 });
