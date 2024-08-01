@@ -56,118 +56,253 @@
                         <input type="file" name="image" class="d-none" id="uploadImage" accept=".jpg,.jpeg,.png,.web">
                     </div>
                     <div class="col-md-9">
-                        <div class="row mb-3">
-                            <div class="col-md-12 col-xl-6">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Username<span class="fst-italic text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" value="{{ old('username', $user->username) }}" autofocus required>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-4">
+                                   <label for="username" class="form-label">Username <span class="text-danger fst-italic">*</span></label>
+                                   <input type="text" name="username" class="form-control" id="username" value="{{ old('username', $user->username) }}">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="name" class="form-label">Name <span class="text-danger fst-italic">*</span></label>
+                                   <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $user->name) }}">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" for="email">Email</label>
+                                   <input type="email" class="form-control" value="{{$user->email }}" id="email" disabled>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-xl-6">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name<span class="fst-italic text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"  value="{{ old('name', $user->name) }}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12 col-xl-6">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email<span class="fst-italic text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter email, ex: your@example.com"  value="{{ old('email', $user->email) }}"  required>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-xl-6">
-                                <div class="mb-3">
-                                    <label for="is_active" class="form-label">Is active?<span class="fst-italic text-danger">*</span></label>
+                            <div class="col">
+                                <div class="mb-4">
+                                    <label for="is_active" class="form-label">Active?<span class="fst-italic text-danger">*</span></label>
                                     <select name="is_active" class="form-select" id="is_active" required>
                                         <option>Silakan pilih satu</option>
                                         <option value="0" @selected(old('is_active', $user->is_active) == 0)>Non Active</option>
                                         <option value="1" @selected(old('is_active', $user->is_active) == 1)>Active</option>
                                     </select>
                                 </div>
+                                <div class="mb-4">
+                                    <h6>Last login at</h6>
+                                    {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
+                                </div>
+                                <div class="mb-4">
+                                    <h6>Last login ip</h6>
+                                    {!! $user->last_login_ip ?? '<span class="fst-italic">Belum pernah login</span>' !!}
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12 col-xl-6">
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role<span class="fst-italic text-danger">*</span></label>
-                                    <select name="role" id="role" class="form-select">
-                                        <option>Silakan pilih role pengguna</option>
+                    </div>
+                </div>
+                <hr>
+                <ul class="nav nav-tabs" id="myTabUser" role="tablist">
+                    {{-- For tab General --}}
+                    <li class="nav-item py-2" role="presentation">
+                      <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">
+                        <i class="bi bi-person-lines-fill me-1"></i> General<span class="text-danger fst-italic">*</span>
+                      </button>
+                    </li>
+                    {{-- For tab media social --}}
+                    <li class="nav-item py-2" role="presentation">
+                      <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane" aria-selected="false">
+                        <i class="bi bi-globe me-1"></i>  Media Social
+                    </button>
+                    </li>
+                    {{-- For tab homebase --}}
+                    <li class="nav-item py-2" role="presentation">
+                        <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
+                            <i class="bi bi-database-lock me-1"></i> Role<span class="text-danger fst-italic">*</span>
+                    </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContentUser">
+                    {{-- Tab Additional --}}
+                    <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
+                        <div class="row py-4">
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="phone" class="form-label">
+                                            <i class="bi bi-telephone-forward me-2"></i> Phone
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $user->profile->phone) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="mobile" class="form-label">
+                                            <i class="bi bi-phone me-2"></i> Mobile
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ old('mobile', $user->profile->mobile) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="address" class="form-label">
+                                            <i class="bi bi-person-vcard me-2"></i> Address
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="address" id="address" value="{{ old('address', $user->profile->address) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="bio" class="form-label">
+                                            <i class="bi bi-bookmark me-2"></i> Bio
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{old('bio', $user->profile->bio)}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="gender" class="form-label">
+                                            <i class="bi bi-gender-ambiguous me-2"></i> Gender<span class="text-danger fst-italic">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select name="gender" id="gender" class="form-select">
+                                            <option value="">Choose a one</option>
+                                            <option value="man" @selected(old('gender', $user->profile->gender) =='man')>Laki-laki</option>
+                                            <option value="woman" @selected(old('gender', $user->profile->gender) =='woman')>Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="place_of_birth" class="form-label">
+                                            <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth', $user->profile->place_of_birth)}}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="date_of_birth" class="form-label">
+                                            <i class="bi bi-calendar3 me-2"></i> Date of Birth<span class="text-danger fst-italic">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth', $user->profile->date_of_birth)}}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="religion" class="form-label">
+                                            <i class="bi bi-ui-radios me-2"></i> Religion<span class="text-danger fst-italic">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select name="religion" id="religion" class="form-select">
+                                            <option value="">Choose a one</option>
+                                            <option value="Islam" @selected(old('religion', $user->profile->religion) == 'Islam')>Islam</option>
+                                            <option value="Kristen" @selected(old('religion', $user->profile->religion) == 'Kristen')>Kristen</option>
+                                            <option value="Katolik" @selected(old('religion', $user->profile->religion) == 'Katolik')>Katolik</option>
+                                            <option value="Hindu" @selected(old('religion', $user->profile->religion) == 'Hindu')>Hindu</option>
+                                            <option value="Buddha" @selected(old('religion', $user->profile->religion) == 'Buddha')>Buddha</option>
+                                            <option value="Khonghucu" @selected(old('religion', $user->profile->religion) == 'Khonghucu')>Khonghucu</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    {{-- Tab Media --}}
+                    <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
+                         <div class="row py-4">
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="website" class="form-label">
+                                            <i class="bi bi-globe me-2"></i> Website
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="website" id="website" value="{{ old('website', $user->profile->website) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="instagram" class="form-label">
+                                            <i class="bi bi-instagram me-2"></i> Instagram
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="instagram" id="instagram" value="{{ old('instagram', $user->profile->instagram) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="facebook" class="form-label">
+                                            <i class="bi bi-facebook me-2"></i> Facebook
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="facebook" id="facebook" value="{{ old('facebook', $user->profile->facebook) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-6">
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="twitter" class="form-label">
+                                            <i class="bi bi-twitter me-2"></i> Twitter
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="twitter" id="twitter" value="{{ old('twitter', $user->profile->twitter) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="youtube" class="form-label">
+                                            <i class="bi bi-youtube me-2"></i> Youtube
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="youtube" id="youtube" value="{{ old('youtube', $user->profile->youtube) }}">
+                                    </div>
+                                </div>
+                                <div class="row mb-3 align-items-center">
+                                    <div class="col-4">
+                                        <label for="other" class="form-label">
+                                            <i class="bi bi-three-dots me-2"></i> Other
+                                        </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="other" id="other" value="{{ old('other', $user->profile->other) }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tab Pane Homebase  --}}
+                    <div class="tab-pane fade" id="homebase-tab-pane" role="tabpanel" aria-labelledby="homebase-tab" tabindex="0">
+                        <div class="row  py-4 mb-3">
+                            <div class="col-6">
+                                <div class="row align-items-center">
+                                    <label for="role" class="form-label col">
+                                        <i class="bi bi-fingerprint me-2"></i> Role User<span class="fst-italic text-danger">*</span>
+                                    </label>
+                                    <select name="role" id="role" class="form-select col" required>
+                                        <option value="">Choose one of the roles</option>
                                         @foreach ($roles as $role)
                                             <option value="{{ $role->id }}" @selected($user->roles->pluck('name')[0] == $role->name)>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-xl-6 col-md-12">
-                        <div class="h4 py-2 border-bottom">Additional information</div>
-                        <div class="row mb-4">
-                            <label for="phone" class="col-sm-3 col-form-label">Phone</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $user->additionalInformation->phone ?? '') }}" placeholder="Enter phone ex: 021 123456">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="mobile" name="mobile" value="{{ old('mobile', $user->additionalInformation->mobile ?? '') }}" placeholder="Enter mobile ex: 08123456789">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="country" class="col-sm-3 col-form-label">Country</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="country" name="country" value="{{ old('country', $user->additionalInformation->country ?? '') }}" placeholder="Enter country">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="address" class="col-sm-3 col-form-label">Address</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="address" name="address" value="{{ old('address', $user->additionalInformation->address ?? '') }}" placeholder="Enter address">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="bio" class="form-label">Bio</label>
-                            <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{ old('bio', $user->additionalInformation->bio ?? '') }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-md-12">
-                        <div class="h4 py-2 border-bottom">Media social</div>
-                        <div class="row mb-4">
-                            <label for="website" class="col-sm-3 col-form-label">Website</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="website" placeholder="www.example.com" name="website" value="{{ old('website', $user->additionalInformation->website ?? '') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="instagram" class="col-sm-3 col-form-label">Instagram</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="instagram" placeholder="instagram.com/example" name="instagram" value="{{ old('instagram', $user->additionalInformation->instagram ?? '') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="facebook" class="col-sm-3 col-form-label">Facebook</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="facebook" placeholder="facebook.com/example" name="facebook" value="{{ old('facebook', $user->additionalInformation->facebook ?? '') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="twitter" class="col-sm-3 col-form-label">Twitter</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="twitter" placeholder="twitter.com/example" name="twitter" value="{{ old('twitter', $user->additionalInformation->twitter ?? '') }}">
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label for="youtube" class="col-sm-3 col-form-label">Youtube</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" id="youtube" placeholder="youtube.com/example" name="youtube" value="{{ old('youtube', $user->additionalInformation->youtube ?? '') }}">
                             </div>
                         </div>
                     </div>

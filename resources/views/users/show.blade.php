@@ -27,10 +27,10 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <label class="form-label">
+                                        <label class="form-label" for="confirm-delete">
                                             Untuk melanjutkan penghapusan pengguna, silakan ketik: <span class="fst-italic text-danger">{{ $user->username }}</span>
                                         </label>
-                                        <input type="text" class="form-control" name="confirm" placeholder="Enter confirmation: {{ $user->username }}">
+                                        <input type="text" class="form-control" name="confirm" placeholder="Enter confirmation: {{ $user->username }}" id="confirm-delete">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -91,187 +91,216 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <h6>Username</h6>
                                 {{ $user->username }}
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <h6>Name</h6>
                                 {{ $user->name }}
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <h6>Email</h6>
                                 {{ $user->email }}
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <h6>Active?</h6>
-                                {{ $user->is_active ? 'Active' : 'Non active' }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="mb-3">
-                                <h6>Role</h6>
-                                {{ $user->roles->pluck('name') }}
+                            <div class="mb-4">
+                                <h6>Active</h6>
+                                @if ($user->is_active)
+                                    <div class="badge bg-success">Active</div>
+                                    @else
+                                    <div class="badge bg-warning">Non active</div>
+                                @endif
                             </div>
                         </div>
                         <div class="col">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <h6>Last login at</h6>
                                 {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <h6>Last login ip</h6>
                                 {!! $user->last_login_ip ?? '<span class="fst-italic">Belum pernah login</span>' !!}
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <hr>
             <ul class="nav nav-tabs" id="myTabUser" role="tablist">
-                {{-- For tab additional --}}
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="additional-tab" data-bs-toggle="tab" data-bs-target="#additional-tab-pane" type="button" role="tab" aria-controls="additional-tab-pane" aria-selected="true">
-                    <i class="bi bi-person-vcard"></i> Additional
+                {{-- For tab General --}}
+                <li class="nav-item py-2" role="presentation">
+                  <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">
+                    <i class="bi bi-person-lines-fill me-1"></i> General
                   </button>
                 </li>
                 {{-- For tab media social --}}
-                <li class="nav-item" role="presentation">
+                <li class="nav-item py-2" role="presentation">
                   <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane" aria-selected="false">
-                    <i class="bi bi-globe"></i>  Media Social
-                </button>
-                </li>
-                {{-- For tab contact --}}
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">
-                    <i class="bi bi-person-lines-fill"></i> Contact
+                    <i class="bi bi-globe me-1"></i>  Media Social
                 </button>
                 </li>
                 {{-- For tab homebase --}}
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
-                    <i class="bi bi-house"></i> Homebase
+                <li class="nav-item py-2" role="presentation">
+                    <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
+                        <i class="bi bi-database-lock me-1"></i> Role
                 </button>
                 </li>
-              </ul>
+            </ul>
             <div class="tab-content" id="myTabContentUser">
                 {{-- Tab Additional --}}
-                <div class="tab-pane fade show active" id="additional-tab-pane" role="tabpanel" aria-labelledby="additional-tab" tabindex="0">
-                    <div class="row">
-                        <div class="col-xl-6 col-md-12">
-                            <div class="h4 py-2 border-bottom">Additional information</div>
-                            <div class="row mb-4">
-                                <label class="col-sm-3 col-form-label">
-                                    <i class="bi bi-telephone me-2"></i> Phone
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->phone ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
+                    <div class="row py-4">
+                        <div class="col-6">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
+                                    <i class="bi bi-telephone-forward me-2"></i> Phone
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->phone ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-phone me-2"></i> Mobile
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->mobile ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->mobile ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-3 col-form-label">
-                                    <i class="bi bi-flag me-2"></i> Country
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->country ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-person-vcard me-2"></i> Address
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->address ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->address ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-bookmark me-2"></i> Bio
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->bio ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->bio ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-6">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
+                                    <i class="bi bi-gender-ambiguous me-2"></i> Gender
+                                </div>
+                                <div class="col-8">
+                                    @if ($user->profile->gender == 'man')
+                                        Laki-laki
+                                        @else
+                                        Perempuan
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
+                                    <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->place_of_birth ?? 'Tidak tersedia' }}
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
+                                    <i class="bi bi-calendar3 me-2"></i> Date of Birth
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->date_of_birth ?? 'Tidak tersedia' }}
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
+                                    <i class="bi bi-ui-radios me-2"></i> Religion
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->religion ?? 'Tidak tersedia' }}
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 {{-- Tab Media --}}
                 <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
-                    <div class="row p-2">
+                     <div class="row py-4">
                         <div class="col-6">
-                            <div class="row mb-2">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-globe me-2"></i> Website
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->website ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-2">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-instagram me-2"></i> Instagram
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->instagram ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->instagram ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-2">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-facebook me-2"></i> Facebook
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->facebook ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->facebook ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-6">
-                            <div class="row mb-2">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-twitter me-2"></i> Twitter
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->twitter ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->twitter ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-2">
-                                <label class="col-sm-3 col-form-label">
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
                                     <i class="bi bi-youtube me-2"></i> Youtube
-                                </label>
-                                <div class="col-sm-9 col-form-label">
-                                    {!! $user->additionalInformation->youtube ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->youtube ?? 'Tidak tersedia' }}
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-4">
+                                    <i class="bi bi-three-dots me-2"></i> Other
+                                </div>
+                                <div class="col-8">
+                                    {{ $user->profile->other ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
-                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+
+                {{-- Tab Pane Homebase  --}}
+                <div class="tab-pane fade" id="homebase-tab-pane" role="tabpanel" aria-labelledby="homebase-tab" tabindex="0">
+                    <div class="row  py-4 mb-3">
+                        <div class="col-2">
+                            <i class="bi bi-fingerprint me-2"></i> Role User
+                        </div>
+                        <div class="col-10">
+                            {{ $user->roles->pluck('name') }}
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            
         </div>
         <!-- end page main -->
     </div>

@@ -144,7 +144,9 @@
                             <div class="col-6">
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="phone" class="form-label">Phone</label>
+                                        <label for="phone" class="form-label">
+                                            <i class="bi bi-telephone-forward me-2"></i> Phone
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}">
@@ -152,7 +154,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="mobile" class="form-label">Mobile</label>
+                                        <label for="mobile" class="form-label">
+                                            <i class="bi bi-phone me-2"></i> Mobile
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="mobile" id="mobile" value="{{ old('mobile') }}">
@@ -160,7 +164,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="address" class="form-label">Address</label>
+                                        <label for="address" class="form-label">
+                                            <i class="bi bi-person-vcard me-2"></i> Address
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="address" id="address" value="{{ old('address') }}">
@@ -168,7 +174,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="bio" class="form-label">Bio</label>
+                                        <label for="bio" class="form-label">
+                                            <i class="bi bi-bookmark me-2"></i> Bio
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{old('bio')}}</textarea>
@@ -179,7 +187,9 @@
                             <div class="col-6">
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="gender" class="form-label">Gender<span class="text-danger fst-italic">*</span></label>
+                                        <label for="gender" class="form-label">
+                                            <i class="bi bi-gender-ambiguous me-2"></i> Gender<span class="text-danger fst-italic">*</span>
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <select name="gender" id="gender" class="form-select">
@@ -191,7 +201,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="place_of_birth" class="form-label">Place of Birth</label>
+                                        <label for="place_of_birth" class="form-label">
+                                            <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth')}}">
@@ -199,7 +211,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="date_of_birth" class="form-label">Date of Birth<span class="text-danger fst-italic">*</span></label>
+                                        <label for="date_of_birth" class="form-label">
+                                            <i class="bi bi-calendar3 me-2"></i> Date of Birth<span class="text-danger fst-italic">*</span>
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth')}}">
@@ -207,7 +221,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="religion" class="form-label">Religion<span class="text-danger fst-italic">*</span></label>
+                                        <label for="religion" class="form-label">
+                                            <i class="bi bi-ui-radios me-2"></i> Religion<span class="text-danger fst-italic">*</span>
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <select name="religion" id="religion" class="form-select">
@@ -231,7 +247,9 @@
                             <div class="col-6">
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="website" class="form-label">Website</label>
+                                        <label for="website" class="form-label">
+                                            <i class="bi bi-globe me-2"></i> Website
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="website" id="website" value="{{ old('website') }}">
@@ -239,7 +257,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="instagram" class="form-label">Instagram</label>
+                                        <label for="instagram" class="form-label">
+                                            <i class="bi bi-instagram me-2"></i> Instagram
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="instagram" id="instagram" value="{{ old('instagram') }}">
@@ -247,7 +267,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="facebook" class="form-label">Facebook</label>
+                                        <label for="facebook" class="form-label">
+                                            <i class="bi bi-facebook me-2"></i> Facebook
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="facebook" id="facebook" value="{{ old('facebook') }}">
@@ -258,7 +280,9 @@
                             <div class="col-6">
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="twitter" class="form-label">Twitter</label>
+                                        <label for="twitter" class="form-label">
+                                            <i class="bi bi-twitter me-2"></i> Twitter
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="twitter" id="twitter" value="{{ old('twitter') }}">
@@ -266,7 +290,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="youtube" class="form-label">Youtube</label>
+                                        <label for="youtube" class="form-label">
+                                            <i class="bi bi-youtube me-2"></i> Youtube
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="youtube" id="youtube" value="{{ old('youtube') }}">
@@ -274,7 +300,9 @@
                                 </div>
                                 <div class="row mb-3 align-items-center">
                                     <div class="col-4">
-                                        <label for="other" class="form-label">Other</label>
+                                        <label for="other" class="form-label">
+                                            <i class="bi bi-three-dots me-2"></i> Other
+                                        </label>
                                     </div>
                                     <div class="col-8">
                                         <input type="text" class="form-control" name="other" id="other" value="{{ old('other') }}">
@@ -289,7 +317,9 @@
                         <div class="row  py-4 mb-3">
                             <div class="col-6">
                                 <div class="row align-items-center">
-                                    <label for="role" class="form-label col">Role<span class="fst-italic text-danger">*</span></label>
+                                    <label for="role" class="form-label col">
+                                        <i class="bi bi-fingerprint me-2"></i> Role User<span class="fst-italic text-danger">*</span>
+                                    </label>
                                     <select name="role" id="role" class="form-select col" required>
                                         <option value="">Choose one of the roles</option>
                                         @foreach ($roles as $role)

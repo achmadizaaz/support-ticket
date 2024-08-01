@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
         return [
             'image' => $this->image ? 'mimes:png,jpg,jpeg|max:2048':'',
             'username' => ['required', Rule::unique('users', 'username')->ignore($this->id)],
-            'email' => 'required|email',
+            'email' => $this->method() == 'POST' ? 'required|email' : '',
             'is_active' => 'required|boolean',
             'password' => $this->method() == 'POST' ? 'required|string|min:5|max:16' :'',
             'role' => 'required',

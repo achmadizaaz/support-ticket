@@ -136,7 +136,13 @@
                             <td class="align-middle">{{ $user->username }}</td>
                             <td class="align-middle">{{ $user->name }}</td>
                             <td class="align-middle">{{ $user->email }}</td>
-                            <td class="align-middle">{{ $user->is_active ? 'Active' : 'Non active' }}</td>
+                            <td class="align-middle">
+                                @if ($user->is_active)
+                                <span class="badge text-bg-success">Active</span>
+                                @else
+                                <span class="badge text-bg-danger">Non active</span>
+                                @endif
+                            </td>
                             <td class="align-middle">{!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}</td>
                             <td class="align-middle">
                                 <div class="d-flex gap-1">

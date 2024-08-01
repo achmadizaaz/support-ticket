@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\PermissionRegistrar;
 
 class PermissionSeeder extends Seeder
@@ -44,6 +45,7 @@ class PermissionSeeder extends Seeder
             'name' => 'Super Administrator',
             'username' => 'superadmin',
             'email' => 'superadmin@example.com',
+            'password'=> Hash::make('password'),
         ]);
         
         $user->assignRole($role);

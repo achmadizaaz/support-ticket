@@ -66,16 +66,22 @@ class UserController extends Controller
             // Relation addtional informasi user
             $this->userProfile->create([
                 'user_id'   => $user->id,
+                // General
                 'phone'     => $request->phone,
                 'mobile'    => $request->mobile,
                 'country'   => $request->country,
                 'address'   => $request->address,
                 'bio'       => $request->bio,
+                'date_of_birth' => $request->date_of_birth,
+                'place_of_birth' => $request->place_of_birth,
+                'religion' => $request->religion,
+                // Media Social
                 'website'   => $request->website,
                 'instagram' => $request->instagram,
                 'facebook'  => $request->facebook,
                 'twitter'   => $request->twitter,
                 'youtube'   => $request->youtube,
+                'other'     => $request->other,
             ]);
 
             // Assign role user
@@ -133,16 +139,23 @@ class UserController extends Controller
             // Update or create additional information user
             $this->userProfile->updateOrInsert(
                 ['user_id'  => $user->id],
-                ['phone'    => $request->phone,
+                [// Update profile user
+                // General
+                'phone'     => $request->phone,
                 'mobile'    => $request->mobile,
                 'country'   => $request->country,
                 'address'   => $request->address,
                 'bio'       => $request->bio,
+                'date_of_birth' => $request->date_of_birth,
+                'place_of_birth' => $request->place_of_birth,
+                'religion' => $request->religion,
+                // Media Social
                 'website'   => $request->website,
                 'instagram' => $request->instagram,
                 'facebook'  => $request->facebook,
                 'twitter'   => $request->twitter,
                 'youtube'   => $request->youtube,
+                'other'     => $request->other,
                 'updated_at'=> now(),]
             );
             // Change role user
