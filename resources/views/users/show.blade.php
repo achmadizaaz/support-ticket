@@ -153,7 +153,7 @@
                 <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
                     <div class="row py-4">
                         <div class="col-6">
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-telephone-forward me-2"></i> Phone
                                 </div>
@@ -161,7 +161,7 @@
                                     {{ $user->profile->phone ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-phone me-2"></i> Mobile
                                 </div>
@@ -169,7 +169,7 @@
                                     {{ $user->profile->mobile ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-person-vcard me-2"></i> Address
                                 </div>
@@ -177,7 +177,7 @@
                                     {{ $user->profile->address ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-bookmark me-2"></i> Bio
                                 </div>
@@ -188,19 +188,19 @@
                         </div>
 
                         <div class="col-6">
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-gender-ambiguous me-2"></i> Gender
                                 </div>
                                 <div class="col-8">
-                                    @if ($user->profile->gender == 'man')
+                                    @if (isset($user->profile->gender) == 'man')
                                         Laki-laki
                                         @else
                                         Perempuan
                                     @endif
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
                                 </div>
@@ -208,7 +208,7 @@
                                     {{ $user->profile->place_of_birth ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-calendar3 me-2"></i> Date of Birth
                                 </div>
@@ -216,7 +216,7 @@
                                     {{ $user->profile->date_of_birth ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-ui-radios me-2"></i> Religion
                                 </div>
@@ -232,7 +232,7 @@
                 <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
                      <div class="row py-4">
                         <div class="col-6">
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-globe me-2"></i> Website
                                 </div>
@@ -240,7 +240,7 @@
                                     {{ $user->profile->website ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-instagram me-2"></i> Instagram
                                 </div>
@@ -248,7 +248,7 @@
                                     {{ $user->profile->instagram ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-facebook me-2"></i> Facebook
                                 </div>
@@ -259,7 +259,7 @@
                         </div>
                         
                         <div class="col-6">
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-twitter me-2"></i> Twitter
                                 </div>
@@ -267,7 +267,7 @@
                                     {{ $user->profile->twitter ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-youtube me-2"></i> Youtube
                                 </div>
@@ -275,7 +275,7 @@
                                     {{ $user->profile->youtube ?? 'Tidak tersedia' }}
                                 </div>
                             </div>
-                            <div class="row mb-3 align-items-center">
+                            <div class="row mb-4 align-items-center">
                                 <div class="col-4">
                                     <i class="bi bi-three-dots me-2"></i> Other
                                 </div>
