@@ -63,151 +63,217 @@
                         <div class="col-md-3 text-center">
                             <div class="mb-3">
                                 @if (isset($user->image))
-                                    <img src="{{ asset('storage/'.$user->image) }}" alt="{{ $user->username }}" class="rounded-3 img-cover" width="200px" height="250px">
+                                    <img src="{{ asset('storage/'.$user->image) }}" alt="{{ $user->username }}" class="rounded-3 img-cover" width="100%" max-width="265%" height="100%" max-height="300px">
                                 @else
-                                    <img src="{{ asset('assets/images/no-image.webp') }}"alt="{{ $user->username }}" class="rounded-3 img-cover" width="200px" height="250px">
+                                    <img src="{{ asset('assets/images/no-image.webp') }}"alt="{{ $user->username }}" class="rounded-3 img-cover" width="100%" max-width="265%" height="100%" max-height="300px">
                                 @endif
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <div class="row mb-3">
+                            <div class="row">
                                 <div class="col">
-                                    <div class="mb-3">
+                                    <div class="mb-4">
                                         <h6>Username</h6>
                                         {{ $user->username }}
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3">
+                                    <div class="mb-4">
                                         <h6>Name</h6>
                                         {{ $user->name }}
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="mb-3">
+                                    <div class="mb-4">
                                         <h6>Email</h6>
                                         {{ $user->email }}
                                     </div>
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <h6>Active?</h6>
-                                        {{ $user->is_active ? 'Active' : 'Non active' }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <h6>Role</h6>
-                                        {{ $user->roles->pluck('name') }}
+                                    <div class="mb-4">
+                                        <h6>Active</h6>
+                                        @if ($user->is_active)
+                                            <div class="badge text-bg-success">Active</div>
+                                            @else
+                                            <div class="badge text-bg-warning">Non active</div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <div class="mb-3">
+                                    <div class="mb-4">
                                         <h6>Last login at</h6>
                                         {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="mb-3">
+                                    <div class="mb-4">
                                         <h6>Last login ip</h6>
                                         {!! $user->last_login_ip ?? '<span class="fst-italic">Belum pernah login</span>' !!}
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-xl-6 col-md-12">
-                            <div class="h4 py-2 border-bottom">Additional information</div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-telephone me-2"></i> Phone
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->phone ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                    <ul class="nav nav-tabs" id="myTabUser" role="tablist">
+                        {{-- For tab General --}}
+                        <li class="nav-item py-2" role="presentation">
+                          <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">
+                            <i class="bi bi-person-lines-fill me-1"></i> General
+                          </button>
+                        </li>
+                        {{-- For tab media social --}}
+                        <li class="nav-item py-2" role="presentation">
+                          <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane" aria-selected="false">
+                            <i class="bi bi-globe me-1"></i>  Media Social
+                        </button>
+                        </li>
+                        {{-- For tab homebase --}}
+                        <li class="nav-item py-2" role="presentation">
+                            <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
+                                <i class="bi bi-database-lock me-1"></i> Role
+                        </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContentUser">
+                        {{-- Tab Additional --}}
+                        <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
+                            <div class="row py-4">
+                                <div class="col-6">
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-telephone-forward me-2"></i> Phone
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->phone ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-phone me-2"></i> Mobile
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->mobile ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-person-vcard me-2"></i> Address
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->address ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-bookmark me-2"></i> Bio
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->bio ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-phone me-2"></i> Mobile
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->mobile ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+        
+                                <div class="col-6">
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-gender-ambiguous me-2"></i> Gender
+                                        </div>
+                                        <div class="col-8">
+                                            @if (isset($user->profile->gender) == 'man')
+                                                Laki-laki
+                                                @else
+                                                Perempuan
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->place_of_birth ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-calendar3 me-2"></i> Date of Birth
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->date_of_birth ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-ui-radios me-2"></i> Religion
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->religion ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
                                 </div>
+                                
                             </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-flag me-2"></i> Country
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->country ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                        </div>
+                        {{-- Tab Media --}}
+                        <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
+                             <div class="row py-4">
+                                <div class="col-6">
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-globe me-2"></i> Website
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->website ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-instagram me-2"></i> Instagram
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->instagram ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-facebook me-2"></i> Facebook
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->facebook ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-person-vcard me-2"></i> Address
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->address ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-bookmark me-2"></i> Bio
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->bio ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                
+                                <div class="col-6">
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-twitter me-2"></i> Twitter
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->twitter ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-youtube me-2"></i> Youtube
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->youtube ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-4">
+                                            <i class="bi bi-three-dots me-2"></i> Other
+                                        </div>
+                                        <div class="col-8">
+                                            {{ $user->profile->other ?? 'Tidak tersedia' }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 col-md-12">
-                            <div class="h4 py-2 border-bottom">Media social</div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-globe me-2"></i> Website
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->website ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+        
+                        {{-- Tab Pane Homebase  --}}
+                        <div class="tab-pane fade" id="homebase-tab-pane" role="tabpanel" aria-labelledby="homebase-tab" tabindex="0">
+                            <div class="row  py-4 mb-3">
+                                <div class="col-2">
+                                    <i class="bi bi-fingerprint me-2"></i> Role User
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-instagram me-2"></i> Instagram
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->instagram ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-facebook me-2"></i> Facebook
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->facebook ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-twitter me-2"></i> Twitter
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->twitter ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <label class="col-sm-4 col-form-label">
-                                    <i class="bi bi-youtube me-2"></i> Youtube
-                                </label>
-                                <div class="col-sm-8 col-form-label">
-                                    {!! $user->additionalInformation->youtube ?? '<span class="fst-italic">Tidak tersedia</span>' !!}
+                                <div class="col-10">
+                                    {{ $user->roles->pluck('name') }}
                                 </div>
                             </div>
                         </div>
@@ -234,7 +300,7 @@
                                 <label for="password_confirmation_user" class="form-label">Password Confirmation<span class="fst-italic text-danger">*</span></label>
                                 <input type="password" class="form-control" name="password_confirmation" id="password_confirmation_user">
                             </div>
-                            <button type="submit" class="btn btn-outline-success">Save changes</button>
+                            <button type="submit" class="btn btn-outline-success" id="changePassword" disabled>Save changes</button>
                         </form>
                     </div>
                 </div>
@@ -279,3 +345,31 @@
         <!-- end page main -->
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        // For change disable submit "Change Password"
+        const currentPassword = document.getElementById('password_current_user');
+        const newPassword = document.getElementById('password_user');
+        const confirmPassword = document.getElementById('password_confirmation_user');
+        const submitBtn = document.getElementById('changePassword');
+
+        // Fungsi untuk memeriksa input field
+        function checkInputs() {
+            if (currentPassword.value && newPassword.value && confirmPassword.value) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('btn-outline-secondary');
+                submitBtn.classList.add('btn-outline-success');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.remove('btn-outline-success');
+                submitBtn.classList.add('btn-outline-secondary');
+            }
+        }
+
+        // Menambahkan event listener untuk memonitor perubahan pada input field
+        currentPassword.addEventListener('input', checkInputs);
+        newPassword.addEventListener('input', checkInputs);
+        confirmPassword.addEventListener('input', checkInputs);
+    </script>
+@endpush
