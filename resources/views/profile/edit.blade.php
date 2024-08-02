@@ -323,7 +323,7 @@
                                                 <div>
                                                     <i class="bi bi-fingerprint me-2"></i> Role User:
                                                 </div>
-                                               <div>{{ $user->roles->pluck('name')[0] }}</div>
+                                               <div>{{ $user->roles->pluck('name')[0] ?? 'Tidak memiliki role' }}</div>
                                             </div>
                                         </div>
                                     </div>

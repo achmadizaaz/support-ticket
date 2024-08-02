@@ -299,7 +299,7 @@
                                     <select name="role" id="role" class="form-select col" required>
                                         <option value="">Choose one of the roles</option>
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" @selected($user->roles->pluck('name')[0] == $role->name)>{{ $role->name }}</option>
+                                            <option value="{{ $role->id }}" @selected(isset($user->roles->pluck('name')[0]) == $role->name)>{{ $role->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
