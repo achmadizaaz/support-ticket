@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUlid('user_id');
 
-            $table->enum('gender', ['man', 'woman']);
+            $table->boolean('gender');
             $table->date('date_of_birth')->nullable();
             $table->string('place_of_birth')->nullable();
             $table->enum('religion', ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'])->nullable();
