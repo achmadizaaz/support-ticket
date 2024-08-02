@@ -125,7 +125,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $user->profile->phone) }}">
+                                        <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $user->profile->phone ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -135,7 +135,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ old('mobile', $user->profile->mobile) }}">
+                                        <input type="text" class="form-control" name="mobile" id="mobile" value="{{ old('mobile', $user->profile->mobile ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -145,7 +145,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="address" id="address" value="{{ old('address', $user->profile->address) }}">
+                                        <input type="text" class="form-control" name="address" id="address" value="{{ old('address', $user->profile->address ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -155,7 +155,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{old('bio', $user->profile->bio)}}</textarea>
+                                        <textarea name="bio" id="bio" cols="30" rows="5" class="form-control">{{old('bio', $user->profile->bio ?? '') }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -170,8 +170,8 @@
                                     <div class="col-8">
                                         <select name="gender" id="gender" class="form-select">
                                             <option value="">Choose a one</option>
-                                            <option value="man" @selected(old('gender', $user->profile->gender) =='man')>Laki-laki</option>
-                                            <option value="woman" @selected(old('gender', $user->profile->gender) =='woman')>Perempuan</option>
+                                            <option value="man" @selected(old('gender', $user->profile->gender)) =='man')>Laki-laki</option>
+                                            <option value="woman" @selected(old('gender', $user->profile->gender)) =='woman')>Perempuan</option>
                                         </select>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth', $user->profile->place_of_birth)}}">
+                                        <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth', $user->profile->place_of_birth ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -192,7 +192,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth', $user->profile->date_of_birth)}}">
+                                        <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth', $user->profile->date_of_birth ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -204,12 +204,12 @@
                                     <div class="col-8">
                                         <select name="religion" id="religion" class="form-select">
                                             <option value="">Choose a one</option>
-                                            <option value="Islam" @selected(old('religion', $user->profile->religion) == 'Islam')>Islam</option>
-                                            <option value="Kristen" @selected(old('religion', $user->profile->religion) == 'Kristen')>Kristen</option>
-                                            <option value="Katolik" @selected(old('religion', $user->profile->religion) == 'Katolik')>Katolik</option>
-                                            <option value="Hindu" @selected(old('religion', $user->profile->religion) == 'Hindu')>Hindu</option>
-                                            <option value="Buddha" @selected(old('religion', $user->profile->religion) == 'Buddha')>Buddha</option>
-                                            <option value="Khonghucu" @selected(old('religion', $user->profile->religion) == 'Khonghucu')>Khonghucu</option>
+                                            <option value="Islam" @selected(old('religion', $user->profile->religion)) == 'Islam')>Islam</option>
+                                            <option value="Kristen" @selected(old('religion', $user->profile->religion)) == 'Kristen')>Kristen</option>
+                                            <option value="Katolik" @selected(old('religion', $user->profile->religion)) == 'Katolik')>Katolik</option>
+                                            <option value="Hindu" @selected(old('religion', $user->profile->religion)) == 'Hindu')>Hindu</option>
+                                            <option value="Buddha" @selected(old('religion', $user->profile->religion)) == 'Buddha')>Buddha</option>
+                                            <option value="Khonghucu" @selected(old('religion', $user->profile->religion)) == 'Khonghucu')>Khonghucu</option>
                                         </select>
                                     </div>
                                 </div>
@@ -228,7 +228,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="website" id="website" value="{{ old('website', $user->profile->website) }}">
+                                        <input type="text" class="form-control" name="website" id="website" value="{{ old('website', $user->profile->website ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -238,7 +238,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="instagram" id="instagram" value="{{ old('instagram', $user->profile->instagram) }}">
+                                        <input type="text" class="form-control" name="instagram" id="instagram" value="{{ old('instagram', $user->profile->instagram ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -248,7 +248,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="facebook" id="facebook" value="{{ old('facebook', $user->profile->facebook) }}">
+                                        <input type="text" class="form-control" name="facebook" id="facebook" value="{{ old('facebook', $user->profile->facebook ?? '') }}">
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +261,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="twitter" id="twitter" value="{{ old('twitter', $user->profile->twitter) }}">
+                                        <input type="text" class="form-control" name="twitter" id="twitter" value="{{ old('twitter', $user->profile->twitter ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -271,7 +271,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="youtube" id="youtube" value="{{ old('youtube', $user->profile->youtube) }}">
+                                        <input type="text" class="form-control" name="youtube" id="youtube" value="{{ old('youtube', $user->profile->youtube ?? '') }}">
                                     </div>
                                 </div>
                                 <div class="row mb-3 align-items-center">
@@ -281,7 +281,7 @@
                                         </label>
                                     </div>
                                     <div class="col-8">
-                                        <input type="text" class="form-control" name="other" id="other" value="{{ old('other', $user->profile->other) }}">
+                                        <input type="text" class="form-control" name="other" id="other" value="{{ old('other', $user->profile->other ?? '') }}">
                                     </div>
                                 </div>
                             </div>
