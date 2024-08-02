@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileChangePasswordRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\AdditionalInformation;
+use App\Models\Role;
+use App\Models\UserProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,23 +57,30 @@ class ProfileController extends Controller
         }
 
        
-       $user->update([
-            'name' => $request->name,
-            'image' => $pathImage,
-       ]);
+        $user->update([
+                'name' => $request->name,
+                'image' => $pathImage,
+        ]);
        // Update or create additional information user
-        AdditionalInformation::updateOrInsert(
+        UserProfile::updateOrInsert(
             ['user_id'  => $user->id],
-            ['phone'    => $request->phone,
+            [// Update profile user
+            // General
+            'phone'     => $request->phone,
             'mobile'    => $request->mobile,
             'country'   => $request->country,
             'address'   => $request->address,
             'bio'       => $request->bio,
+            'date_of_birth' => $request->date_of_birth,
+            'place_of_birth' => $request->place_of_birth,
+            'religion' => $request->religion,
+            // Media Social
             'website'   => $request->website,
             'instagram' => $request->instagram,
             'facebook'  => $request->facebook,
             'twitter'   => $request->twitter,
             'youtube'   => $request->youtube,
+            'other'     => $request->other,
             'updated_at'=> now(),]
         );
         return back()->with('success', 'Your user data has been successfully updated');
