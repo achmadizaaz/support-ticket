@@ -19,6 +19,7 @@ class OptionSeeder extends Seeder
             ['name' => 'sidebar-icon', 'value'=> NULL],
             ['name' => 'sidebar-text-icon', 'value'=> 'Sidebar Menu'],
             ['name' => 'can-register', 'value' => 'yes'],
+            ['name' => 'default-is-active', 'value' => '1'],
             ['name' => 'default-role', 'value'=> NULL],
             ['name' => 'can-forget-password', 'value' => 'yes'],
         ];
