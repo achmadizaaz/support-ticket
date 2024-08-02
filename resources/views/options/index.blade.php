@@ -96,6 +96,21 @@
                     </div>
                     <div class="row align-items-center mb-3">
                         <div class="col-3">
+                            <label for="site" class="form-label">Status Active</label>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="isActive" id="active" value="1" @checked($option['default-is-active']->value)>
+                                <label class="form-check-label" for="active">Active</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="isActive" id="non-active" value="0" @checked($option['default-is-active']->value == 0)>
+                                <label class="form-check-label" for="non-active">Non-active</label>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-3">
+                        <div class="col-3">
                             <label for="site" class="form-label">New user default role</label>
                         </div>
                         <div class="col-6">

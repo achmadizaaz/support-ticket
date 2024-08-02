@@ -64,6 +64,7 @@ class OptionController extends Controller
             ['name' => 'sidebar-text-icon', 'value' => $request->sidebarTextIcon],
             ['name' => 'can-register', 'value' => $request->canRegister == 'on' ? 'yes' : 'no'],
             ['name' => 'default-role', 'value' => $request->defaultRole],
+            ['name' => 'default-is-active', 'value' => $request->isActive],
             ['name' => 'can-forget-password', 'value' => $request->canForgetPassword == 'on' ? 'yes' : 'no'],
         ], uniqueBy: ['name'], update: ['value']);
 
