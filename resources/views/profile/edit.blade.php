@@ -86,27 +86,25 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-4">
-                                               <label for="username" class="form-label">Username <span class="text-danger fst-italic">*</span></label>
-                                               <input type="text" name="username" class="form-control" id="username" value="{{ old('username', $user->username) }}">
-                                            </div>
-                                            <div class="mb-4">
                                                 <label for="name" class="form-label">Name <span class="text-danger fst-italic">*</span></label>
-                                               <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $user->name) }}">
+                                                <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $user->name) }}">
                                             </div>
                                             <div class="mb-4">
-                                                <label class="form-label" for="email">Email</label>
-                                               <input type="email" class="form-control" value="{{$user->email }}" id="email" disabled>
+                                                <h6>Username</h6>
+                                                {{ $user->username }}
+                                            </div>
+                                            <div class="mb-4">
+                                                <h6>Email</h6>
+                                                {{ $user->email }}
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="mb-4">
-                                                <label for="is_active" class="form-label">Active?<span class="fst-italic text-danger">*</span></label>
-                                                <select name="is_active" class="form-select" id="is_active" required>
-                                                    <option>Silakan pilih satu</option>
-                                                    <option value="0" @selected(old('is_active', $user->is_active) == 0)>Non Active</option>
-                                                    <option value="1" @selected(old('is_active', $user->is_active) == 1)>Active</option>
-                                                </select>
+                                                <h6>Is active?</h6>
+                                                {!! $user->is_active ? '<span class="badge text-bg-success">Active</span>' : '<span class="badge text-bg-danger">Non Active</span>' !!}
                                             </div>
+
+                                           
                                             <div class="mb-4">
                                                 <h6>Last login at</h6>
                                                 {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
@@ -189,54 +187,54 @@
             
                                         <div class="col-6">
                                             <div class="row mb-3 align-items-center">
-                                                <div class="col-4">
+                                                <div class="col-5">
                                                     <label for="gender" class="form-label">
                                                         <i class="bi bi-gender-ambiguous me-2"></i> Gender<span class="text-danger fst-italic">*</span>
                                                     </label>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-7">
                                                     <select name="gender" id="gender" class="form-select">
                                                         <option value="">Choose a one</option>
-                                                        <option value="man" @selected(old('gender', $user->profile->gender)) =='man')>Laki-laki</option>
-                                                        <option value="woman" @selected(old('gender', $user->profile->gender)) =='woman')>Perempuan</option>
+                                                        <option value="man" @selected(old('gender', $user->profile->gender) == 1)>Laki-laki</option>
+                                                        <option value="woman" @selected(old('gender', $user->profile->gender) == 0)>Perempuan</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-3 align-items-center">
-                                                <div class="col-4">
+                                                <div class="col-5">
                                                     <label for="place_of_birth" class="form-label">
                                                         <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
                                                     </label>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-7">
                                                     <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" value="{{ old('place_of_birth', $user->profile->place_of_birth ?? '') }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3 align-items-center">
-                                                <div class="col-4">
+                                                <div class="col-5">
                                                     <label for="date_of_birth" class="form-label">
                                                         <i class="bi bi-calendar3 me-2"></i> Date of Birth<span class="text-danger fst-italic">*</span>
                                                     </label>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-7">
                                                     <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth', $user->profile->date_of_birth ?? '') }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3 align-items-center">
-                                                <div class="col-4">
+                                                <div class="col-5">
                                                     <label for="religion" class="form-label">
                                                         <i class="bi bi-ui-radios me-2"></i> Religion<span class="text-danger fst-italic">*</span>
                                                     </label>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-7">
                                                     <select name="religion" id="religion" class="form-select">
                                                         <option value="">Choose a one</option>
-                                                        <option value="Islam" @selected(old('religion', $user->profile->religion)) == 'Islam')>Islam</option>
-                                                        <option value="Kristen" @selected(old('religion', $user->profile->religion)) == 'Kristen')>Kristen</option>
-                                                        <option value="Katolik" @selected(old('religion', $user->profile->religion)) == 'Katolik')>Katolik</option>
-                                                        <option value="Hindu" @selected(old('religion', $user->profile->religion)) == 'Hindu')>Hindu</option>
-                                                        <option value="Buddha" @selected(old('religion', $user->profile->religion)) == 'Buddha')>Buddha</option>
-                                                        <option value="Khonghucu" @selected(old('religion', $user->profile->religion)) == 'Khonghucu')>Khonghucu</option>
+                                                        <option value="Islam" @selected(old('religion', $user->profile->religion) == 'Islam')>Islam</option>
+                                                        <option value="Kristen" @selected(old('religion', $user->profile->religion) == 'Kristen')>Kristen</option>
+                                                        <option value="Katolik" @selected(old('religion', $user->profile->religion) == 'Katolik')>Katolik</option>
+                                                        <option value="Hindu" @selected(old('religion', $user->profile->religion) == 'Hindu')>Hindu</option>
+                                                        <option value="Buddha" @selected(old('religion', $user->profile->religion) == 'Buddha')>Buddha</option>
+                                                        <option value="Khonghucu" @selected(old('religion', $user->profile->religion) == 'Khonghucu')>Khonghucu</option>
                                                     </select>
                                                 </div>
                                             </div>

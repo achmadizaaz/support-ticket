@@ -74,27 +74,27 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-4">
-                                            <h6>Username</h6>
-                                            {{ $user->username }}
-                                        </div>
-                                        <div class="mb-4">
                                             <h6>Name</h6>
                                             {{ $user->name }}
+                                        </div>
+                                        <div class="mb-4">
+                                            <h6>Username</h6>
+                                            {{ $user->username }}
                                         </div>
                                         <div class="mb-4">
                                             <h6>Email</h6>
                                             {{ $user->email }}
                                         </div>
+                                    </div>
+                                    <div class="col">
                                         <div class="mb-4">
-                                            <h6>Active</h6>
+                                            <h6>Is active?</h6>
                                             @if ($user->is_active)
                                                 <div class="badge text-bg-success">Active</div>
                                                 @else
                                                 <div class="badge text-bg-warning">Non active</div>
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="col">
                                         <div class="mb-4">
                                             <h6>Last login at</h6>
                                             {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
@@ -169,10 +169,10 @@
             
                                     <div class="col-6">
                                         <div class="row mb-4 align-items-center">
-                                            <div class="col-4">
+                                            <div class="col-5">
                                                 <i class="bi bi-gender-ambiguous me-2"></i> Gender
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-7">
                                                 @if (isset($user->profile->gender) == 'man')
                                                     Laki-laki
                                                     @else
@@ -181,26 +181,26 @@
                                             </div>
                                         </div>
                                         <div class="row mb-4 align-items-center">
-                                            <div class="col-4">
+                                            <div class="col-5">
                                                 <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-7">
                                                 {{ $user->profile->place_of_birth ?? 'Tidak tersedia' }}
                                             </div>
                                         </div>
                                         <div class="row mb-4 align-items-center">
-                                            <div class="col-4">
+                                            <div class="col-5">
                                                 <i class="bi bi-calendar3 me-2"></i> Date of Birth
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-7">
                                                 {{ $user->profile->date_of_birth ?? 'Tidak tersedia' }}
                                             </div>
                                         </div>
                                         <div class="row mb-4 align-items-center">
-                                            <div class="col-4">
+                                            <div class="col-5">
                                                 <i class="bi bi-ui-radios me-2"></i> Religion
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-7">
                                                 {{ $user->profile->religion ?? 'Tidak tersedia' }}
                                             </div>
                                         </div>
@@ -274,7 +274,7 @@
                                         <i class="bi bi-fingerprint me-2"></i> Role User
                                     </div>
                                     <div class="col-10">
-                                        {{ $user->roles->pluck('name') }}
+                                        {{ $user->roles->pluck('name')[0] ?? 'Tidak memiliki role' }}
                                     </div>
                                 </div>
                             </div>
