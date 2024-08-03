@@ -30,7 +30,7 @@ class UserRequest extends FormRequest
             'password' => $this->method() == 'POST' ? 'required|string|min:5|max:16' :'',
             'role' => 'required',
             'religion' => 'in:Islam,Kristen,Katolik,Hindu,Buddha,Khonghucu',
-            'gender' => 'in:man,woman',
+            'gender' => 'bolean',
             'date_of_birth' => 'date',
         ];
     }

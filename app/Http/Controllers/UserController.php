@@ -74,6 +74,7 @@ class UserController extends Controller
                 'bio'       => $request->bio,
                 'date_of_birth' => $request->date_of_birth,
                 'place_of_birth' => $request->place_of_birth,
+                'gender' => $request->gender,
                 'religion' => $request->religion,
                 // Media Social
                 'website'   => $request->website,
@@ -148,6 +149,7 @@ class UserController extends Controller
                 'bio'       => $request->bio,
                 'date_of_birth' => $request->date_of_birth,
                 'place_of_birth' => $request->place_of_birth,
+                'gender' => $request->gender,
                 'religion' => $request->religion,
                 // Media Social
                 'website'   => $request->website,
