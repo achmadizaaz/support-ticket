@@ -120,7 +120,7 @@ body {
                     <span class="small text-secondary">Fill out the form carefully for registration</span>
                 </div>
                 <div class="text-center d-block auth-logo">
-                    <img src="{{ asset('assets/images/logo-sm.svg') }}" alt="" height="28"> <span class="logo-txt">{{ config('app.name', 'Laravel') }}</span>
+                    <img src="{{ asset('assets/images/laravel.png') }}" alt="" height="28"> <span class="logo-txt">{{ config('app.name', 'Laravel') }}</span>
                 </div>
             </div>
             @if($errors->any())

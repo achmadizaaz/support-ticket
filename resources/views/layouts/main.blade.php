@@ -14,7 +14,7 @@
         <script src="{{ asset('assets/js/color-modes.js') }}"></script>
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset($option['favicon']->value ? 'storage/'.$option['favicon']->value:'assets/images/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset($option['favicon']->value ? 'storage/'.$option['favicon']->value : 'assets/images/laravel.png') }}">
 
         <!-- preloader css -->
         <link rel="stylesheet" href="{{ asset('assets/css/preloader.min.css') }}" type="text/css" />

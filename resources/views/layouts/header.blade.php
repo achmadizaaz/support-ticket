@@ -5,10 +5,10 @@
             <div class="navbar-brand-box">
                 <a href="index.html" class="logo">
                     <span class="logo-sm">
-                        <img src="{{ asset($option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/logo-sm.svg') }}" alt="" height="24">
+                        <img src="{{ asset($option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/laravel.png') }}" alt="" height="24">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ asset( $option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/logo-sm.svg') }}" alt="" height="24"> <span class="logo-txt">{{ $option['sidebar-text-icon']->value ?? config('app.name', 'Laravel') }}
+                        <img src="{{ asset( $option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/laravel.png') }}" alt="" height="24"> <span class="logo-txt">{{ $option['sidebar-text-icon']->value ?? config('app.name', 'Laravel') }}
                             </span>
                     </span>
                 </a>

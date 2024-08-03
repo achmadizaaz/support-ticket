@@ -112,7 +112,7 @@ body {
 @section('content')
 <main class="form-signin w-100 m-auto card rounded-3">
       <div class="py-2 mb-md-3 text-center d-block auth-logo">
-        <img src="{{ asset('assets/images/logo-sm.svg') }}" alt="" height="28"> <span class="logo-txt">{{ config('app.name', 'Laravel') }}</span>
+        <img src="{{ asset('assets/images/laravel.png') }}" alt="" height="28"> <span class="logo-txt">{{ config('app.name', 'Laravel') }}</span>
       </div>
       <div class="auth-content">
         <div class="text-center">
