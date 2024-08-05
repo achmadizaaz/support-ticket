@@ -193,7 +193,7 @@
                                     <i class="bi bi-gender-ambiguous me-2"></i> Gender
                                 </div>
                                 <div class="col-8">
-                                    @if (isset($user->profile->gender) == 'man')
+                                    @if (isset($user->profile->gender) == 1)
                                         Laki-laki
                                         @else
                                         Perempuan

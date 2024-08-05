@@ -170,8 +170,8 @@
                                     <div class="col-8">
                                         <select name="gender" id="gender" class="form-select">
                                             <option value="">Choose a one</option>
-                                            <option value="man" @selected(old('gender', $user->profile->gender)) =='man')>Laki-laki</option>
-                                            <option value="woman" @selected(old('gender', $user->profile->gender)) =='woman')>Perempuan</option>
+                                            <option value="1" @selected(old('gender', $user->profile->gender) == 1)>Laki-laki</option>
+                                            <option value="0" @selected(old('gender', $user->profile->gender) == 0)>Perempuan</option>
                                         </select>
                                     </div>
                                 </div>

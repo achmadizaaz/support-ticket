@@ -194,8 +194,8 @@
                                     <div class="col-8">
                                         <select name="gender" id="gender" class="form-select">
                                             <option value="">Choose a one</option>
-                                            <option value="man" @selected(old('gender') =='man')>Laki-laki</option>
-                                            <option value="woman" @selected(old('gender') =='woman')>Perempuan</option>
+                                            <option value="1" @selected(old('gender') == 1)>Laki-laki</option>
+                                            <option value="0" @selected(old('gender') == 0)>Perempuan</option>
                                         </select>
                                     </div>
                                 </div>
