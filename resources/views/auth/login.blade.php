@@ -109,6 +109,10 @@ body {
   </style>
 @endpush
 
+@php
+    $option = \App\Models\Option::whereIn('name', ['can-forget-password', 'sidebar-icon', 'can-register'])->get()->keyBy('name'); 
+@endphp
+
 @section('content')
 <main class="form-signin w-100 m-auto card rounded-3">
       <div class="py-2 mb-md-3 text-center d-block auth-logo">
@@ -117,7 +121,7 @@ body {
       <div class="auth-content">
         <div class="text-center">
             <h5 class="mb-0">Selamat Datang</h5>
-            <p class="text-muted mt-2">Silakan login untuk melanjutkan ke {{ config('app.name', 'Laravel') }}.</p>
+            <p class="text-muted mt-2">Silahkan login untuk melanjutkan ke {{ config('app.name', 'Laravel') }}.</p>
         </div>
         <form class="mt-4 pt-2"  method="POST" action="{{ route('login') }}">
           @csrf
@@ -149,15 +153,22 @@ body {
                 
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Masuk</button>
+                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Sign In</button>
             </div>
         </form>
 
         <div class="d-flex justify-content-between py-2">
-          {{-- <p class="text-muted mb-0">Belum punya akun? <a href="#"
-            class="text-primary fw-semibold"> Register </a> 
-          </p> --}}
-          <a href="#" class="text-secondary">Lupa katasandi?</a>
+          
+          @if ($option['can-register']->value == 'yes')
+            <p class="text-muted mb-0">Don't have an account? <a href="{{ route('register') }}"
+              class="text-primary fw-semibold fst-italic">Register </a> 
+            </p>
+          @endif
+
+          @if ($option['can-forget-password']->value == 'yes')
+            <a href="{{ route('password.request') }}" class="text-secondary fst-italic">Forgot password?</a>
+          @endif
+
         </div>
     </div>
 </main>
