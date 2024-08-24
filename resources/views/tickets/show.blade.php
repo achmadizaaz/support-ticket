@@ -64,17 +64,15 @@
                         <i class="bi bi-paperclip me-1"></i> Attachments
                     </div>
                     <div class="card-body">
+                       
                         <ul class="ps-3">
-                            <li><a href="#">File attachement 1</a></li>
-                            <li><a href="#">File attachement 2</a></li>
-                            <li><a href="#">File attachement 3</a></li>
-                            <li><a href="#">File attachement more</a></li>
-                        </ul>
-                        @foreach ($ticket->attachments as $item)
-                            <div>
-                                <a href="#">{{ $item->name }}</a>
-                            </div>
+                            @foreach ($ticket->attachments as $item)
+                            <li>
+                                <a href="{{ asset('storage/'. $item->path) }}" target="__blank">{{ $item->name }}</a>
+                            </li>
                         @endforeach
+                        </ul>
+                       
                     </div>
                 </div>
             </div>
@@ -84,7 +82,7 @@
                         <i class="bi bi-chat-left-text me-1"></i> Ticket Message
                     </div>
                     <div class="card-body">
-                        {!! $ticket->message !!}
+                        {!! $ticket->content !!}
                     </div>
                 </div>
 

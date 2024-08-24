@@ -13,7 +13,7 @@ class Comment extends Model
 
     public function attachments()
     {
-        return $this->hasMany(CommentAttachment::class, 'id');
+        return $this->hasMany(CommentAttachment::class, 'comment_id');
     }
 
 }

@@ -24,6 +24,6 @@ class Ticket extends Model
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class, 'id');
+        return $this->hasMany(Attachment::class, 'ticket_id');
     }
 }
