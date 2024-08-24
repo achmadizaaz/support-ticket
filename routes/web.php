@@ -19,6 +19,13 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
     // dashboard route
     Route::get('/', function () { return view('dashboard');
     })->name('dashboard');
+
+    Route::controller(TicketController::class)->prefix('tickets')->group(function() {
+        Route::get('/', 'index')->name('ticket');
+        Route::get('/create', 'create')->name('ticket.create');
+        Route::post('/create', 'store')->name('ticket.store');
+        Route::get('/{no}', 'show')->name('ticket.show');
+    });
     
     // Profile user
     Route::controller(ProfileController::class)->prefix('profile')->group(function() {

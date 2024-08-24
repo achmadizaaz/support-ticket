@@ -30,6 +30,9 @@
 
         <!-- Push Script Head-->
         @stack('head')
+
+        <!-- Include stylesheet -->
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     </head>
     
     <body class="bg-body-tertiary">
@@ -82,7 +85,8 @@
             <script src="{{ asset('assets/libs/pace-js/pace.min.js') }}"></script>
     
             <script src="{{ asset('assets/js/app.js') }}"></script>
-            
+            <!-- Include the Quill library -->
+            <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
             @stack('scripts')
         </body>
     </html>

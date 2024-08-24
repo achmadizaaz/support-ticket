@@ -12,6 +12,21 @@
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
+                <li class="menu-title" data-key="t-components">Ticket</li>
+                
+                <li>
+                    <a href="{{ route('ticket.create') }}">
+                        <i class="bi bi-ticket"></i>
+                        <span data-key="t-ticket">Open Ticket</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('ticket') }}">
+                        <i class="bi bi-chat-text"></i>
+                        <span data-key="t-ticket">My Support Tickets</span>
+                    </a>
+                </li>
+                
                 @can('read-users')
                 <li class="menu-title" data-key="t-components">Management User</li>
                 <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
