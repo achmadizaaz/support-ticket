@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TicketRequest;
 use App\Models\Attachment;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,11 +15,12 @@ use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
-    protected $model, $category, $attachment;
+    protected $model, $comment, $category, $attachment;
 
-    public function __construct(Ticket $model, Category $category, Attachment $attachment)
+    public function __construct(Ticket $model, Comment $comment, Category $category, Attachment $attachment)
     {
         $this->model = $model;
+        $this->comment = $comment;
         $this->category = $category;
         $this->attachment = $attachment;
     }
@@ -26,6 +28,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = $this->model->with(['user', 'category'])->latest()->paginate(10);
+       
 
         return view('tickets.index', compact('tickets'));
     }
@@ -79,7 +82,7 @@ class TicketController extends Controller
         }catch(\Exception $exception){
             DB::rollBack();
             // Menyimpan log kegagalan sistem
-            Log::error($exception->getcontent());
+            Log::error($exception->getMessage());
             return back()->withInput($request->all())->with('failed', 'A system error occurred, please try later');
         }
     }
@@ -87,6 +90,7 @@ class TicketController extends Controller
     public function show($no)
     {
         $ticket = $this->model->where('no', $no)->first();
-        return view('tickets.show', compact('ticket'));
+        $comments = $this->comment->with(['user', 'attachments'])->where('ticket_id', $ticket->id)->latest()->paginate(5);
+        return view('tickets.show', compact('ticket', 'comments'));
     }
 }

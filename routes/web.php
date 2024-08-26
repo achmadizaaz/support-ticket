@@ -24,7 +24,23 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
         Route::get('/', 'index')->name('ticket');
         Route::get('/create', 'create')->name('ticket.create');
         Route::post('/create', 'store')->name('ticket.store');
-        Route::get('/{no}', 'show')->name('ticket.show');
+        Route::get('/{no}/show', 'show')->name('ticket.show');
+        
+        // Comment
+        Route::post('/{no_ticket}/comment', [CommentController::class, 'store'])->name('comment.store');
+
+    });
+
+    
+    
+
+    // Category routes
+    Route::controller(CategoryController::class)->prefix('categories')->group(function() {
+        Route::get('/', 'index')->name('category');
+        Route::post('/', 'store')->name('category.store');
+        Route::get('/{no}/show', 'show')->name('category.show');
+        Route::put('/{no}/update', 'update')->name('category.update');
+        Route::delete('/{no}/destroy', 'destroy')->name('category.delete');
     });
     
     // Profile user

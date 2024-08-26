@@ -63,6 +63,15 @@ class PermissionSeeder extends Seeder
             'name' => 'Super Administrator',
             'username' => 'superadmin',
             'email' => 'superadmin@example.com',
+            'is_active' => 1,
+            'password'=> Hash::make('password'),
+        ]);
+        // create demo users
+        $user1 = \App\Models\User::factory()->create([
+            'name' => 'Customer',
+            'username' => 'customer',
+            'email' => 'customer@example.com',
+            'is_active' => 1,
             'password'=> Hash::make('password'),
         ]);
         

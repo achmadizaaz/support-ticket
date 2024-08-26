@@ -84,7 +84,7 @@
                                 </a>
                             </td>
                             <td class="align-middle">
-                                @if ($ticket->status == 'open')
+                                @if ($ticket->status == 'opened')
                                     <span class="btn btn-sm btn-outline-success">{{ $ticket->status }}</span>
                                 @endif
                                 @if ($ticket->status == 'answered')
@@ -95,6 +95,9 @@
                                 @endif
                                 @if ($ticket->status == 'closed')
                                     <span class="btn btn-sm btn-outline-danger">{{ $ticket->status }}</span>
+                                @endif
+                                @if ($ticket->status == 'completed')
+                                    <span class="btn btn-sm btn-outline-dark">{{ $ticket->status }}</span>
                                 @endif
                             </td>
                             <td class="align-middle">{{ $ticket->user->username }}</td>
