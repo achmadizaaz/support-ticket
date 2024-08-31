@@ -33,7 +33,7 @@
                                             <div class="mb-3">
                                                 <label for="isAdmin" class="form-label me-1">Is admin</label>
                                                 <select name="admin" id="isAdmin" class="form-select">
-                                                    <option value="nonAdmin">Non Admin</option>
+                                                    <option value="non_admin">Non Admin</option>
                                                     <option value="admin">Admin</option>
                                                 </select>
                                             </div>
@@ -200,7 +200,7 @@
                         <div class="mb-3">
                             <label for="editAdmin" class="form-lavel">Admin <span class="fst-italic">*</span></label>
                             <select name="admin" id="editAdmin" class="form-select">
-                                <option value="non-admin">Non admin</option>
+                                <option value="non_admin">Non admin</option>
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
@@ -261,7 +261,7 @@
             // Insert Value Role
             $('#editName').val(name);
             $('#editLevel').val(level);
-            $('#editAdmin').val(isAdmin ? 'admin' : 'non-admin');
+            $('#editAdmin').val(isAdmin ? 'admin' : 'non_admin');
             $('#editAdmin').trigger('change');
 
             // Route update
