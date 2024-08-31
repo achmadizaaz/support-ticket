@@ -116,12 +116,12 @@ body {
 @section('content')
 <main class="form-signin w-100 m-auto card rounded-3">
       <div class="py-2 mb-md-3 text-center d-block auth-logo">
-        <img src="{{ asset('assets/images/laravel.png') }}" alt="" height="28"> <span class="logo-txt">{{ config('app.name', 'Laravel') }}</span>
+        <img src="{{ asset($option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/laravel.png') }}" alt="" height="28"> <span class="logo-txt">{{ $option['site-title']->value ?? config('app.name', 'Laravel') }}</span>
       </div>
       <div class="auth-content">
         <div class="text-center">
-            <h5 class="mb-0">Selamat Datang</h5>
-            <p class="text-muted mt-2">Silahkan login untuk melanjutkan ke {{ config('app.name', 'Laravel') }}.</p>
+            {{-- <h5 class="mb-0">Selamat Datang</h5> --}}
+            <p class="text-muted mt-2">Silahkan login untuk melanjutkan ke {{ $option['site-title']->value ?? config('app.name', 'Laravel') }}.</p>
         </div>
         <form class="mt-4 pt-2"  method="POST" action="{{ route('login') }}">
           @csrf

@@ -109,6 +109,10 @@ body {
   </style>
 @endpush
 
+@php
+    $option = \App\Models\Option::whereIn('name', ['can-forget-password', 'sidebar-icon', 'can-register'])->get()->keyBy('name'); 
+@endphp
+
 @section('content')
 <main class="form-signin w-100 m-auto card rounded-4">
     <form action="{{ route('register') }}" method="post">
@@ -119,8 +123,9 @@ body {
                     <h5 class="fw-bold">Register Account</h5>
                     <span class="small text-secondary">Fill out the form carefully for registration</span>
                 </div>
-                <div class="text-center d-block auth-logo">
-                    <img src="{{ asset('assets/images/laravel.png') }}" alt="" height="28"> <span class="logo-txt">{{ config('app.name', 'Laravel') }}</span>
+                <div class="text-center d-flex align-items-center auth-logo">
+                  <img src="{{ asset($option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/laravel.png') }}" alt="" height="28">
+                  <span class="logo-txt">{{ $option['site-title']->value ?? config('app.name', 'Laravel') }}</span>
                 </div>
             </div>
             @if($errors->any())
