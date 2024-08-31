@@ -26,6 +26,12 @@
                         <span data-key="t-ticket">My Support Tickets</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('category') }}">
+                        <i class="bi bi-tag"></i>
+                        <span data-key="t-ticket">Categories</span>
+                    </a>
+                </li>
                 
                 @can('read-users')
                 <li class="menu-title" data-key="t-components">Management User</li>
