@@ -10,7 +10,7 @@ class Ticket extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['user_id', 'category_id', 'no', 'subject', 'content', 'progress', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['user_id', 'category_id', 'slug', 'no', 'subject', 'content', 'progress', 'status', 'created_by', 'updated_by'];
 
     public function user()
     {

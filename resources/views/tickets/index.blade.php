@@ -9,13 +9,22 @@
             <div class="d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0 font-size-18">Support Tickets</h4>
                 <div class="page-title-right">
-                    <a href="{{ route('ticket.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus me-2"></i> Create a ticket
-                    </a>
+                    @can('create-tickets')
+                        <a href="{{ route('ticket.create') }}" class="btn btn-primary">
+                            <i class="bi bi-plus me-2"></i> Create a ticket
+                        </a>
+                    @endcan
                 </div>
             </div>
         </div>
         <!-- end page title -->
+
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success:</strong> {{session('success') }}.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <!-- start page main -->
         <div class="card p-3">
@@ -78,34 +87,41 @@
                             </td>
                             <td class="align-middle">{{ $ticket->category->name }}</td>
                             <td class="align-middle">
-                                <a href="{{ route('ticket.show', $ticket->no) }}">
+                                <a href="{{ route('ticket.show', $ticket->slug) }}">
                                     <div class="mb-2 fst-italic fw-semibold">#{{ $ticket->no }}</div>
                                     <div class="mb-2">{{ $ticket->subject }}</div>
                                 </a>
                             </td>
                             <td class="align-middle">
                                 @if ($ticket->status == 'opened')
-                                    <span class="btn btn-sm btn-outline-success">{{ $ticket->status }}</span>
+                                    <span class="btn btn-sm btn-outline-warning">{{ $ticket->status }}</span>
                                 @endif
                                 @if ($ticket->status == 'answered')
-                                    <span class="btn btn-sm btn-outline-secondary">{{ $ticket->status }}</span>
+                                    <span class="btn btn-sm btn-outline-info">{{ $ticket->status }}</span>
                                 @endif
                                 @if ($ticket->status == 'customer-reply')
-                                    <span class="btn btn-sm btn-outline-info">{{ $ticket->status }}</span>
+                                    <span class="btn btn-sm btn-outline-warning">{{ $ticket->status }}</span>
                                 @endif
                                 @if ($ticket->status == 'closed')
                                     <span class="btn btn-sm btn-outline-danger">{{ $ticket->status }}</span>
                                 @endif
                                 @if ($ticket->status == 'completed')
-                                    <span class="btn btn-sm btn-outline-dark">{{ $ticket->status }}</span>
+                                    <span class="btn btn-sm btn-outline-success">{{ $ticket->status }}</span>
                                 @endif
                             </td>
                             <td class="align-middle">{{ $ticket->user->username }}</td>
                             <td class="align-middle">{{ $ticket->updated_at }}</td>
                             <td class="align-middle text-center">
-                                <a href="{{ route('ticket.show', $ticket->no) }}" class="btn btn-sm btn-outline-info">
+                                <a href="{{ route('ticket.show', $ticket->slug) }}" class="btn btn-sm btn-outline-info">
                                     <i class="bi bi-eye"></i>
                                 </a>
+                                @can('delete-tickets')
+                                    {{-- Delete Button --}}
+                                    <button type="button" class="btn btn-sm btn-outline-danger delete_ticket" data-bs-toggle="modal" data-bs-target="#deleteModal" data-subject={{ $ticket->subject }} data-no="{{ $ticket->no }}" data-slug="{{ $ticket->slug }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                @endcan
+                                
                             </td>
                         </tr>
                     @endforeach
@@ -121,5 +137,55 @@
             </div>
         </div>
         <!-- end page main -->
-    </div>
+
+        @can('delete-tickets')
+            <!-- Modal Delete-->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="#" method="POST" id="deleteForm">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Ticket</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>No ticket: #<span class="ticket_no fw-semibold"></span></li>
+                                    <li>Subject: <span class="ticket_subject fw-semibold"></span></li>
+                                </ul>
+                                Apakah anda yakin ingin menghapus ticket ini?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete it</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endcan
 @endsection
+
+@can('delete-ticket')
+    @push('scripts')
+        <script>
+            $('.delete_ticket').click(function(e) {
+                let no = $(this).data('no');
+                let slug = $(this).data('slug');
+                let subject = $(this).data('subject');
+                
+                // Insert Value Role
+                $('.ticket_no').html(no);
+                $('.ticket_subject').html(subject);
+
+                // Route update
+                let url = "{{ route('ticket.delete', ':slug') }}";
+                route = url.replace(':slug', slug);
+                // Action route for update
+                $('#deleteForm').attr('action', route);
+            });
+        </script>
+    @endpush
+@endcan

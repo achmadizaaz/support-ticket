@@ -4,35 +4,66 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-menu">Menu</li>
-
                 <li>
                     <a href="{{ route('dashboard') }}">
                         <i class="bi bi-house-door"></i>
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-title" data-key="t-components">Ticket</li>
+               
+                @canany(['create-tickets', 'read-tickets', 'read-all-tickets'])
+                    <li class="menu-title" data-key="t-components">Ticket</li>
+                @endcanany
                 
+                @can('create-tickets')
                 <li>
                     <a href="{{ route('ticket.create') }}">
                         <i class="bi bi-ticket"></i>
                         <span data-key="t-ticket">Open Ticket</span>
                     </a>
                 </li>
+                @endcan
+
+                @can('read-tickets')
                 <li>
                     <a href="{{ route('ticket') }}">
                         <i class="bi bi-chat-text"></i>
                         <span data-key="t-ticket">My Support Tickets</span>
                     </a>
                 </li>
+                @endcan
+                
+                @can('read-all-tickets')
+                <li>
+                    <a href="{{ route('ticket.all') }}">
+                        <i class="bi bi-wechat"></i>
+                        <span data-key="t-ticket">List Support Tickets</span>
+                    </a>
+                </li>
+                @endcan
+                
+                
+                @canany(['read-categories', 'read-units'])
+                <li class="menu-title" data-key="t-components">Referensi</li>
+                @endcanany
+                @can('read-categories')
                 <li>
                     <a href="{{ route('category') }}">
                         <i class="bi bi-tag"></i>
                         <span data-key="t-ticket">Categories</span>
                     </a>
                 </li>
+                @endcan
                 
+                @can('read-units')
+                    <li>
+                    <a href="{{ route('unit') }}">
+                        <i class="bi bi-tag"></i>
+                        <span data-key="t-ticket">Units</span>
+                    </a>
+                </li>
+                @endcan
+
                 @can('read-users')
                 <li class="menu-title" data-key="t-components">Management User</li>
                 <li class="{{ request()->routeIs('users.*') ? 'mm-active' : '' }}">
@@ -77,14 +108,13 @@
                 </li>
                 @endcanany
                 @can('read-options')
-                {{-- Option Menu --}}
-                <li class="menu-title" data-key="t-components">Options</li>
-                <li>
-                    <a href="{{ route('options') }}">
-                        <i class="bi bi-gear"></i>
-                        <span data-key="t-rolepermission">Settings</span>
-                    </a>
-                </li>
+                    <li class="menu-title" data-key="t-components">Options</li>
+                    <li>
+                        <a href="{{ route('options') }}">
+                            <i class="bi bi-gear"></i>
+                            <span data-key="t-rolepermission">Settings</span>
+                        </a>
+                    </li>
                 @endcan
             </ul>
         </div>

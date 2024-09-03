@@ -26,6 +26,7 @@ class User extends Authenticatable
         'image',
         'name',
         'email',
+        'phone',
         'password',
         'is_active',
         'last_login_at',
@@ -78,10 +79,8 @@ class User extends Authenticatable
                     ->orWhere('email', 'like', '%' . $search . '%');
         });
     }
-
-    public function profile()
+    public function homebase()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
-
 }

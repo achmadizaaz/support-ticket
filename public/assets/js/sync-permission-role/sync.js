@@ -19,6 +19,82 @@ allCheckbox == allCheckboxChecked &&
             });
     });
 
+// All checklist
+
+// Checklist ticket
+let ticketUnChecked = document.querySelectorAll(".ticket-group").length,
+    ticketChecked = document.querySelectorAll(".ticket-group:checked").length;
+function checkAllTicket(e) {
+    document
+        .querySelectorAll(".ticket-group")
+        .forEach((n) => (n.checked = e.checked));
+}
+function setCheckAllUser() {
+    document.querySelector("input.checkAllTicket").checked =
+        ticketUnChecked == ticketChecked;
+}
+$(".ticket-group").on("change", function () {
+    let e;
+    document.querySelectorAll(".ticket-group").length ==
+    document.querySelectorAll(".ticket-group:checked").length
+        ? (document.getElementById("all-ticket").checked = !0)
+        : (document.getElementById("all-ticket").checked = !1);
+}),
+    ticketUnChecked == ticketChecked &&
+        (document.getElementById("all-ticket").checked = !0);
+
+// End Checklist Ticket
+
+// Checklist category
+let categoryUnChecked = document.querySelectorAll(".category-group").length,
+    categoryChecked = document.querySelectorAll(
+        ".category-group:checked"
+    ).length;
+function checkAllCategory(e) {
+    document
+        .querySelectorAll(".category-group")
+        .forEach((n) => (n.checked = e.checked));
+}
+function setCheckAllUser() {
+    document.querySelector("input.checkAllCategory").checked =
+        categoryUnChecked == categoryChecked;
+}
+$(".category-group").on("change", function () {
+    let e;
+    document.querySelectorAll(".category-group").length ==
+    document.querySelectorAll(".category-group:checked").length
+        ? (document.getElementById("all-category").checked = !0)
+        : (document.getElementById("all-category").checked = !1);
+}),
+    categoryUnChecked == categoryChecked &&
+        (document.getElementById("all-category").checked = !0);
+
+// End Checklist Category
+
+// Checklist unit
+let unitUnChecked = document.querySelectorAll(".unit-group").length,
+    unitChecked = document.querySelectorAll(".unit-group:checked").length;
+function checkAllUnit(e) {
+    document
+        .querySelectorAll(".unit-group")
+        .forEach((n) => (n.checked = e.checked));
+}
+function setCheckAllUser() {
+    document.querySelector("input.checkAllUnit").checked =
+        unitUnChecked == unitChecked;
+}
+$(".unit-group").on("change", function () {
+    let e;
+    document.querySelectorAll(".unit-group").length ==
+    document.querySelectorAll(".unit-group:checked").length
+        ? (document.getElementById("all-unit").checked = !0)
+        : (document.getElementById("all-unit").checked = !1);
+}),
+    unitUnChecked == unitChecked &&
+        (document.getElementById("all-unit").checked = !0);
+
+// End Checklist Unit
+
 // Checklist user
 let userUnChecked = document.querySelectorAll(".user-group").length,
     userChecked = document.querySelectorAll(".user-group:checked").length;

@@ -20,9 +20,9 @@ class CommentController extends Controller
         $this->ticket = $ticket;
     }
 
-    public function store(Request $request, $no_ticket)
+    public function store(Request $request, $slug_ticket)
     {
-        $ticket = $this->ticket->where('no', $no_ticket)->first();
+        $ticket = $this->ticket->where('slug', $slug_ticket)->first();
 
         // Update status
         if(Auth::user()->id == $ticket->user_id){
@@ -54,6 +54,6 @@ class CommentController extends Controller
             $this->attachment->insert($resultAttachment);
         }
 
-        return to_route('ticket.show', $no_ticket)->with('success', 'Reply ticket berhasil ditambahkan!');
+        return to_route('ticket.show', $slug_ticket)->with('success', 'Reply ticket berhasil ditambahkan!');
     }
 }

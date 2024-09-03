@@ -101,15 +101,15 @@
                                 </div>
                             </div>
                             <div class="col">
-                                {{-- <div class="mb-3">
-                                    <label for="role" class="form-label">Role<span class="fst-italic text-danger">*</span></label>
-                                    <select name="role" id="role" class="form-select">
-                                        <option value="">Choose one of the roles</option>
-                                        @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" @selected(old('role') == $role->id)>{{ $role->name }}</option>
+                                <div class="mb-3">
+                                    <label for="homebase" class="form-label">Homebase</label>
+                                    <select name="homebase" id="homebase" class="form-select">
+                                        <option value="">Choose one of the homebases</option>
+                                        @foreach ($homebases as $homebase)
+                                            <option value="{{ $homebase->id }}" @selected(old('homebase') == $homebase->id)>{{ $homebase->name }}</option>
                                         @endforeach
                                     </select>
-                                </div> --}}
+                                </div>
                             </div>
                             
                         </div>

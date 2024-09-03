@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('content');
             $table->integer('progress')->default(0);
             $table->enum('status', ['opened', 'answered', 'customer-reply', 'closed', 'completed'])->default('opened');
+            $table->string('slug')->unique();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

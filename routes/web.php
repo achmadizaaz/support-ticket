@@ -21,26 +21,77 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
     })->name('dashboard');
 
     Route::controller(TicketController::class)->prefix('tickets')->group(function() {
-        Route::get('/', 'index')->name('ticket');
-        Route::get('/create', 'create')->name('ticket.create');
-        Route::post('/create', 'store')->name('ticket.store');
-        Route::get('/{no}/show', 'show')->name('ticket.show');
+        Route::get('/', 'index')
+        ->middleware('can:read-tickets')
+        ->name('ticket');
+        
+        Route::get('/all', 'all')
+        ->middleware('can:read-tickets')
+        ->name('ticket.all');
+
+        Route::get('/create', 'create')
+        ->middleware('can:create-tickets')
+        ->name('ticket.create');
+
+        Route::post('/create', 'store')
+        ->middleware('can:create-tickets')
+        ->name('ticket.store');
+
+        Route::get('/{slug}', 'show')
+        ->middleware('can:read-tickets')
+        ->name('ticket.show');
+        
+        Route::put('/{slug}/update', 'update')
+        ->middleware('can:update-tickets')
+        ->name('ticket.update');
+
+        Route::delete('/{slug}/delete', 'destroy')
+        ->middleware('can:delete-tickets')
+        ->name('ticket.delete');
+        
+        Route::put('/{slug}/status', 'status')
+        ->middleware('can:update-tickets')
+        ->name('ticket.update.status');
+
+        Route::put('/{slug}/completed', 'completed')
+        ->middleware('can:update-tickets')
+        ->name('ticket.update.completed');
+
+        Route::put('/{slug}/closed', 'closed')
+        ->middleware('can:update-tickets')
+        ->name('ticket.update.closed');
+        
+        Route::put('/{slug}/progress', 'progress')
+        ->middleware('can:update-tickets')
+        ->name('ticket.update.progress');
+
         
         // Comment
-        Route::post('/{no_ticket}/comment', [CommentController::class, 'store'])->name('comment.store');
+        Route::post('/{slug_ticket}/comment', [CommentController::class, 'store'])
+        ->middleware('can:create-tickets')
+        ->name('comment.store');
 
     });
 
     
     
 
+    // Unit routes
+    Route::controller(UnitController::class)->prefix('units')->group(function() {
+        Route::get('/', 'index')->name('unit');
+        Route::post('/', 'store')->name('unit.store');
+        Route::get('/{slug}/show', 'show')->name('unit.show');
+        Route::put('/{slug}/update', 'update')->name('unit.update');
+        Route::delete('/{slug}/destroy', 'destroy')->name('unit.delete');
+    });
+    
     // Category routes
     Route::controller(CategoryController::class)->prefix('categories')->group(function() {
         Route::get('/', 'index')->name('category');
         Route::post('/', 'store')->name('category.store');
-        Route::get('/{no}/show', 'show')->name('category.show');
-        Route::put('/{no}/update', 'update')->name('category.update');
-        Route::delete('/{no}/destroy', 'destroy')->name('category.delete');
+        Route::get('/{id}/show', 'show')->name('category.show');
+        Route::put('/{id}/update', 'update')->name('category.update');
+        Route::delete('/{id}/destroy', 'destroy')->name('category.delete');
     });
     
     // Profile user
@@ -108,6 +159,9 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
 
         Route::get('showPage', 'showPage')
         ->name('users.show.page');
+
+        Route::post('import', 'import')
+        ->name('users.import');
 
     });
 

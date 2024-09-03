@@ -19,6 +19,25 @@ class PermissionSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        // ticket permission
+        Permission::create(['name' => 'read-tickets']);
+        Permission::create(['name' => 'create-tickets']);
+        Permission::create(['name' => 'update-tickets']);
+        Permission::create(['name' => 'delete-tickets']);
+        Permission::create(['name' => 'read-all-tickets']);
+        
+        // unit permission
+        Permission::create(['name' => 'read-units']);
+        Permission::create(['name' => 'create-units']);
+        Permission::create(['name' => 'update-units']);
+        Permission::create(['name' => 'delete-units']);
+
+        // category permission
+        Permission::create(['name' => 'read-categories']);
+        Permission::create(['name' => 'create-categories']);
+        Permission::create(['name' => 'update-categories']);
+        Permission::create(['name' => 'delete-categories']);
+
         // create permissions users
         Permission::create(['name' => 'read-users']);
         Permission::create(['name' => 'create-users']);
@@ -55,26 +74,28 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete-options']);
 
         //  Create role Super Administrator
-        $role = Role::create(['name' => 'Super Administrator', 'level' => 10]);
+        $roleAdmin = Role::create(['name' => 'Super Administrator', 'level' => 10, 'is_admin' => 1]);
+        $roleCustomer = Role::create(['name' => 'Customer', 'level' => 1, 'is_admin' => 0]);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         // create demo users
-        $user = \App\Models\User::factory()->create([
+        $admin = \App\Models\User::factory()->create([
             'name' => 'Super Administrator',
             'username' => 'superadmin',
             'email' => 'superadmin@example.com',
             'is_active' => 1,
             'password'=> Hash::make('password'),
         ]);
+        $admin->assignRole($roleAdmin);
         // create demo users
-        $user1 = \App\Models\User::factory()->create([
+        $customer = \App\Models\User::factory()->create([
             'name' => 'Customer',
             'username' => 'customer',
             'email' => 'customer@example.com',
             'is_active' => 1,
             'password'=> Hash::make('password'),
         ]);
+        $customer->assignRole($roleCustomer);
         
-        $user->assignRole($role);
     }
 }

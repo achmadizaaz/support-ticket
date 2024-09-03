@@ -9,9 +9,37 @@
             <div class="d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0 font-size-18">Users</h4>
                 <div class="page-title-right">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
+                        Import
+                    </button>
+
                     <a href="{{ route('users.create') }}" class="btn btn-primary">
                         <i class="bi bi-plus me-2"></i> Create a user
                     </a>
+                </div>
+            </div>
+
+            
+            <!-- Modal -->
+            <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="{{ route('users.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="importModalLabel">Import User</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="file" name="file" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>

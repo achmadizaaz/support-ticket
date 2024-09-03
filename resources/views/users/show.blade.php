@@ -106,6 +106,10 @@
                                 {{ $user->email }}
                             </div>
                             <div class="mb-4">
+                                <h6>Phone</h6>
+                                {{ $user->phone ?? '-' }}
+                            </div>
+                            <div class="mb-4">
                                 <h6>Active</h6>
                                 @if ($user->is_active)
                                     <div class="badge bg-success">Active</div>
@@ -116,6 +120,10 @@
                         </div>
                         <div class="col">
                             <div class="mb-4">
+                                <h6>Role</h6>
+                                {{ $user->roles->pluck('name') }}
+                            </div>
+                            <div class="mb-4">
                                 <h6>Last login at</h6>
                                 {!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}
                             </div>
@@ -123,185 +131,16 @@
                                 <h6>Last login ip</h6>
                                 {!! $user->last_login_ip ?? '<span class="fst-italic">Belum pernah login</span>' !!}
                             </div>
+                            <div class="mb-4">
+                                <h6>Homebase</h6>
+                                {{ $user->homebase->name ?? '-' }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <hr>
-            <ul class="nav nav-tabs" id="myTabUser" role="tablist">
-                {{-- For tab General --}}
-                <li class="nav-item py-2" role="presentation">
-                  <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">
-                    <i class="bi bi-person-lines-fill me-1"></i> General
-                  </button>
-                </li>
-                {{-- For tab media social --}}
-                <li class="nav-item py-2" role="presentation">
-                  <button class="nav-link" id="media-tab" data-bs-toggle="tab" data-bs-target="#media-tab-pane" type="button" role="tab" aria-controls="media-tab-pane" aria-selected="false">
-                    <i class="bi bi-globe me-1"></i>  Media Social
-                </button>
-                </li>
-                {{-- For tab homebase --}}
-                <li class="nav-item py-2" role="presentation">
-                    <button class="nav-link" id="homebase-tab" data-bs-toggle="tab" data-bs-target="#homebase-tab-pane" type="button" role="tab" aria-controls="homebase-tab-pane" aria-selected="false">
-                        <i class="bi bi-database-lock me-1"></i> Role
-                </button>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContentUser">
-                {{-- Tab Additional --}}
-                <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
-                    <div class="row py-4">
-                        <div class="col-6">
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-telephone-forward me-2"></i> Phone
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->phone ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-phone me-2"></i> Mobile
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->mobile ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-person-vcard me-2"></i> Address
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->address ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-bookmark me-2"></i> Bio
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->bio ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-gender-ambiguous me-2"></i> Gender
-                                </div>
-                                <div class="col-8">
-                                    @if (isset($user->profile->gender) == 1)
-                                        Laki-laki
-                                        @else
-                                        Perempuan
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-globe-asia-australia me-2"></i> Place of Birth
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->place_of_birth ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-calendar3 me-2"></i> Date of Birth
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->date_of_birth ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-ui-radios me-2"></i> Religion
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->religion ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                {{-- Tab Media --}}
-                <div class="tab-pane fade" id="media-tab-pane" role="tabpanel" aria-labelledby="media-tab" tabindex="0">
-                     <div class="row py-4">
-                        <div class="col-6">
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-globe me-2"></i> Website
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->website ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-instagram me-2"></i> Instagram
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->instagram ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-facebook me-2"></i> Facebook
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->facebook ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-6">
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-twitter me-2"></i> Twitter
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->twitter ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-youtube me-2"></i> Youtube
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->youtube ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                            <div class="row mb-4 align-items-center">
-                                <div class="col-4">
-                                    <i class="bi bi-three-dots me-2"></i> Other
-                                </div>
-                                <div class="col-8">
-                                    {{ $user->profile->other ?? 'Tidak tersedia' }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Tab Pane Homebase  --}}
-                <div class="tab-pane fade" id="homebase-tab-pane" role="tabpanel" aria-labelledby="homebase-tab" tabindex="0">
-                    <div class="row  py-4 mb-3">
-                        <div class="col-2">
-                            <i class="bi bi-fingerprint me-2"></i> Role User
-                        </div>
-                        <div class="col-10">
-                            {{ $user->roles->pluck('name') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            
         </div>
+        
         <!-- end page main -->
     </div>
 @endsection

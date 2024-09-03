@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
-    protected $model, $comment, $category, $attachment;
+    protected $model, $comment, $category, $attachment, $user;
 
     public function __construct(Ticket $model, Comment $comment, Category $category, Attachment $attachment)
     {
@@ -23,15 +23,24 @@ class TicketController extends Controller
         $this->comment = $comment;
         $this->category = $category;
         $this->attachment = $attachment;
+
+        $this->user = Auth::user();
     }
 
     public function index()
     {
-        $tickets = $this->model->with(['user', 'category'])->latest()->paginate(10);
-       
+        $tickets = $this->model->with(['user', 'category'])->where('user_id', $this->user->id)->latest()->paginate(10);
 
         return view('tickets.index', compact('tickets'));
     }
+    
+    public function all()
+    {
+        $tickets = $this->model->with(['user', 'category'])->latest()->paginate(10);
+
+        return view('tickets.index', compact('tickets'));
+    }
+
     public function create()
     {
         $categories = $this->category->all();
@@ -48,11 +57,12 @@ class TicketController extends Controller
             // Format tanggal menjadi YYYYMMDD
             $formattedDate = $now->format('Ymd');
 
-            $no = $formattedDate.rand(1000, 9999);
+            $no = $formattedDate.rand(1000, 9999);            
             // Menambahkan data ke database
             $ticket = $this->model->create([
                 'user_id' => Auth::user()->id,
                 'category_id' => $request->category,
+                'slug' => md5($no),
                 'no' => $no,
                 'subject'  => $request->subject,
                 'content'  => $request->content,
@@ -78,7 +88,7 @@ class TicketController extends Controller
             
             DB::commit();
 
-            return to_route('ticket');
+            return to_route('ticket')->with('success', 'Ticket berhasil dibuat!');
         }catch(\Exception $exception){
             DB::rollBack();
             // Menyimpan log kegagalan sistem
@@ -87,10 +97,64 @@ class TicketController extends Controller
         }
     }
 
-    public function show($no)
+    public function show($slug)
     {
-        $ticket = $this->model->where('no', $no)->first();
+        $ticket = $this->model->where('slug', $slug)->first();
         $comments = $this->comment->with(['user', 'attachments'])->where('ticket_id', $ticket->id)->latest()->paginate(5);
         return view('tickets.show', compact('ticket', 'comments'));
+    }
+
+    public function update(TicketRequest $request, $no)
+    {
+        $ticket = $this->model->where('no', $no)->first();
+        $ticket->update([
+            'progress' => $request->progress,
+            'status' => $request->status,
+        ]);
+        return back()->with('success', 'Ticket berhasil diperbarui!');
+    }
+
+    public function destroy($slug)
+    {
+        $ticket = $this->model->where('slug', $slug)->first();
+        $ticket->delete();
+
+        return back()->with('success', 'Ticket berhasil dihapus!');
+    }
+
+    public function status(Request $request, $slug)
+    {
+        $ticket = $this->model->where('slug', $slug)->first();
+        $ticket->update([
+            'status' => $request->status,
+        ]);
+        
+        return back()->with('success', 'Ticket berhasil diperbarui!');
+    }
+    
+    public function completed(Request $request, $slug)
+    {
+        $ticket = $this->model->where('slug', $slug)->first();
+        $ticket->update([
+            'status' => 'completed',
+        ]);
+        return back()->with('success', 'Ticket berhasil diperbarui!');
+    }
+    
+    public function closed(Request $request, $slug)
+    {
+        $ticket = $this->model->where('slug', $slug)->first();
+        $ticket->update([
+            'status' => 'closed',
+        ]);
+        return back()->with('success', 'Ticket berhasil diperbarui!');
+    }
+    public function progress(Request $request, $slug)
+    {
+        $ticket = $this->model->where('slug', $slug)->first();
+        $ticket->update([
+            'progress' => $request->progress,
+        ]);
+        return back()->with('success', 'Ticket berhasil diperbarui!');
     }
 }

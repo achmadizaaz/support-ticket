@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserRequest;
+use App\Imports\UserImport;
 use App\Models\Role;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -14,17 +16,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class UserController extends Controller
 {
 
-    protected $model, $userProfile, $role;
+    protected $model, $role, $homebase;
 
-    public function __construct(User $user, UserProfile $userProfile, Role $role)
+    public function __construct(User $user, Role $role, Unit $homebase)
     {
         $this->model = $user;
-        $this->userProfile = $userProfile;
         $this->role = $role;
+        $this->homebase = $homebase;
     }
 
     public function index(Request $request)
@@ -38,7 +42,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->role->all();
-        return view('users.create', compact('roles'));
+        $homebases = $this->homebase->all();
+        return view('users.create', compact('roles', 'homebases'));
     }
 
     public function store(UserRequest $request)
@@ -59,30 +64,10 @@ class UserController extends Controller
                 'username' => $request->username,
                 'name'     => $request->name,
                 'email'    => $request->email,
+                'phone' => $request->phone,
                 'password' => Hash::make($request->password),
                 'is_active'=> $request->is_active,
-            ]);
-
-            // Relation addtional informasi user
-            $this->userProfile->create([
-                'user_id'   => $user->id,
-                // General
-                'phone'     => $request->phone,
-                'mobile'    => $request->mobile,
-                'country'   => $request->country,
-                'address'   => $request->address,
-                'bio'       => $request->bio,
-                'date_of_birth' => $request->date_of_birth,
-                'place_of_birth' => $request->place_of_birth,
-                'gender' => $request->gender,
-                'religion' => $request->religion,
-                // Media Social
-                'website'   => $request->website,
-                'instagram' => $request->instagram,
-                'facebook'  => $request->facebook,
-                'twitter'   => $request->twitter,
-                'youtube'   => $request->youtube,
-                'other'     => $request->other,
+                'unit_id'=> $request->homebase,
             ]);
 
             // Assign role user
@@ -100,7 +85,7 @@ class UserController extends Controller
 
     public function show($slug)
     {
-        return view('users.show', ['user' => $this->model->where('slug', $slug)->first()]);
+        return view('users.show', ['user' => $this->model->with(['homebase'])->where('slug', $slug)->first()]);
     }
     public function edit($slug)
     {
@@ -108,8 +93,9 @@ class UserController extends Controller
         $user = $this->model->where('slug', $slug)->first();
         // Get all roles
         $roles = $this->role->all();
+        $homebases = $this->homebase->all();
 
-        return view('users.edit', compact('user', 'roles'));
+        return view('users.edit', compact('user', 'roles', 'homebases'));
     }
 
     public function update(UserRequest $request, $id)
@@ -134,32 +120,10 @@ class UserController extends Controller
             $user->update([ 
                 'image' => $image,
                 'name' => $request->name,
+                'unit_id' => $request->homebase,
                 'is_active' => $request->is_active,
             ]);
 
-            // Update or create additional information user
-            $this->userProfile->updateOrInsert(
-                ['user_id'  => $user->id],
-                [// Update profile user
-                // General
-                'phone'     => $request->phone,
-                'mobile'    => $request->mobile,
-                'country'   => $request->country,
-                'address'   => $request->address,
-                'bio'       => $request->bio,
-                'date_of_birth' => $request->date_of_birth,
-                'place_of_birth' => $request->place_of_birth,
-                'gender' => $request->gender,
-                'religion' => $request->religion,
-                // Media Social
-                'website'   => $request->website,
-                'instagram' => $request->instagram,
-                'facebook'  => $request->facebook,
-                'twitter'   => $request->twitter,
-                'youtube'   => $request->youtube,
-                'other'     => $request->other,
-                'updated_at'=> now(),]
-            );
             // Change role user
             $user->syncRoles($request->role);
 
@@ -253,6 +217,16 @@ class UserController extends Controller
         return back()->with('success', 'User has been successfully permanent deleted');
     }
 
+    public function import(Request $request)
+    {
+        try{
+            return Excel::import(new UserImport,$request->file('file'));
+        }catch(ValidationException $exception){
+            return back()->with('failed', 'Failed import data user, pastikan sudah sesuai format');
+        }catch (\Exception $exception) {
+            return back()->with('failed', 'Failed import data user, pastikan sudah sesuai format');
+        }
+    }
 
     // End User Controller
 }

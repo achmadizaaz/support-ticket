@@ -1,45 +1,34 @@
 @extends('layouts.main')
 
-@section('title', 'Roles')
+@section('title', 'Unit')
 
 @section('content')
     <div class="container-fluid">
         <!-- start page title -->
         <div class="card p-3">
             <div class="d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Roles</h4>
+                <h4 class="mb-sm-0 font-size-18">Unit</h4>
                 <div class="page-title-right">
                     <div class="page-title-right">
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createRoleModal">
-                            <i class="bi bi-plus me-2"></i> Create a role
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUnitModal">
+                            <i class="bi bi-plus me-2"></i> Create a unit
                         </button>
 
-                        <!-- Modal Create Role -->
-                        <div class="modal fade" id="createRoleModal" tabindex="-1" aria-labelledby="createRoleModalLabel" aria-hidden="true">
+                        <!-- Modal Create Unit -->
+                        <div class="modal fade" id="createUnitModal" tabindex="-1" aria-labelledby="createUnitModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="{{ route('roles.store') }}" method="POST">
+                                    <form action="{{ route('unit.store') }}" method="POST">
                                         @csrf
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="createRoleModalLabel">Create a role</h1>
+                                            <h1 class="modal-title fs-5" id="createUnitModalLabel">Create a Unit</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="mb-3">
                                                 <label for="name" class="form-lavel">Name <span class="fst-italic">*</span></label>
-                                                <input type="text" class="form-control" name="name" placeholder="Enter name role" value="{{ old('name') }}" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="isAdmin" class="form-label me-1">Is admin</label>
-                                                <select name="admin" id="isAdmin" class="form-select">
-                                                    <option value="non_admin">Non Admin</option>
-                                                    <option value="admin">Admin</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="level" class="form-lavel">Level <span class="fst-italic">*</span></label>
-                                                <input type="number" class="form-control" name="level" min="1" max="10" placeholder="Enter level role" value="{{ old('level', 1) }}" required>
+                                                <input type="text" class="form-control" name="name" placeholder="Enter name Unit" value="{{ old('name') }}" required>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -63,20 +52,20 @@
         <!-- Alert  -->
         {{-- Alert Success --}}
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" Unit="alert">
                 <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
         {{-- Alert Failed --}}
         @if (session('failed'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" Unit="alert">
                 <i class="bi bi-exclamation-circle me-2"></i> {{ session('failed') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
         @if ($errors->any())
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show" Unit="alert">
                 <h5 class="alert-heading">
                     <i class="bi bi-exclamation-circle me-2"></i>  Errors:
                 </h5>
@@ -99,18 +88,18 @@
                     <div class="me-2 fw-bold">
                         Show :
                     </div>
-                    <form action="{{ route('roles.show.page')}}" method="GET">
+                    <form action="#" method="GET">
                         <select name="show" onchange="this.form.submit()" class="form-select form-select-sm" style="width: 100px">
-                            <option value="10" @if (session('showPageRoles') == 10)
+                            <option value="10" @if (session('showPageCategorys') == 10)
                                 selected
                             @endif>10</option>
-                            <option value="25" @if (session('showPageRoles') == 25)
+                            <option value="25" @if (session('showPageCategorys') == 25)
                             selected
                             @endif>25</option>
-                            <option value="50" @if (session('showPageRoles') == 50)
+                            <option value="50" @if (session('showPageCategorys') == 50)
                             selected
                             @endif>50</option>
-                            <option value="100" @if (session('showPageRoles') == 100)
+                            <option value="100" @if (session('showPageCategorys') == 100)
                             selected
                             @endif>100</option>
                         </select>
@@ -121,7 +110,7 @@
                 </div>
                <div class="d-flex gap-1">
                     {{-- Input Pencarian --}}
-                    <form action="{{ route('roles')}}" method="GET" class="d-flex gap-1">
+                    <form action="{{ route('unit')}}" method="GET" class="d-flex gap-1">
                         <input type="text" name="search" class="form-control"  placeholder="Searching" value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-search"></i>
@@ -129,37 +118,33 @@
                     </form>
 
                     {{-- Button Reset --}}
-                    <a href="{{ route('roles') }}" class="btn btn-info text-white" title="Reset">
+                    <a href="{{ route('unit') }}" class="btn btn-info text-white" title="Reset">
                         <i class="bi bi-circle"></i>
                     </a>
                </div>
             </div>
             <table class="table">
                 <thead>
-                    <th>No</th>
+                    <th>ID</th>
                     <th>Name</th>
-                    <th>Is Admin</th>
-                    <th>Level</th>
                     <th>Created at</th>
                     <th>Action</th>
                 </thead>
                 <tbody>
-                    @foreach ($roles as $role)
+                    @foreach ($units as $unit)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $role->name }}</td>
-                            <td>{!! $role->is_admin ? '<span class="badge text-bg-primary">Admin</span>' : ' <span class="badge text-bg-secondary">Non admin</span>' !!}</td>
-                            <td>{{ $role->level }}</td>
-                            <td>{{ $role->created_at }}</td>
+                            <td>{{ $unit->id }}</td>
+                            <td>{{ $unit->name }}</td>
+                            <td>{{ $unit->created_at }}</td>
                             <td>
                                 <div class="d-flex gap-1">
                                     {{-- Edit Button --}}
-                                    <button type="button" class="btn btn-sm btn-warning confirm_edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ $role->id }}" data-name="{{ $role->name }}" data-level="{{ $role->level }}" data-admin="{{ $role->is_admin }}" title="Edit role">
+                                    <button type="button" class="btn btn-sm btn-warning confirm_edit" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ $unit->id }}" data-name="{{ $unit->name }}" title="Edit unit">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
 
                                     {{-- Delete button --}}
-                                    <button type="button" class="btn btn-sm btn-danger confirm_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $role->id }}" data-name="{{ $role->name }}"  title="Delete role">
+                                    <button type="button" class="btn btn-sm btn-danger confirm_delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $unit->id }}" data-name="{{ $unit->name }}"  title="Delete unit">
                                         <i class="bi bi-trash3"></i>
                                     </button>
 
@@ -171,17 +156,17 @@
             </table>
             <div class="d-flex justify-content-between">
                 <div class="py-2">
-                    Total : ({{ $roles->total()}} / Roles)
+                    Total : ({{ $units->total()}} / Categories)
                 </div>
                 <div class="d-flex align-items-center flex-row-reverse">
-                    {{ $roles->onEachSide(0)->links('vendor.paginate') }}
+                    {{ $units->onEachSide(0)->links('vendor.paginate') }}
                 </div>
             </div>
         </div>
         <!-- end page main -->
     </div>
 
-    <!-- Modal Edit Role -->
+    <!-- Modal Edit Unit -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -189,24 +174,13 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="editModalLabel">Edit Role</h1>
+                        <h1 class="modal-title fs-5" id="editModalLabel">Edit Unit</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-lavel">Name <span class="fst-italic">*</span></label>
                             <input type="text" class="form-control" name="name" required id="editName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editAdmin" class="form-lavel">Admin <span class="fst-italic">*</span></label>
-                            <select name="admin" id="editAdmin" class="form-select">
-                                <option value="non_admin">Non admin</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="level" class="form-lavel">Level <span class="fst-italic">*</span></label>
-                            <input type="number" class="form-control" name="level" min="1" max="10" required id="editLevel">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -221,14 +195,14 @@
             </div>
         </div>
     </div>
-    <!-- END Modal Edit Role -->
+    <!-- END Modal Edit Unit -->
 
-    <!-- Modal Delete Role -->
+    <!-- Modal Delete Unit -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Role</h1>
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Unit</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="#" id="formDelete" method="POST">
@@ -236,7 +210,7 @@
                         @csrf
                         @method('DELETE')
                         <label for="confirm_delete" class="form-label">
-                            
+                            Untuk melanjutkan penghapusan Unit, silakan ketik: <span id="modalName"></span>
                         </label>
                         <input type="text" class="form-control" name="confirm" id="confirm_delete" required>
                     </div>
@@ -258,14 +232,14 @@
             let level = $(this).data('level');
             let id = $(this).data('id');
             let isAdmin = $(this).data('admin');
-            // Insert Value Role
+            // Insert Value Unit
             $('#editName').val(name);
             $('#editLevel').val(level);
-            $('#editAdmin').val(isAdmin ? 'admin' : 'non_admin');
+            $('#editAdmin').val(isAdmin ? 'admin' : 'non-admin');
             $('#editAdmin').trigger('change');
 
             // Route update
-            let url = "{{ route('roles.update', ':id') }}";
+            let url = "{{ route('unit.update', ':id') }}";
             route = url.replace(':id', id);
             // Action route for update
             $('#formUpdate').attr('action', route);
@@ -278,7 +252,7 @@
             $('#modalName').html(name);
             $('#confirm_delete').attr('placeholder', 'Ketikan: "'+name+'"')
             // Route delete
-            let url = "{{ route('roles.delete', ':id') }}";
+            let url = "{{ route('unit.delete', ':id') }}";
             route = url.replace(':id', id);
             // Action route for delete user
             $('#formDelete').attr('action', route);

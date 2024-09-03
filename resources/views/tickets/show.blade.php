@@ -6,8 +6,9 @@
     <div class="container-fluid">
         <!-- start page title -->
         <div class="card p-3">
-            <div class="d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Ticket: #{{ $ticket->no }} - <span class="text-success">{{ $ticket->subject }}</span></h4>
+            <h6 class="mb-2">No Ticket: #{{ $ticket->no }}</h6>
+            <div class="text-success fs-4">
+                {{ $ticket->subject }}
             </div>
         </div>
         <!-- end page title -->
@@ -36,6 +37,7 @@
                             <div class="small fst-italic text-secondary">Requestor</div>
                             <h6>{{ $ticket->user->name }} <span class="badge bg-success">Owner</span></h6>
                         </div>
+                        
                         <div class="mb-3">
                             <div class="small fst-italic text-secondary">Email</div>
                             <h6>{{ $ticket->user->email }}</h6>
@@ -56,6 +58,10 @@
                             <div class="small fst-italic text-secondary">Last updated</div>
                             <h6>{{ $ticket->updated_at->diffForHumans() }}</h6>
                         </div>
+                        <div class="mb-3">
+                            <div class="small fst-italic text-secondary">Homebase</div>
+                            <h6>{{ $ticket->user->homebase->name ?? '-' }}</h6>
+                        </div>
                     </div>
                 </div>
 
@@ -63,43 +69,52 @@
                     <div class="card-header fw-semibold">
                         <div class="d-flex justify-content-between">
                             <span> <i class="bi bi-bar-chart me-1"></i> Ticket Status</span>
-                            <a href="#edit-status"  data-bs-toggle="modal" data-bs-target="#editStatuModal">Edit</a>
-                        </div>
-                        <!-- Modal -->
-                        <div class="modal fade" id="editStatuModal" tabindex="-1" aria-labelledby="editStatuModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <form action="#" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="editStatuModalLabel">Edit Status</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <label for="editStatus" class="form-label">Status</label>
-                                            <select name="status" class="form-select" id="editStatus">
-                                                <option value="opened" @selected($ticket->status == 'opened')>Opened</option>
-                                                <option value="answered" @selected($ticket->status == 'answered')>Answered</option>
-                                                <option value="customer-reply" @selected($ticket->status == 'customer-reply')>Customer reply</option>
-                                                <option value="closed" @selected($ticket->status == 'closed')>Closed</option>
-                                                <option value="completed" @selected($ticket->status == 'completed')>Completed</option>
-                                            </select>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
+                            @if (Auth::user()->roles->max('is_admin'))
+                                <a href="#edit-status"  data-bs-toggle="modal" data-bs-target="#editStatuModal">Edit</a>
+                                <!-- Modal -->
+                                <div class="modal fade" id="editStatuModal" tabindex="-1" aria-labelledby="editStatuModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <form action="{{ route('ticket.update.status', $ticket->slug) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="editStatuModalLabel">Edit Status</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label for="editStatus" class="form-label">Status</label>
+                                                    <select name="status" class="form-select" id="editStatus">
+                                                        <option value="opened" @selected($ticket->status == 'opened')>Opened</option>
+                                                        <option value="answered" @selected($ticket->status == 'answered')>Answered</option>
+                                                        <option value="customer-reply" @selected($ticket->status == 'customer-reply')>Customer reply</option>
+                                                        <option value="closed" @selected($ticket->status == 'closed')>Closed</option>
+                                                        <option value="completed" @selected($ticket->status == 'completed')>Completed</option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            @endif
                         </div>
+                        
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            Status: {{ $ticket->status }}
+                            Status: @if ( $ticket->status == 'closed')
+                                    <span class="btn btn-sm btn-outline-secondary">{{ $ticket->status  }}</span>
+                                @elseif( $ticket->status == 'completed')
+                                    <span class="btn btn-sm btn-outline-success">{{ $ticket->status  }}</span>
+                                @else
+                                    {{ $ticket->status  }}
+                            @endif
                         </div>
-                        @if ($ticket->status !='closed' || $ticket->status != 'completed')
+                        @if ($ticket->status !== 'closed' &&  $ticket->status !== 'completed')
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#closedModal">
                                 Closed
@@ -107,11 +122,12 @@
                             <!-- Modal -->
                             <div class="modal fade" id="closedModal" tabindex="-1" aria-labelledby="closedModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
-                                    <form action="#">
+                                    <form action="{{ route('ticket.update.closed', $ticket->slug) }}" method="POST">
                                         @csrf
+                                        @method('PUT')
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="closedModalLabel">Change Status</h1>
+                                            <h1 class="modal-title fs-5" id="closedModalLabel">Closed</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -126,7 +142,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-danger">Closed</button>
+                                                <button type="submit" class="btn btn-danger">Submit</button>
                                             </div>
                                         </div>
                                     </form>
@@ -134,18 +150,19 @@
                             </div>
                         @endif
                         
-                        @if ($ticket->status != 'completed')
+                        @if ($ticket->status !== 'closed' &&  $ticket->status !== 'completed')
                             <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#completedModal">
                                 Completed
                             </button>
                             <!-- Modal -->
                             <div class="modal fade" id="completedModal" tabindex="-1" aria-labelledby="completedModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
-                                    <form action="#">
+                                    <form action="{{ route('ticket.update.completed', $ticket->slug) }}" method="POST">
                                         @csrf
+                                        @method('PUT')
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="completedModalLabel">Change Status</h1>
+                                            <h1 class="modal-title fs-5" id="completedModalLabel">Completed</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -166,49 +183,60 @@
                     </div>
                 </div>
 
-                <div class="card rounded-3">
-                    <div class="card-header fw-semibold">
-                        <div class="d-flex justify-content-between">
-                            <span><i class="bi bi-bar-chart me-1"></i> Progress </span>
-                            <a href="#edit-rogress"  data-bs-toggle="modal" data-bs-target="#editProgressModal">Edit</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="progress" role="progressbar" aria-valuenow="{{ $ticket->progress ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar @if ($ticket->progress <=40)
-                                text-bg-warning
-                                @elseif ($ticket->progress <= 75)
-                                text-bg-info
-                                @elseif($ticket->progress <=99)
-                                text-bg-success
-                                @else
-                                bg-primary
-                            @endif" style="width: {{ $ticket->progress }}%">{{ $ticket->progress }} %</div>
-                        </div>
-                    </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="editProgressModal" tabindex="-1" aria-labelledby="editProgressModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="editProgressModalLabel">Progress Report</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                @if (Auth::user()->roles->max('is_admin') || $ticket->progress)
+                    {{-- Card Progress --}}
+                    <div class="card rounded-3">
+                        <div class="card-header fw-semibold">
+                            <div class="d-flex justify-content-between">
+                                <span><i class="bi bi-bar-chart me-1"></i> Progress </span>
+                                @if (Auth::user()->roles->max('is_admin'))
+                                    <a href="#edit-rogress"  data-bs-toggle="modal" data-bs-target="#editProgressModal">Edit</a>
+                                @endif
                             </div>
-                            <div class="modal-body">
-                                <div class="d-flex align-items-center">
-                                    <input type="range" class="form-range" min="0" max="100" value="{{ $ticket->progress }}"  oninput="updateValueRange(this.value)">
-                                    <span id="rangeValue" class="ms-2 fw-semibold">{{ $ticket->progress }}</span><b>%</b> <!-- Tempat untuk menampilkan poin -->
+                        </div>
+                        <div class="card-body">
+                            <div class="progress" role="progressbar" aria-valuenow="{{ $ticket->progress ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar @if ($ticket->progress <=40)
+                                    text-bg-warning
+                                    @elseif ($ticket->progress <= 75)
+                                    text-bg-info
+                                    @elseif($ticket->progress <=99)
+                                    text-bg-success
+                                    @else
+                                    bg-primary
+                                @endif" style="width: {{ $ticket->progress }}%">{{ $ticket->progress }} %</div>
+                            </div>
+                        </div>
+
+                        @if (Auth::user()->roles->max('is_admin'))
+                            <!-- Modal -->
+                            <div class="modal fade" id="editProgressModal" tabindex="-1" aria-labelledby="editProgressModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ route('ticket.update.progress', $ticket->slug) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editProgressModalLabel">Progress Report</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="range" class="form-range" min="0" max="100" value="{{ $ticket->progress }}"  oninput="updateValueRange(this.value)" name="progress">
+                                                    <span id="rangeValue" class="ms-2 fw-semibold">{{ $ticket->progress }}</span><b>%</b> <!-- Tempat untuk menampilkan poin -->
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="Submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Change Progress</button>
-                            </div>
-                        </div>
-                        </div>
+                        @endif
                     </div>
-                </div>
+                @endif
 
                 <div class="card rounded-3">
                     <div class="card-header fw-semibold">
@@ -260,7 +288,7 @@
                                 </span>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route('comment.store', $ticket->no) }}" method="post" enctype="multipart/form-data">
+                                <form action="{{ route('comment.store', $ticket->slug) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="mb-3">
                                         <textarea name="content" id="content" style="display:none;">{{ old('content', $model->content ?? '') }}</textarea>
@@ -311,7 +339,12 @@
                                     @if ($ticket->user_id == $comment->user->id)
                                         <div class="badge bg-success">Owner</div>
                                         @else
-                                        <div class="badge bg-secondary">Staff</div>
+                                        @if ($comment->user->roles->max('level') == 2)
+                                            <div class="badge text-bg-warning">Staff</div>
+                                            @else
+                                            <div class="badge text-bg-danger">Administrator</div>
+                                            
+                                        @endif
                                     @endif
                                 </div>
                             </div>
