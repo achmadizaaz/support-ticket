@@ -110,7 +110,7 @@
                                 @endif
                             </td>
                             <td class="align-middle">{{ $ticket->user->username }}</td>
-                            <td class="align-middle">{{ $ticket->updated_at }}</td>
+                            <td class="align-middle">{{ $ticket->updated_at->diffForHumans() }}</td>
                             <td class="align-middle text-center">
                                 <a href="{{ route('ticket.show', $ticket->slug) }}" class="btn btn-sm btn-outline-info">
                                     <i class="bi bi-eye"></i>

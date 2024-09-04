@@ -7,29 +7,33 @@ use App\Models\Attachment;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Ticket;
+use App\Models\User;
+use App\Notifications\TicketNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class TicketController extends Controller
 {
-    protected $model, $comment, $category, $attachment, $user;
+    protected $model, $comment, $category, $attachment, $user, $currentUser;
 
-    public function __construct(Ticket $model, Comment $comment, Category $category, Attachment $attachment)
+    public function __construct(Ticket $model, Comment $comment, Category $category, Attachment $attachment, User $user)
     {
         $this->model = $model;
         $this->comment = $comment;
         $this->category = $category;
         $this->attachment = $attachment;
 
-        $this->user = Auth::user();
+        $this->user = $user;
+        $this->currentUser = Auth::user();
     }
 
     public function index()
     {
-        $tickets = $this->model->with(['user', 'category'])->where('user_id', $this->user->id)->latest()->paginate(10);
+        $tickets = $this->model->with(['user', 'category'])->where('user_id', $this->currentUser->id)->latest()->paginate(10);
 
         return view('tickets.index', compact('tickets'));
     }
@@ -60,13 +64,13 @@ class TicketController extends Controller
             $no = $formattedDate.rand(1000, 9999);            
             // Menambahkan data ke database
             $ticket = $this->model->create([
-                'user_id' => Auth::user()->id,
+                'user_id' => $this->currentUser->id,
                 'category_id' => $request->category,
                 'slug' => md5($no),
                 'no' => $no,
                 'subject'  => $request->subject,
                 'content'  => $request->content,
-                'created_by' => Auth::user()->username,
+                'created_by' => $this->currentUser->username,
             ]);
 
             // Jika terdapat upload file attachment            
@@ -85,7 +89,14 @@ class TicketController extends Controller
                 }
                 $this->attachment->insert($resultAttachment);
             }
-            
+
+            // Send notifikasi to admin
+            // Mendapatkan user admin
+            $users = $this->user->whereHas('roles', function ($query) {
+                $query->where('is_admin', 1);
+            })->get();
+            Notification::send($users, new TicketNotification($ticket->no, $ticket->subject));
+
             DB::commit();
 
             return to_route('ticket')->with('success', 'Ticket berhasil dibuat!');
@@ -156,5 +167,16 @@ class TicketController extends Controller
             'progress' => $request->progress,
         ]);
         return back()->with('success', 'Ticket berhasil diperbarui!');
+    }
+
+    public function notif($title, $message, $status)
+    {
+        $notif = [
+            'title' => $title,
+            'message' => $message,
+            'status' => $status
+        ];
+
+        return $notif;
     }
 }
