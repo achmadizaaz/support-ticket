@@ -244,11 +244,11 @@
                             <i class="bi bi-eye-slash" id="icon-password"></i> <span id="text-icon-password">Show password</span> 
                         </div>
                     </div>
-                    <input type="password" class="form-control" name="new_password" placeholder="Enter new password" id="new_password">
+                    <input type="password" class="form-control" name="password" placeholder="Enter new password" id="new_password">
                   </div>
                   <div class="mb-3">
                     <label for="confirm_password" class="form-label">Confirmation Password <span class="text-danger fst-italic">*</span></label>
-                    <input type="password" class="form-control" name="confirm_password" placeholder="Enter confirmation password" id="confirm_password">
+                    <input type="password" class="form-control" name="password_confirmation" placeholder="Enter confirmation password" id="confirm_password">
                   </div>
                 </div>
                 <div class="modal-footer">
