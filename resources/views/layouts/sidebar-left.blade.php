@@ -44,13 +44,13 @@
                 
                 
                 @canany(['read-categories', 'read-units'])
-                <li class="menu-title" data-key="t-components">Referensi</li>
+                <li class="menu-title" data-key="t-referensi">Referensi</li>
                 @endcanany
                 @can('read-categories')
                 <li>
                     <a href="{{ route('category') }}">
                         <i class="bi bi-tag"></i>
-                        <span data-key="t-ticket">Categories</span>
+                        <span data-key="t-categories">Categories</span>
                     </a>
                 </li>
                 @endcan
@@ -58,8 +58,17 @@
                 @can('read-units')
                     <li>
                     <a href="{{ route('unit') }}">
-                        <i class="bi bi-tag"></i>
-                        <span data-key="t-ticket">Units</span>
+                        <i class="bi bi-bookmarks"></i>
+                        <span data-key="t-unit">Units</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('read-notif-preferences')
+                    <li>
+                    <a href="{{ route('notif.categories') }}">
+                        <i class="bi bi-app-indicator"></i>
+                        <span data-key="t-notif-preferences">Notif by Category</span>
                     </a>
                 </li>
                 @endcan

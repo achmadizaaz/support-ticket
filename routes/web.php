@@ -94,6 +94,15 @@ Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
         Route::delete('/{id}/destroy', 'destroy')->name('category.delete');
     });
     
+    // Notif Category routes
+    Route::controller(NotifCategoryUserController::class)->prefix('notif-categories')->group(function() {
+        Route::get('/', 'index')->name('notif.categories');
+        Route::post('/', 'store')->name('notif.categories.store');
+        Route::get('/{id}/show', 'show')->name('notif.categories.show');
+        Route::put('/{id}/update', 'update')->name('notif.categories.update');
+        Route::delete('/{user_id}/destroy', 'destroy')->name('notif.categories.delete');
+    });
+    
     // Profile user
     Route::controller(ProfileController::class)->prefix('profile')->group(function() {
         Route::get('/', 'index')->name('profile');

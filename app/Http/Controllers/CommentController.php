@@ -26,17 +26,17 @@ class CommentController extends Controller
         $this->currentUser = Auth::user();
     }
 
-    public function store(Request $request, $slug_ticket)
+    public function store(CommentRequest $request, $slug_ticket)
     {
         $ticket = $this->ticket->where('slug', $slug_ticket)->first();
 
         // Update status
         if($this->currentUser->id == $ticket->user_id){
             $ticket->update(['status' => 'customer-reply']);
-            // Send notifikasi to admin
-            // Mendapatkan user admin
-            $users = $this->user->whereHas('roles', function ($query) {
-                $query->where('is_admin', 1);
+            // Send notifikasi to admin by category
+            // Mendapatkan user admin by category
+            $users = $this->user->whereHas('notif', function ($query) use ($ticket) {
+                $query->where('category_id', $ticket->category_id);
             })->get();
             Notification::send($users, new TicketNotification($ticket->no, Str::of($request->content)->words(10, '...')));
 

@@ -95,6 +95,34 @@ $(".unit-group").on("change", function () {
 
 // End Checklist Unit
 
+// Checklist NotifCategory
+let notifCategoryUnChecked = document.querySelectorAll(
+        ".notif-category-group"
+    ).length,
+    notifCategoryChecked = document.querySelectorAll(
+        ".notif-category-group:checked"
+    ).length;
+function checkAllNotifCategory(e) {
+    document
+        .querySelectorAll(".notif-category-group")
+        .forEach((n) => (n.checked = e.checked));
+}
+function setCheckAllNotifCategory() {
+    document.querySelector("input.checkAllNotifCategory").checked =
+        notifCategoryUnChecked == notifCategoryChecked;
+}
+$(".notif-category-group").on("change", function () {
+    let e;
+    document.querySelectorAll(".notif-category-group").length ==
+    document.querySelectorAll(".notif-category-group:checked").length
+        ? (document.getElementById("all-notif-category").checked = !0)
+        : (document.getElementById("all-notif-category").checked = !1);
+}),
+    notifCategoryUnChecked == notifCategoryChecked &&
+        (document.getElementById("all-notif-category").checked = !0);
+
+// End Checklist NotifCategory
+
 // Checklist user
 let userUnChecked = document.querySelectorAll(".user-group").length,
     userChecked = document.querySelectorAll(".user-group:checked").length;

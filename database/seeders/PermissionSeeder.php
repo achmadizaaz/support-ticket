@@ -37,6 +37,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'create-categories']);
         Permission::create(['name' => 'update-categories']);
         Permission::create(['name' => 'delete-categories']);
+        
+        // preferensi notif category permission
+        Permission::create(['name' => 'read-notif-preferences']);
+        Permission::create(['name' => 'create-notif-preferences']);
+        Permission::create(['name' => 'update-notif-preferences']);
+        Permission::create(['name' => 'delete-notif-preferences']);
 
         // create permissions users
         Permission::create(['name' => 'read-users']);

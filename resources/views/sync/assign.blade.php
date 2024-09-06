@@ -258,6 +258,57 @@
                         </tr>
                         {{-- End Modul Unit --}}
 
+                        {{-- Modul NotifCategory --}}
+                        <tr>
+                            <td class="fw-bold">Notif Category</td>
+                            <td>
+                                <input class="form-check-input me-2 checkbox checkAllNotifCategory" type="checkbox" id="all-notif-category" onclick="checkAllNotifCategory(this)">
+                                <label class="form-check-label" for="all-notif-category">
+                                    All Notif Category
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'create-notif-preferences')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox notif-category-group" type="checkbox" id="createNotifCategory" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('create-notif-preferences'))>
+                                <label class="form-check-label" for="createNotifCategory">
+                                    Create
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'read-notif-preferences')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox notif-category-group" type="checkbox" id="readNotifCategory"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('read-notif-preferences'))>
+                                <label class="form-check-label" for="readNotifCategory">
+                                    Read
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'update-notif-preferences')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox notif-category-group" type="checkbox" id="updateNotifCategory" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-notif-preferences'))>
+                                <label class="form-check-label" for="updateNotifCategory">
+                                    Update
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'delete-notif-preferences')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox notif-category-group" type="checkbox" id="deleteNotifCategory" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('delete-notif-preferences'))>
+                                <label class="form-check-label" for="deleteNotifCategory">
+                                    Delete
+                                </label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        {{-- End Modul NotifCategory --}}
+
                         {{-- Modul User --}}
                         <tr>
                             <td class="fw-bold">User</td>

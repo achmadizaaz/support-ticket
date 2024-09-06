@@ -83,4 +83,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
+
+    public function notif()
+    {
+        return $this->hasMany(NotifCategoryUser::class, 'user_id');
+    }
 }

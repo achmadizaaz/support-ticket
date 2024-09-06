@@ -90,11 +90,12 @@ class TicketController extends Controller
                 $this->attachment->insert($resultAttachment);
             }
 
-            // Send notifikasi to admin
+            // Send notifikasi to admin by category ticket
             // Mendapatkan user admin
-            $users = $this->user->whereHas('roles', function ($query) {
-                $query->where('is_admin', 1);
+            $users = $this->user->whereHas('notif', function ($query) use ($request) {
+                $query->where('category_id', $request->category);
             })->get();
+            
             Notification::send($users, new TicketNotification($ticket->no, $ticket->subject));
 
             DB::commit();
