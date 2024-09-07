@@ -44,7 +44,7 @@
                         </div>
                         <div class="mb-3">
                             <div class="small fst-italic text-secondary">Phone</div>
-                            <h6>0821-2345-6789</h6>
+                            <h6>{{ $ticket->user->phone ?? '-' }}</h6>
                         </div>
                         <div class="mb-3">
                             <div class="small fst-italic text-secondary">Category</div>
@@ -237,36 +237,29 @@
                         @endif
                     </div>
                 @endif
+            </div> {{-- END Kolom Kiri --}}
 
-                <div class="card rounded-3">
-                    <div class="card-header fw-semibold">
-                        <i class="bi bi-paperclip me-1"></i> Attachments
-                    </div>
-                    <div class="card-body">
-                        @empty(count($ticket->attachments))
-                            <div class="fst-italic">
-                                No attachments available.
-                            </div>
-                        @endempty
-                        <ul class="ps-3">
-                            @foreach ($ticket->attachments as $item)
-                                <li>
-                                    <a href="{{ asset('storage/'. $item->path) }}" target="__blank">{{ $item->name }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                       
-                    </div>
-                </div>
-            </div>
+
             <div class="col-9">
                 <div class="card mb-3">
-                    <div class="card-header">
+                    <div class="card-header fw-bold">
                         <i class="bi bi-chat-left-text me-1"></i> Ticket Message
                     </div>
                     <div class="card-body">
                         {!! $ticket->content !!}
                     </div>
+                    @if (count($ticket->attachments))
+                        <div class="card-footer">
+                            <h6>Attachment Files</h6>
+                            <ul class="ps-3">
+                                @foreach ($ticket->attachments as $item)
+                                    <li>
+                                        <a href="{{ asset('storage/'. $item->path) }}" target="__blank">{{ $item->name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
 
 
