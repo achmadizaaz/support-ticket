@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
-    return view('welcome');
-});
+    return view('index');
+    // return view('welcome');
+})->middleware(['guest']);
 
 // Jika user belum diaktifkan
 Route::get('dashboard/profile/activated', function(){
@@ -14,10 +15,10 @@ Route::get('dashboard/profile/activated', function(){
 })->middleware('auth')->name('not_active');
 
 // Route utama
-Route::prefix('dashboard')->middleware(['auth', 'active'])->group(function () {
+Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
     
     // dashboard route
-    Route::get('/', function () { return view('dashboard');
+    Route::get('/dashboard', function () { return view('dashboard');
     })->name('dashboard');
 
     Route::controller(TicketController::class)->prefix('tickets')->group(function() {

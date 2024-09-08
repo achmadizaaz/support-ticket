@@ -24,6 +24,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
+        @if ($ticket->status == 'closed')
+            <div class="alert alert-secondary" role="alert">
+                Status pada ticket ini sudah ditutup, <i>reply message</i> ticket untuk membuka kembali.
+            </div>
+        @endif
+        
+        @if ($ticket->status == 'completed')
+            <div class="alert alert-success" role="alert">
+                Status ticket sudah diselesaikan, Anda tidak bisa membuka kembali ticket ini.
+            </div>
+        @endif
         
         <!-- start page main -->
         <div class="row">
@@ -85,9 +97,9 @@
                                                 <div class="modal-body">
                                                     <label for="editStatus" class="form-label">Status</label>
                                                     <select name="status" class="form-select" id="editStatus">
-                                                        <option value="opened" @selected($ticket->status == 'opened')>Opened</option>
+                                                        <option value="opened" @selected($ticket->status == 'open')>Open</option>
                                                         <option value="answered" @selected($ticket->status == 'answered')>Answered</option>
-                                                        <option value="customer-reply" @selected($ticket->status == 'customer-reply')>Customer reply</option>
+                                                        <option value="customer-reply" @selected($ticket->status == 'customer-reply')>Customer-reply</option>
                                                         <option value="closed" @selected($ticket->status == 'closed')>Closed</option>
                                                         <option value="completed" @selected($ticket->status == 'completed')>Completed</option>
                                                     </select>
@@ -239,7 +251,6 @@
                 @endif
             </div> {{-- END Kolom Kiri --}}
 
-
             <div class="col-9">
                 <div class="card mb-3">
                     <div class="card-header fw-bold">
@@ -265,52 +276,56 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div class="d-inline-flex gap-1">
-                        <a class="btn btn-info" data-bs-toggle="collapse" href="#collapseReply" role="button" aria-expanded="false" aria-controls="collapseReply">
-                            <i class="bi bi-chat-left-dots me-1"></i> Reply Message
-                        </a>
+                        @if ($ticket->status != 'completed')
+                            <a class="btn btn-info" data-bs-toggle="collapse" href="#collapseReply" role="button" aria-expanded="false" aria-controls="collapseReply">
+                                <i class="bi bi-chat-left-dots me-1"></i> Reply Message
+                            </a>
+                        @endif
                     </div>
                     <div class="fst-italic fw-semibold">
                         Balasan terbaru
                     </div>
                 </div>
-                    <div class="collapse" id="collapseReply">
-                        <div class="card">
-                            <div class="card-header">
-                                <span class="fw-bold">
-                                    <i class="bi bi-chat-left-dots me-1"></i> Reply Ticket
-                                </span>
-                            </div>
-                            <div class="card-body">
-                                <form action="{{ route('comment.store', $ticket->slug) }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <textarea name="content" id="content" style="display:none;">{{ old('content', $model->content ?? '') }}</textarea>
-                                        <div id="editor" style="min-height: 100px"> {!! old('content') !!}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div id="attachment">
-                                            <label class="form-label">Attachments</label>
-                                            <input type="file" class="form-control" name="attachment[]" accept=".jpg,.jpeg,.png,.pdf">
+                    @if ($ticket->status != 'completed')
+                        <div class="collapse" id="collapseReply">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="fw-bold">
+                                        <i class="bi bi-chat-left-dots me-1"></i> Reply Ticket
+                                    </span>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ route('comment.store', $ticket->slug) }}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <textarea name="content" id="content" style="display:none;">{{ old('content', $model->content ?? '') }}</textarea>
+                                            <div id="editor" style="min-height: 100px"> {!! old('content') !!}</div>
                                         </div>
-                                        <div class="small fst-italic text-danger mb-2">
-                                            Format file yang diperbolehkan: .jpg, .jpeg, .png, .pdf (Max file size: 5MB)
+                                        <div class="mb-3">
+                                            <div id="attachment">
+                                                <label class="form-label">Attachments</label>
+                                                <input type="file" class="form-control" name="attachment[]" accept=".jpg,.jpeg,.png,.pdf">
+                                            </div>
+                                            <div class="small fst-italic text-danger mb-2">
+                                                Format file yang diperbolehkan: .jpg, .jpeg, .png, .pdf (Max file size: 5MB)
+                                            </div>
+                                            <button class="btn btn-sm btn-success" type="button" id="add_more_attachment">
+                                                <i class="bi bi-plus-lg me-1"></i> Add more
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" type="button" id="remove_attachment">
+                                                <i class="bi bi-dash me-1"></i> Remove
+                                            </button>
                                         </div>
-                                        <button class="btn btn-sm btn-success" type="button" id="add_more_attachment">
-                                            <i class="bi bi-plus-lg me-1"></i> Add more
-                                        </button>
-                                        <button class="btn btn-sm btn-danger" type="button" id="remove_attachment">
-                                            <i class="bi bi-dash me-1"></i> Remove
-                                        </button>
-                                    </div>
-                                    <div class="mb-3">
-                                        <button type="submit" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-send me-1"></i> Send Reply
-                                        </button>
-                                    </div>
-                                </form>
+                                        <div class="mb-3">
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-send me-1"></i> Send Reply
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 
                 <hr>
 

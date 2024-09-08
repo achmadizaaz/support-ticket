@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketRequest;
+use App\Jobs\AdminNoticationJob;
+use App\Jobs\TicketNoticationJob;
 use App\Models\Attachment;
 use App\Models\Category;
 use App\Models\Comment;
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 
 class TicketController extends Controller
 {
@@ -94,9 +97,20 @@ class TicketController extends Controller
             // Mendapatkan user admin
             $users = $this->user->whereHas('notif', function ($query) use ($request) {
                 $query->where('category_id', $request->category);
-            })->get();
-            
-            Notification::send($users, new TicketNotification($ticket->no, $ticket->subject));
+            })->get(); 
+            // Jika ada user, send notifikasi
+            if(count($users)){
+                $detail = [
+                    'user' => $ticket->user->name,
+                    'no_ticket' => $ticket->no,
+                    'subject' => $ticket->subject,
+                    'message' => $ticket->content,
+                ];
+                
+                foreach($users as $user){
+                    dispatch(new AdminNoticationJob($user, $detail));
+                }
+            }
 
             DB::commit();
 

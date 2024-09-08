@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
+use App\Jobs\CustomerReplyTicketNoticationJob;
+use App\Jobs\TicketNoticationJob;
 use App\Models\Comment;
 use App\Models\CommentAttachment;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Notifications\CustomerReplyTicketNotication;
 use App\Notifications\TicketNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,13 +41,25 @@ class CommentController extends Controller
             $users = $this->user->whereHas('notif', function ($query) use ($ticket) {
                 $query->where('category_id', $ticket->category_id);
             })->get();
-            Notification::send($users, new TicketNotification($ticket->no, Str::of($request->content)->words(10, '...')));
+            if(count($users)){
+                $detail = [
+                    'user' => $ticket->user->name,
+                    'no_ticket' => $ticket->no,
+                    'subject' => $ticket->subject,
+                    'message' => $request->content,
+                ];
+                foreach($users as $user){
+                    dispatch(new CustomerReplyTicketNoticationJob($user, $detail));
+                }
+                    
+                // Notification::send($users, new TicketNotification($ticket->no, Str::of($request->content)->words(10, '...'), route('ticket.show',$ticket->slug)));
+            }
 
         }else{
+            // Jika admin melakukan reply ticket
+            // Send notifikasi ke customer
             $ticket->update(['status' => 'answered']);
-            // Send notifikasi to owner ticket
-            // Mendapatkan user owner ticket
-            Notification::send($ticket->user, new TicketNotification($ticket->no, Str::of($request->content)->words(10, '...')));
+            dispatch(new TicketNoticationJob($ticket->user, $ticket, Str::of($request->content)->words(10, '...') ));
         }
 
         $comment = $this->model->create([

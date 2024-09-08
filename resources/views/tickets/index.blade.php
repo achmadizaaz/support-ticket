@@ -7,7 +7,10 @@
         <!-- start page title -->
         <div class="card p-3">
             <div class="d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Support Tickets</h4>
+                <div>
+                    <h4 class="mb-sm-0 font-size-18">Support Ticket List</h4>
+                    <small class="fst-italic">List of ticket opend by customers</small>
+                </div>
                 <div class="page-title-right">
                     @can('create-tickets')
                         <a href="{{ route('ticket.create') }}" class="btn btn-primary">
@@ -69,64 +72,79 @@
                 </div>
             </div>
             
-            <table class="table">
-                <thead>
-                    <th>No</th>
-                    <th>Category</th>
-                    <th>Subject</th>
-                    <th>Status</th>
-                    <th>Created by</th>
-                    <th>Last Update</th>
-                    <th class="text-center">Action</th>
-                </thead>
-                <tbody>
-                    @foreach ($tickets as $ticket)
-                        <tr>
-                            <td class="align-middle">
-                                {{ ($tickets->currentPage() - 1) * $tickets->perPage() + $loop->iteration }}
-                            </td>
-                            <td class="align-middle">{{ $ticket->category->name }}</td>
-                            <td class="align-middle">
-                                <a href="{{ route('ticket.show', $ticket->slug) }}">
-                                    <div class="mb-2 fst-italic fw-semibold">#{{ $ticket->no }}</div>
-                                    <div class="mb-2">{{ $ticket->subject }}</div>
-                                </a>
-                            </td>
-                            <td class="align-middle">
-                                @if ($ticket->status == 'opened')
-                                    <span class="btn btn-sm btn-outline-warning">{{ $ticket->status }}</span>
-                                @endif
-                                @if ($ticket->status == 'answered')
-                                    <span class="btn btn-sm btn-outline-info">{{ $ticket->status }}</span>
-                                @endif
-                                @if ($ticket->status == 'customer-reply')
-                                    <span class="btn btn-sm btn-outline-warning">{{ $ticket->status }}</span>
-                                @endif
-                                @if ($ticket->status == 'closed')
-                                    <span class="btn btn-sm btn-outline-danger">{{ $ticket->status }}</span>
-                                @endif
-                                @if ($ticket->status == 'completed')
-                                    <span class="btn btn-sm btn-outline-success">{{ $ticket->status }}</span>
-                                @endif
-                            </td>
-                            <td class="align-middle">{{ $ticket->user->username }}</td>
-                            <td class="align-middle">{{ $ticket->updated_at->diffForHumans() }}</td>
-                            <td class="align-middle text-center">
-                                <a href="{{ route('ticket.show', $ticket->slug) }}" class="btn btn-sm btn-outline-info">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                @can('delete-tickets')
-                                    {{-- Delete Button --}}
-                                    <button type="button" class="btn btn-sm btn-outline-danger delete_ticket" data-bs-toggle="modal" data-bs-target="#deleteModal" data-subject={{ $ticket->subject }} data-no="{{ $ticket->no }}" data-slug="{{ $ticket->slug }}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                @endcan
-                                
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Ticket</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($tickets as $ticket)
+                            <tr>
+                                <td class="align-middle">
+                                    {{ ($tickets->currentPage() - 1) * $tickets->perPage() + $loop->iteration }}
+                                </td>
+                                <td class="align-middle">
+                                    {{ $ticket->user->name }}
+                                    <br>{{ $ticket->user->email }}
+                                </td>
+                                <td class="align-middle">
+                                    <a href="{{ route('ticket.show', $ticket->slug) }}">
+                                        <div class="mb-2 fst-italic fw-semibold">#{{ $ticket->no }}</div>
+                                        <div class="mb-2">{{ $ticket->subject }}</div>
+                                        <div class="badge bg-primary">{{ $ticket->category->name }}</div>
+                                    </a>
+                                </td>
+                                <td class="align-middle">
+                                    @if ($ticket->status == 'open')
+                                        <span class="btn btn-sm btn-warning">{{ $ticket->status }}</span>
+                                    @endif
+                                    @if ($ticket->status == 'answered')
+                                        <span class="btn btn-sm btn-info">{{ $ticket->status }}</span>
+                                    @endif
+                                    @if ($ticket->status == 'customer-reply')
+                                        <span class="btn btn-sm btn-warning">{{ $ticket->status }}</span>
+                                    @endif
+                                    @if ($ticket->status == 'closed')
+                                        <span class="btn btn-sm btn-danger">{{ $ticket->status }}</span>
+                                    @endif
+                                    @if ($ticket->status == 'completed')
+                                        <span class="btn btn-sm btn-success">{{ $ticket->status }}</span>
+                                    @endif
+                                </td>
+                                <td class="align-middle">
+                                    <div class="mb-2">
+                                        Dibuat pada: <br>{{ $ticket->created_at->format('d-m-Y (h:i)') }}
+                                    </div>
+                                   @if ($ticket->updated_at > $ticket->created_at)
+                                        <div class="mb-2">
+                                            Diupdate pada: {{ $ticket->updated_at->diffForHumans() }}
+                                        </div>
+                                   @endif
+                                </td>
+                                <td class="align-middle">
+                                    <div class="d-flex gap-2 ">
+                                        {{-- Show ticket --}}
+                                        <a href="{{ route('ticket.show', $ticket->slug) }}" class="btn btn-sm btn-outline-info">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        @can('delete-tickets')
+                                            {{-- Delete Button --}}
+                                            <button type="button" class="btn btn-sm btn-outline-danger delete_ticket" data-bs-toggle="modal" data-bs-target="#deleteModal" data-title="{{ $ticket->subject }}" data-no="{{ $ticket->no }}" data-slug="{{ $ticket->slug }}">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        @endcan
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <div class="d-flex justify-content-between">
                 <div class="py-2">
                     Total : ({{ $tickets->total()}} / tickets)
@@ -174,8 +192,9 @@
             $('.delete_ticket').click(function(e) {
                 let no = $(this).data('no');
                 let slug = $(this).data('slug');
-                let subject = $(this).data('subject');
+                let subject = $(this).data('title');
                 
+                console.log(subject)
                 // Insert Value Role
                 $('.ticket_no').html(no);
                 $('.ticket_subject').html(subject);

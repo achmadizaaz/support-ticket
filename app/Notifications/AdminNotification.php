@@ -7,20 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketNotification extends Notification
+class AdminNotification extends Notification
 {
     use Queueable;
-    protected $user, $ticket, $content;
+
+    protected $detail;
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $ticket, $content)
+    public function __construct($detail)
     {
-        $this->user = $user;
-        $this->ticket = $ticket;
-        $this->content = $content;
+        $this->detail = $detail;
     }
-
 
     /**
      * Get the notification's delivery channels.
@@ -29,7 +27,7 @@ class TicketNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['database','mail'];
     }
 
     /**
@@ -38,12 +36,10 @@ class TicketNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Support Ticket #'.$this->ticket->no)
-                    ->markdown('mail.ticket.index', [
-                        'user' => $this->user->name,
-                        'ticket' =>$this->ticket,
-                        'message' => $this->content,
-                    ]);
+        ->subject('Support Ticket #'.$this->detail['no_ticket'])
+        ->markdown('mail.ticket.admin', [
+            'ticket' => $this->detail,
+        ]);
     }
 
     /**
@@ -54,8 +50,8 @@ class TicketNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => $this->ticket->no,
-            'message' => $this->content,
+            'title' => $this->detail['no_ticket'],
+            'message' => $this->detail['message'],
         ];
     }
 }
