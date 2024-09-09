@@ -45,7 +45,7 @@ class TicketController extends Controller
     {
         $tickets = $this->model->with(['user', 'category'])->latest()->paginate(10);
 
-        return view('tickets.index', compact('tickets'));
+        return view('tickets.all', compact('tickets'));
     }
 
     public function create()

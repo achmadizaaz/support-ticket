@@ -8,15 +8,8 @@
         <div class="card p-3">
             <div class="d-sm-flex align-items-center justify-content-between">
                 <div>
-                    <h4 class="mb-sm-0 font-size-18">My Support Ticket</h4>
-                    {{-- <small class="fst-italic">List of ticket opend by customers</small> --}}
-                </div>
-                <div class="page-title-right">
-                    @can('create-tickets')
-                        <a href="{{ route('ticket.create') }}" class="btn btn-primary">
-                            <i class="bi bi-plus me-2"></i> Create a ticket
-                        </a>
-                    @endcan
+                    <h4 class="mb-sm-0 font-size-18">Support Ticket List</h4>
+                    <small class="fst-italic">List of ticket opend by customers</small>
                 </div>
             </div>
         </div>
@@ -58,7 +51,7 @@
                 </div>
                <div class="d-flex gap-1">
                     {{-- Input Pencarian --}}
-                    <form action="{{ route('ticket')}}" method="GET" class="d-flex gap-1">
+                    <form action="{{ route('ticket.all')}}" method="GET" class="d-flex gap-1">
                         <input type="text" name="search" class="form-control"  placeholder="Searching" value="{{request('search') }}">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-search"></i>
