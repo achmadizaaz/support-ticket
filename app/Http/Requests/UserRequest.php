@@ -26,12 +26,10 @@ class UserRequest extends FormRequest
             'image' => $this->image ? 'mimes:png,jpg,jpeg|max:2048':'',
             'username' => ['required', Rule::unique('users', 'username')->ignore($this->id)],
             'email' => $this->method() == 'POST' ? 'required|email' : '',
-            'is_active' => 'required|boolean',
+            'is_active' => 'nullable|boolean',
             'password' => $this->method() == 'POST' ? 'required|string|min:5|max:16' :'',
             'homebase' => 'nullable|exists:units,id',
             'role' => 'nullable|exists:roles,id',
-            'religion' => 'in:Islam,Kristen,Katolik,Hindu,Buddha,Khonghucu',
-            'gender' => 'boolean',
             'date_of_birth' => 'date',
         ];
     }

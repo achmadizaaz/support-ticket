@@ -48,6 +48,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
+        // dd($request->homebase);
         try{
             DB::beginTransaction();
             $image = NULL;
@@ -66,7 +67,7 @@ class UserController extends Controller
                 'email'    => $request->email,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
-                'is_active'=> $request->is_active,
+                'is_active'=> 1,
                 'unit_id'=> $request->homebase,
             ]);
 
