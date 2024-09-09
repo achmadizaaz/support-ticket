@@ -80,8 +80,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete-options']);
 
         //  Create role Super Administrator
-        $roleAdmin = Role::create(['name' => 'Super Administrator', 'level' => 10, 'is_admin' => 1]);
-        $roleCustomer = Role::create(['name' => 'Customer', 'level' => 1, 'is_admin' => 0]);
+        $roleAdmin = Role::create(['id' => '01j72qqs7c5s44xb11qz4vwr0t','name' => 'Super Administrator', 'level' => 10, 'is_admin' => 1]);
+        $roleAdministrator= Role::create(['id'=> '01j7an16v8zd1k2ak5hq3f1r3x','name' => 'Administrator', 'level' => 3, 'is_admin' => 1]);
+        $roleStaff= Role::create(['id'=> '01j7an18v8zd1k2ak5hq3f1r3x','name' => 'Staff', 'level' => 2, 'is_admin' => 1]);
+        $roleDosen= Role::create(['id'=> '01j7an58v8zd1k2ak5hq3f1r3x','name' => 'Dosen', 'level' => 1, 'is_admin' => 0]);
+        $roleTendik= Role::create(['id'=> '01j7an18v8zd1k2ak5hq3f5r3x','name' => 'Tendik', 'level' => 1, 'is_admin' => 0]);
+        $roleMahasiswa= Role::create(['id'=> '01j7an18v8yd1k2ak5hq3f5r3x','name' => 'Mahasiswa', 'level' => 1, 'is_admin' => 0]);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         // create demo users
@@ -90,18 +94,18 @@ class PermissionSeeder extends Seeder
             'username' => 'superadmin',
             'email' => 'superadmin@example.com',
             'is_active' => 1,
-            'password'=> Hash::make('password'),
+            'password'=> Hash::make('support@pdmti85!'),
         ]);
         $admin->assignRole($roleAdmin);
         // create demo users
-        $customer = \App\Models\User::factory()->create([
-            'name' => 'Customer',
-            'username' => 'customer',
-            'email' => 'customer@example.com',
+        $achmadizaaz = \App\Models\User::factory()->create([
+            'name' => 'Achmad Izaaz',
+            'username' => 'achmadizaaz',
+            'email' => 'achmadizaaz@unmerpas.ac.id',
             'is_active' => 1,
-            'password'=> Hash::make('password'),
+            'password'=> Hash::make('support@pdmti85!'),
         ]);
-        $customer->assignRole($roleCustomer);
+        $achmadizaaz->assignRole($roleAdmin);
         
     }
 }
