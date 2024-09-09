@@ -33,6 +33,9 @@
                         </div>
                         <div class="modal-body">
                             <input type="file" name="file" class="form-control">
+                            <div class="mt-2">
+                                Silakan unduh template import user, <a href="{{ route('users.import.template') }}">disini</a>.
+                            </div>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

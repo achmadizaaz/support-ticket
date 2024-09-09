@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TemplateUserExport;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Imports\UserImport;
@@ -221,12 +222,18 @@ class UserController extends Controller
     public function import(Request $request)
     {
         try{
-            return Excel::import(new UserImport,$request->file('file'));
+            Excel::import(new UserImport, $request->file('file'));
         }catch(ValidationException $exception){
             return back()->with('failed', 'Failed import data user, pastikan sudah sesuai format');
         }catch (\Exception $exception) {
             return back()->with('failed', 'Failed import data user, pastikan sudah sesuai format');
         }
+        return back()->with('success', 'Import user berhasil dilakukan!');
+    }
+    
+    public function downloadTemplateUserExport()
+    {
+        return Excel::download(new TemplateUserExport, now().'-Template import user.xlsx');
     }
 
     // End User Controller

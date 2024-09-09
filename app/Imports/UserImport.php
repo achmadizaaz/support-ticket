@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -17,10 +18,9 @@ class UserImport implements ToCollection, WithHeadingRow, WithValidation
     */
     public function collection(Collection $collection)
     {
-        $users = [];
-        foreach ($collection as $collect) 
+        foreach($collection as $collect)
         {
-            $users[] = [
+            $user = User::create([
                 'id' => strtolower(Str::ulid()),
                 'name' => $collect['name'],
                 'username' => $collect['username'],
@@ -28,10 +28,28 @@ class UserImport implements ToCollection, WithHeadingRow, WithValidation
                 'email'=> $collect['email'],
                 'password' => Hash::make($collect['password']),
                 'is_active' => $collect['is_active'],
+                'phone' => $collect['phone'],
                 'unit_id' => $collect['homebase'],
-            ];
+            ]);
+            $role = Role::find($collect['role_id']);
+            $user->assignRole($role);
         }
-        User::insert($users);
+
+        // $users = [];
+        // foreach ($collection as $collect) 
+        // {
+        //     $users[] = [
+        //         'id' => strtolower(Str::ulid()),
+        //         'name' => $collect['name'],
+        //         'username' => $collect['username'],
+        //         'slug' => Str::slug($collect['username']),
+        //         'email'=> $collect['email'],
+        //         'password' => Hash::make($collect['password']),
+        //         'is_active' => $collect['is_active'],
+        //         'unit_id' => $collect['homebase'],
+        //     ];
+        // }
+        // User::insert($users);
     }
 
     public function rules(): array
@@ -42,6 +60,7 @@ class UserImport implements ToCollection, WithHeadingRow, WithValidation
             '*.email'   => 'required|email|unique:users,email',
             '*.password'=> 'required|min:5',
             '*.is_active'=> 'required|numeric|min:0|max:1',
+            '*.phone'=> 'nullable|numeric',
             '*.homebase'=> 'nullable|exists:units,id',
         ];
     }

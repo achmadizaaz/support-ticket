@@ -111,6 +111,7 @@ Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
         Route::put('/edit', 'update')->name('profile.update');
         Route::put('/change-password', 'changePassword')->name('profile.change.password');
         Route::post('/delete', 'destroy')->name('profile.delete');
+       
     });
 
     // user routes
@@ -172,6 +173,8 @@ Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
 
         Route::post('import', 'import')
         ->name('users.import');
+
+        Route::get('/download-template-users', 'downloadTemplateUserExport')->name('users.import.template');
 
     });
 
