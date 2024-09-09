@@ -36,7 +36,7 @@
                 @can('read-all-tickets')
                 <li>
                     <a href="{{ route('ticket.all') }}">
-                        <i class="bi bi-wechat"></i>
+                        <i class="bi bi-headset"></i>
                         <span data-key="t-ticket">List Support Tickets</span>
                     </a>
                 </li>
