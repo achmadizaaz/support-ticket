@@ -80,12 +80,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete-options']);
 
         //  Create role Super Administrator
-        $roleAdmin = Role::create(['name' => 'Super Administrator', 'level' => 10, 'is_admin' => 1]);
-        $roleAdministrator= Role::create(['name' => 'Administrator', 'level' => 3, 'is_admin' => 1]);
-        $roleStaff= Role::create(['name' => 'Staff', 'level' => 2, 'is_admin' => 1]);
-        $roleDosen= Role::create(['name' => 'Dosen', 'level' => 1, 'is_admin' => 0]);
-        $roleTendik= Role::create(['name' => 'Tendik', 'level' => 1, 'is_admin' => 0]);
-        $roleMahasiswa= Role::create(['name' => 'Mahasiswa', 'level' => 1, 'is_admin' => 0]);
+        $roleAdmin = Role::create(['id' => '01j7fjspk9ke4tqn6xp5w628tj','name' => 'Super Administrator', 'level' => 10, 'is_admin' => 1]);
+        $roleAdministrator= Role::create(['id' => '01j7fjspkfr6c2qmz2d16aqrxe','name' => 'Administrator', 'level' => 3, 'is_admin' => 1]);
+        $roleStaff= Role::create(['id'=> '01j7fjspknvnr7tw94cqpqfg0m','name' => 'Staff', 'level' => 2, 'is_admin' => 1]);
+        $roleDosen= Role::create(['id' => '01j7fjspkvdk2ecvyh69zx97xm','name' => 'Dosen', 'level' => 1, 'is_admin' => 0]);
+        $roleTendik= Role::create(['id' => '01j7fjspm1w4hzgaebesd4sggc','name' => 'Tendik', 'level' => 1, 'is_admin' => 0]);
+        $roleMahasiswa= Role::create(['id' => '01j7fjspm6xabcej38ew2rbwta', 'name' => 'Mahasiswa', 'level' => 1, 'is_admin' => 0]);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         // create demo users

@@ -14,14 +14,14 @@ class RoleExport implements FromCollection, WithHeadings, WithTitle
     */
     public function collection()
     {
-        return Role::select('id', 'name')->get();
+        return Role::select('id', 'name', 'is_admin')->get();
     }
 
     public function headings(): array
     {
         // Sesuaikan dengan nama kolom di database
         return [
-            'id', 'name'
+            'id', 'name', 'is_admin'
         ];
     }
 
