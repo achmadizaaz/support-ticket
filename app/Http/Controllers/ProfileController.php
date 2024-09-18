@@ -55,34 +55,12 @@ class ProfileController extends Controller
                 Storage::disk('public')->delete($user->image);
             }
         }
-
-       
         $user->update([
                 'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
                 'image' => $pathImage,
         ]);
-       // Update or create additional information user
-        UserProfile::updateOrInsert(
-            ['user_id'  => $user->id],
-            [// Update profile user
-            // General
-            'phone'     => $request->phone,
-            'mobile'    => $request->mobile,
-            'country'   => $request->country,
-            'address'   => $request->address,
-            'bio'       => $request->bio,
-            'date_of_birth' => $request->date_of_birth,
-            'place_of_birth' => $request->place_of_birth,
-            'religion' => $request->religion,
-            // Media Social
-            'website'   => $request->website,
-            'instagram' => $request->instagram,
-            'facebook'  => $request->facebook,
-            'twitter'   => $request->twitter,
-            'youtube'   => $request->youtube,
-            'other'     => $request->other,
-            'updated_at'=> now(),]
-        );
         return back()->with('success', 'Your user data has been successfully updated');
     }
 

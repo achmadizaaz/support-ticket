@@ -57,7 +57,7 @@ class UserImport implements ToCollection, WithHeadingRow, WithValidation
         return [
             '*.name'    => 'required',
             '*.username'=> 'required|unique:users,username',
-            '*.email'   => 'required|email|unique:users,email',
+            '*.email'   => 'nullable|email|unique:users,email',
             '*.password'=> 'required|min:5',
             '*.is_active'=> 'required|numeric|min:0|max:1',
             '*.phone'=> 'nullable|numeric',

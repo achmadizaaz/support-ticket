@@ -32,7 +32,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <input type="file" name="file" class="form-control">
+                            <input type="file" name="file" class="form-control" accept='.csv'>
                             <div class="mt-2">
                                 Silakan unduh template import user, <a href="{{ route('users.import.template') }}">disini</a>.
                             </div>
