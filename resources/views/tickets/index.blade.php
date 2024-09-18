@@ -76,7 +76,6 @@
                 <table class="table">
                     <thead>
                         <th>No</th>
-                        <th>Name</th>
                         <th>Ticket</th>
                         <th>Status</th>
                         <th>Date</th>
@@ -87,10 +86,6 @@
                             <tr>
                                 <td class="align-middle">
                                     {{ ($tickets->currentPage() - 1) * $tickets->perPage() + $loop->iteration }}
-                                </td>
-                                <td class="align-middle">
-                                    {{ $ticket->user->name }}
-                                    <br>{{ $ticket->user->email }}
                                 </td>
                                 <td class="align-middle">
                                     <a href="{{ route('ticket.show', $ticket->slug) }}">

@@ -12,6 +12,19 @@ class Ticket extends Model
 
     protected $fillable = ['user_id', 'category_id', 'slug', 'no', 'subject', 'content', 'progress', 'status', 'created_by', 'updated_by'];
 
+   // Scope
+    public function scopeFilter($query, array $filters){
+        $query->with(['user'])->when($filters['search'] ?? false, function($query, $search){
+            return $query->whereAny(['no', 'subject', 'status'], 'LIKE', '%' . $search . '%')
+            ->orWhereHas('user', function($query) use ($search){
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('category', function($query) use ($search){
+                $query->where('name', 'like', '%' . $search . '%');
+            });
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

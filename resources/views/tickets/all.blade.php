@@ -59,7 +59,7 @@
                     </form>
 
                     {{-- Button Reset --}}
-                    <a href="{{ route('ticket') }}" class="btn btn-info text-white" title="Reset">
+                    <a href="{{ route('ticket.all') }}" class="btn btn-info text-white" title="Reset">
                         <i class="bi bi-circle"></i>
                     </a>
                 </div>

@@ -36,14 +36,14 @@ class TicketController extends Controller
 
     public function index()
     {
-        $tickets = $this->model->with(['user', 'category'])->where('user_id', $this->currentUser->id)->latest()->paginate(10);
+        $tickets = $this->model->with(['user', 'category'])->where('user_id', $this->currentUser->id)->latest()->filter(request(['search']))->paginate(10);
 
         return view('tickets.index', compact('tickets'));
     }
     
     public function all()
     {
-        $tickets = $this->model->with(['user', 'category'])->latest()->paginate(10);
+        $tickets = $this->model->with(['user', 'category'])->latest()->filter(request(['search']))->paginate(10);
 
         return view('tickets.all', compact('tickets'));
     }

@@ -12,8 +12,40 @@
         </div>
         <!-- end page title -->
 
+        @empty(Auth::user()->email)
+            <div class="alert alert-danger" role="alert">
+                <b>Email</b> akun anda belum ditambahkan, silakan tambahkan terlebih dahulu <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
+                    Klik disini
+                </button> untuk mendapatkan notifikasi balasan dari tim support ticket.
+                <!-- Modal -->
+                <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="{{ route('profile.update') }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="emailModalLabel">Add Email</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="name" class="form-control" value="{{ Auth::user()->name }}">
+                                    <input type="email" name="email" class="form-control" placeholder="Masukkan alamat email anda">
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="Submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endempty
+
+
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <h4 class="alert-heading">Errors:</h4>
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -35,7 +67,7 @@
                     </div>
                     <div class="col-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" value="{{ Auth::user()->email }}" id="email" disabled>
+                        <input type="email" class="form-control" value="{{ Auth::user()->email ?? 'Email belum ditambahkan!' }}" id="email" disabled>
                     </div>
                 </div>
                 <div class="row mb-3">
