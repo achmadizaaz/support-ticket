@@ -122,6 +122,7 @@ class UserController extends Controller
             $user->update([ 
                 'image' => $image,
                 'name' => $request->name,
+                'email' => $request->email,
                 'unit_id' => $request->homebase,
                 'is_active' => $request->is_active,
             ]);

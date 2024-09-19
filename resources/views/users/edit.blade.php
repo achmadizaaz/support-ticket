@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label" for="email">Email</label>
-                                   <input type="email" class="form-control" value="{{$user->email }}" id="email" disabled>
+                                   <input type="email" name="email" class="form-control" value="{{ $user->email }}" id="email">
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label" for="phone">Phone</label>

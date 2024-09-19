@@ -121,7 +121,7 @@
                         <div class="col">
                             <div class="mb-4">
                                 <h6>Role</h6>
-                                {{ $user->roles->pluck('name') }}
+                                {{ $user->roles->pluck('name')[0] }}
                             </div>
                             <div class="mb-4">
                                 <h6>Last login at</h6>
