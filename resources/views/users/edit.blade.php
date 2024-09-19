@@ -89,8 +89,8 @@
                                     <select name="role" id="role" class="form-select">
                                         <option value="">Pilih role pengguna</option>
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" @selected(isset($user->roles->pluck('name')[0]) == $role->name)>{{ $role->name }}</option>
-                                        @endforeach
+                                            <option value="{{ $role->id }}" @selected($role->id == $user->roles->pluck('id')[0] ??'')>{{ $role->name }}</option>
+                                        @endforeach                                
                                     </select>
                                 </div>
                                 <div class="mb-4">
@@ -98,7 +98,7 @@
                                     <select name="homebase" id="homebase" class="form-select">
                                         <option value="">Pilih homebase</option>
                                         @foreach ($homebases as $homebase)
-                                            <option value="{{ $homebase->id }}" @selected(old('homebase') == $homebase->id)>{{ $homebase->name }}</option>
+                                            <option value="{{ $homebase->id }}" @selected(old('homebase', $user->unit_id) == $homebase->id)>{{ $homebase->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
