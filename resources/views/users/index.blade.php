@@ -148,7 +148,8 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Is active?</th>
-                    <th>Last login</th>
+                    <th>Homebase</th>
+                    {{-- <th>Last login</th> --}}
                     <th>Action</th>
                 </thead>
                 <tbody>
@@ -174,7 +175,10 @@
                                 <span class="badge text-bg-danger">Non active</span>
                                 @endif
                             </td>
-                            <td class="align-middle">{!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}</td>
+                            <td>
+                                {{ $user->homebase->name ?? '-' }}
+                            </td>
+                            {{-- <td class="align-middle">{!! $user->last_login_at ? $user->last_login_at->diffForHumans() : '<span class="fst-italic">Belum pernah login</span>'  !!}</td> --}}
                             <td class="align-middle">
                                 <div class="d-flex gap-1">
                                     {{-- Detail Button --}}

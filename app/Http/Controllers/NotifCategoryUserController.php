@@ -23,15 +23,16 @@ class NotifCategoryUserController extends Controller
     public function index()
     {
 
-        $notifications = $this->user->with(['notif.category'])->whereHas('notif')->paginate(10);
         
         if(Auth::user()->can('Super Administrator')){
+            $notifications = $this->user->with(['notif.category'])->whereHas('notif')->paginate(10);
             // Mendapatkan user admin
             $users = $this->user->whereHas('roles', function ($query) {
                 $query->where('is_admin', 1);
             })->get();
         }else{
-            $users = Auth::user();
+            $notifications = $this->user->with(['notif.category'])->whereHas('notif')->where('id', Auth::user()->id)->paginate();
+            $users = $this->user->where('id', Auth::user()->id)->get();
         }
        
 

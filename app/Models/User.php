@@ -75,9 +75,9 @@ class User extends Authenticatable
     // Scope
     public function scopeFilter($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){
-            return $query->where('username', 'like', '%' . $search . '%') 
-                    ->orWhere('name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%');
+            return $query->orWhereHas('homebase', function($query) use ($search){
+                $query->where('name', 'like', '%' . $search . '%');
+            })->orWhereAny(['username', 'name', 'email'], 'like', '%' . $search . '%');
         });
     }
     public function homebase()

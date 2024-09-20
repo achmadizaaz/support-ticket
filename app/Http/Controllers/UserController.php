@@ -226,10 +226,10 @@ class UserController extends Controller
             Excel::import(new UserImport, $request->file('file'));
         }catch(ValidationException $exception){
             Log::error($exception->getMessage());
-            return back()->with('failed', 'Failed import data user, pastikan sudah sesuai format');
+            return back()->with('failed', $exception->getMessage());
         }catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return back()->with('failed', 'Failed import data user, pastikan sudah sesuai format');
+            return back()->with('failed', $exception->getMessage());
         }
         return back()->with('success', 'Import user berhasil dilakukan!');
     }
