@@ -3,7 +3,7 @@
 @section('title', 'Open Ticket')
 
 @section('content')
-    <div class="container-fluid">
+   
         <!-- start page title -->
         <div class="card p-3">
             <div class="d-sm-flex align-items-center justify-content-between">
@@ -60,22 +60,22 @@
         <div class="card p-3">
             <form action="{{ route('ticket.store') }}" method="POST" enctype="multipart/form-data" id="create" onsubmit="return validateQuill()">
                 @csrf
-                <div class="mb-3 row">
-                    <div class="col-6">
+                <div class="row">
+                    <div class="mb-3 col-12 col-sm-6">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" value="{{ Auth::user()->name }}" id="name" disabled>
                     </div>
-                    <div class="col-6">
+                    <div class="mb-3 col-12 col-sm-6">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" value="{{ Auth::user()->email ?? 'Email belum ditambahkan!' }}" id="email" disabled>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
+                <div class="row">
+                    <div class="mb-3 col-12 col-sm-6">
                         <label for="subject" class="form-label">Subject <span class="fst-italic text-danger">*</span></label>
                         <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject permalahan" autofocus required value="{{ old('subject') }}">
                     </div>
-                    <div class="col-6">
+                    <div class="mb-3 col-12 col-sm-6">
                         <label for="category" class="form-label">Category <span class="fst-italic text-danger">*</span></label>
                         <select name="category" id="category" class="form-select" required>
                             <option value="">Choose a one</option>
@@ -117,7 +117,6 @@
             </form>
         </div>
         <!-- end page main -->
-    </div>
 @endsection
 
 @push('scripts')

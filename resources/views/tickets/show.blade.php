@@ -3,7 +3,7 @@
 @section('title', 'View Ticket: #'.$ticket->no)
 
 @section('content')
-    <div class="container-fluid">
+    
         <!-- start page title -->
         <div class="card p-3">
             <h6 class="mb-2">No Ticket: #{{ $ticket->no }}</h6>
@@ -39,7 +39,7 @@
         
         <!-- start page main -->
         <div class="row">
-            <div class="col-3">
+            <div class="mb-3 col-12 col-sm-3">
                 <div class="card rounded-3 mb-3">
                     <div class="card-header fw-semibold">
                         <i class="bi bi-ticket-detailed-fill me-1"></i> Ticket Information
@@ -251,7 +251,7 @@
                 @endif
             </div> {{-- END Kolom Kiri --}}
 
-            <div class="col-9">
+            <div class="mb-3 col-12 col-sm-9">
                 <div class="card mb-3">
                     <div class="card-header fw-bold">
                         <i class="bi bi-chat-left-text me-1"></i> Ticket Message
@@ -393,7 +393,6 @@
             </div>
         </div>
         <!-- end page main -->
-    </div>
 @endsection
 
 @push('scripts')
