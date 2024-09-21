@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignUlid('user_id');
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->unsigned()->nullable();
             $table->string('no')->unique();
             $table->string('subject');
             $table->text('content');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 
