@@ -29,10 +29,12 @@
                                             <div class="modal-body">
                                                 <div class="mb-3">
                                                     <select name="user" id="user" class="form-select" required>
-                                                        <option value="">Silakan pilih pengguna</option>
                                                         @php
                                                             $countUserAdmin = count($users);
                                                         @endphp
+                                                        @if ( $countUserAdmin > 1)
+                                                            <option value="">Silakan pilih pengguna</option>
+                                                        @endif
                                                         @foreach ($users as $user)
                                                             <option value="{{ $user->id }}" @if ($countUserAdmin == 1)
                                                                 selected
