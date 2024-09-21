@@ -210,7 +210,7 @@
                     Total : ({{ $users->total()}} / Users)
                 </div>
                 <div class="d-flex align-items-center flex-row-reverse">
-                    {{ $users->onEachSide(0)->links('vendor.paginate') }}
+                    {{ $users->onEachSide(0)->appends(request()->input())->links('vendor.paginate') }}
                 </div>
             </div>
         </div>
