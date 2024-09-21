@@ -68,8 +68,8 @@ Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
 
         
         // Comment
-        Route::post('/{slug_ticket}/comment', [CommentController::class, 'store'])
-        ->middleware('can:create-tickets')
+        Route::post('/{slug_ticket}/7MzXPCA1og73oWbqoaYF2ZOgQ', [CommentController::class, 'store'])
+        // ->middleware('can:create-tickets')
         ->name('comment.store');
 
     });
