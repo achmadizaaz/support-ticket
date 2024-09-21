@@ -1,3 +1,6 @@
+@php
+    $option = \App\Models\Option::whereIn('name', ['favicon'])->get()->keyBy('name'); 
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="auto">
     <head>
@@ -11,7 +14,7 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/images/laravel.png') }}">
+        <link rel="shortcut icon" href="{{ asset($option['favicon']->value ? 'storage/'.$option['favicon']->value : 'assets/images/laravel.png') }}">
 
         <!-- preloader css -->
         <link rel="stylesheet" href="{{ asset('assets/css/preloader.min.css') }}" type="text/css" />
