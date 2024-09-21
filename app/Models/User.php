@@ -77,7 +77,11 @@ class User extends Authenticatable
         $query->when($filters['search'] ?? false, function($query, $search){
             return $query->orWhereHas('homebase', function($query) use ($search){
                 $query->where('name', 'like', '%' . $search . '%');
-            })->orWhereAny(['username', 'name', 'email'], 'like', '%' . $search . '%');
+            })
+            ->oWhereHas('roles', function($query) use ($search){
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->orWhereAny(['username', 'name', 'email'], 'like', '%' . $search . '%');
         });
     }
     public function homebase()
