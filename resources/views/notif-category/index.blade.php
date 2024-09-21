@@ -31,7 +31,7 @@
                                                     <select name="user" id="user" class="form-select" required>
                                                         <option value="">Silakan pilih pengguna</option>
                                                         @foreach ($users as $user)
-                                                            <option value="{{ $user->id }}">{{ $user->username }}</option>
+                                                            <option value="{{ $user->id }}">{{ $user->username .'-'.$user->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
