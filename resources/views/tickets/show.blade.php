@@ -60,7 +60,7 @@
                         </div>
                         <div class="mb-3">
                             <div class="small fst-italic text-secondary">Category</div>
-                            <h6>{{ $ticket->category->name }}</h6>
+                            <h6>{{ $ticket->category->name ?? 'Tidak ada kategori' }}</h6>
                         </div>
                         <div class="mb-3">
                             <div class="small fst-italic text-secondary">Submitted</div>

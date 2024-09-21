@@ -91,7 +91,7 @@
                                     <a href="{{ route('ticket.show', $ticket->slug) }}">
                                         <div class="mb-2 fst-italic fw-semibold">#{{ $ticket->no }}</div>
                                         <div class="mb-2">{{ $ticket->subject }}</div>
-                                        <div class="badge bg-primary">{{ $ticket->category->name }}</div>
+                                        <div class="badge bg-primary">{{ $ticket->category->name ?? 'Tidak ada kategori' }}</div>
                                     </a>
                                 </td>
                                 <td class="align-middle">
