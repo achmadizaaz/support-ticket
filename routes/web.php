@@ -27,7 +27,7 @@ Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
         ->name('ticket');
         
         Route::get('/all', 'all')
-        ->middleware('can:read-tickets')
+        ->middleware('can:read-all-tickets')
         ->name('ticket.all');
 
         Route::get('/create', 'create')
