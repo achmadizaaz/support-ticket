@@ -200,10 +200,10 @@
 @push('scripts')
     <script>
         // PREVIEW IMAGE
-        $('#changeImageProfile').change(function(){
+        $('#uploadImage').change(function(){
             let reader = new FileReader();
             reader.onload = (e) => {
-                $('#image-preview').attr('src', e.target.result); 
+                $('#preview-image').attr('src', e.target.result); 
             }
             reader.readAsDataURL(this.files[0]); 
         });
