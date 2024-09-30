@@ -355,7 +355,34 @@
                                 </label>
                             </td>
                             <td>
-                                -
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordUserModal">
+                                <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="changePasswordUserModal" tabindex="-1" aria-labelledby="changePasswordUserModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="changePasswordUserModalLabel">Other user</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @php
+                                            $permission = $permissions->where('name', 'change-password-users')->first();
+                                        @endphp
+                                    <input class="form-check-input me-2 checkbox user-group" type="checkbox" id="changePasswordUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('change-password-users'))>
+                                    <label class="form-check-label" for="changePasswordUser">
+                                        Change password
+                                    </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                             </td>
                         </tr>
                         {{-- End Modul User --}}
