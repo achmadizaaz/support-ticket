@@ -91,8 +91,8 @@
                                 @php
                                     $permission = $permissions->where('name', 'create-tickets')->first();
                                 @endphp
-                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="createUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('create-tickets'))>
-                                <label class="form-check-label" for="createUser">
+                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="createTicket" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('create-tickets'))>
+                                <label class="form-check-label" for="createTicket">
                                     Create
                                 </label>
                             </td>
@@ -100,8 +100,8 @@
                                 @php
                                     $permission = $permissions->where('name', 'read-tickets')->first();
                                 @endphp
-                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="readUser"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('read-tickets'))>
-                                <label class="form-check-label" for="readUser">
+                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="readTicket"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('read-tickets'))>
+                                <label class="form-check-label" for="readTicket">
                                     Read
                                 </label>
                             </td>
@@ -109,8 +109,8 @@
                                 @php
                                     $permission = $permissions->where('name', 'update-tickets')->first();
                                 @endphp
-                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="updateUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-tickets'))>
-                                <label class="form-check-label" for="updateUser">
+                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="updateTicket" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-tickets'))>
+                                <label class="form-check-label" for="updateTicket">
                                     Update
                                 </label>
                             </td>
@@ -118,8 +118,8 @@
                                 @php
                                     $permission = $permissions->where('name', 'delete-tickets')->first();
                                 @endphp
-                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="deleteUser" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('delete-tickets'))>
-                                <label class="form-check-label" for="deleteUser">
+                                <input class="form-check-input me-2 checkbox ticket-group" type="checkbox" id="deleteTicket" value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('delete-tickets'))>
+                                <label class="form-check-label" for="deleteTicket">
                                     Delete
                                 </label>
                             </td>
