@@ -131,6 +131,8 @@ body {
                   <span class="logo-txt">{{ $option['site-title']->value ?? config('app.name', 'Laravel') }}</span>
                 </div>
             </div>
+            <!-- Session Status -->
+            <x-auth-session-status class="mb-4" :status="session('status')" />
             @if($errors->any())
                 <div class="alert alert-danger" role="alert">
                     <div class="d-flex justify-content-between border-bottom border-danger mb-2">
