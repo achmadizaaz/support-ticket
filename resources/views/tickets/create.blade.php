@@ -12,6 +12,10 @@
         </div>
         <!-- end page title -->
 
+        <div class="alert alert-info" role="alert">
+            Tim <b>support kami</b> akan merespons permintaan Anda dalam waktu maksimal 1x24 jam pada hari kerja. Terima kasih.
+        </div>
+
         @empty(Auth::user()->email)
             <div class="alert alert-danger" role="alert">
                 <b>Email</b> akun anda belum ditambahkan, silakan tambahkan terlebih dahulu <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#emailModal">
