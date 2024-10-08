@@ -10,7 +10,7 @@ class Unit extends Model
 {
     use HasFactory, Sluggable;
 
-    protected $fillable = ['id','name', 'slug'];
+    protected $fillable = ['id','name', 'code', 'slug'];
     
     public function sluggable(): array
     {

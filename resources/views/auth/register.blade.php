@@ -128,6 +128,15 @@ body {
                   <span class="logo-txt">{{ $option['site-title']->value ?? config('app.name', 'Laravel') }}</span>
                 </div>
             </div>
+            @if (session('failed'))
+            <div class="alert alert-danger" role="alert">
+              <div class="d-flex justify-content-between border-bottom border-danger mb-2">
+                  <h5 class="alert-heading">Errors:</h5>
+                  <button type="button" class="btn-close small" data-bs-dismiss="alert" aria-label="Close" style="padding: 12px;"></button>
+              </div>
+              {{ session('failed') }}
+          </div>
+            @endif
             @if($errors->any())
                 <div class="alert alert-danger" role="alert">
                     <div class="d-flex justify-content-between border-bottom border-danger mb-2">
@@ -141,69 +150,70 @@ body {
                     </ul>
                 </div>
             @endif
-            <div class="col">
-                <div class="auth-content">
-                    <div class="mb-3">
-                        <label class="form-label">Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" value="{{ old('name') }}" autofocus required>
+
+                <div class="auth-content row">
+                    <div class="col-6 mb-3">
+                      <label class="form-label">Name <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="name" placeholder="Nama lengkap kamu" name="name" value="{{ old('name') }}" autofocus required>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label">NIM <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="username" placeholder="Nomor induk mahasiswa kamu" minlength="13" name="username" value="{{ old('username') }}"  required>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="Alamat email kamu" name="email" value="{{ old('email') }}"  required>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label">Program Studi <span class="text-danger">*</span></label>
+                    <select name="program_studi" id="unit" class="form-select">
+                      <option value="">Pilih prodi sesuai, jurusan kamu</option>
+                      @foreach ($units as $unit)
+                          <option value="{{ $unit->slug }}">{{ $unit->name }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label">Phone <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="basic-addon1">+62</span>
+                      <input type="number" class="form-control" placeholder="Nomor ponsel kamu" name="phone" value="{{ old('phone') }}" oninput="validateNumberInput(this)">
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Username <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" value="{{ old('username') }}"  required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{ old('email') }}"  required>
-                    </div>
-                    <div class="mb-3">
+                    
+                    
+                  </div>
+                  <hr>
+                  <div class="mb-3">
                     <label class="form-label">Password <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" placeholder="Enter password" name="password" required>
-                    </div>
-                    <div class="mb-3">
+                      <input type="password" class="form-control" placeholder="Masukan katasandi" name="password" required>
+                  </div>
+                  <div class="mb-3">
                     <label class="form-label">Password Confirmation <span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" placeholder="Enter password" name="password_confirmation" required>
-                    </div>
+                      <input type="password" class="form-control" placeholder="Masukan ulang katasandi" name="password_confirmation" required>
+                  </div>
                 </div>
-            </div> {{-- END COLOUMN --}}
-            <div class="col">
-                <div class="auth-content">
-                    <div class="mb-3">
-                        <label class="form-label">Phone <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" placeholder="Enter phone" name="phone" value="{{ old('phone') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Date of birth <span class="text-danger">*</span></label>
-                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth') }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Gender <span class="text-danger">*</span></label>
-                        <div class="py-2">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="gender-man" value="1" @checked(old('gender') == 1) required>
-                                <label class="form-check-label" for="gender-man">Man</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="gender-woman" value="0" @checked(old('gender') == 0) required>
-                                <label class="form-check-label" for="gender-woman">Female</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                    <label class="form-label">Address</label>
-                        <input type="text" class="form-control" placeholder="Enter address" name="address" value="{{ old('address') }}">
-                    </div>
-                </div>
-            </div>
+
     
     
-            <div class="text-center mt-3 mb-4">
+            
+            <div class="d-flex justify-content-between align-items-center gap-1 mb-3">
+              <div class="text-start fst-italic">
                 By registering you agree to the {{ config('app.name', 'Laravel') }} Terms of Use
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Register</button>
+              </div>
+              <div>
+                <a href="{{ route('login') }}" class="btn btn-secondary">Kembali</a>
+                <button class="btn btn-primary waves-effect waves-light" type="submit">Register</button>
+              </div>
             </div>
         </div>
     </form>
 </main>
+
+<script>
+  function validateNumberInput(input) {
+      // Hapus semua karakter yang bukan angka
+      input.value = input.value.replace(/[^0-9]/g, '');
+  }
+</script>
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Option;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Auth\Events\Registered;
@@ -21,7 +22,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $units = Unit::whereNotIn('id', [1])->get();
+        return view('auth.register', compact('units'));
     }
 
     /**
@@ -33,49 +35,34 @@ class RegisteredUserController extends Controller
     {
 
         $request->validate([
+            'username' => ['required', 'string', 'min:13', 'max:13'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            // User Profile
-            'phone' => ['required', 'string', 'max:255'],
-            'date_of_birth' => ['required', 'date'],
-            'gender' => ['required', 'boolean'],
+            'phone' => ['required', 'numeric', 'digits_between:8,14' ],
+            'program_studi' => ['required', 'exists:units,slug'],
         ]);
+
+        $unit = Unit::where('slug', $request->program_studi)->first();
 
         $options = Option::whereIn('name', ['default-role', 'default-is-active'])->get()->keyBy('name');
 
+        // String yang berisi angka
+        $codeNIMProdi = substr($request->username, 2, 5); 
+        
+        if($unit->code != $codeNIMProdi){
+            return back()->withInput($request->all())->with('failed', 'Pendaftaran akun gagal, terdapat data yang tidak sesuai');
+        }
+
         $user = User::create([
+            'unit_id' => $unit->id,
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'is_active' => isset($options['default-is-active']->value),
         ]);
-
-
-        // Update or create additional information user
-        UserProfile::updateOrInsert(
-            ['user_id'  => $user->id],
-            [// Update profile user
-            // General
-            'phone'     => $request->phone,
-            'mobile'    => $request->mobile,
-            'country'   => $request->country,
-            'address'   => $request->address,
-            'bio'       => $request->bio,
-            'date_of_birth' => $request->date_of_birth,
-            'place_of_birth' => $request->place_of_birth,
-            'gender' => $request->gender,
-            'religion' => $request->religion,
-            // Media Social
-            'website'   => $request->website,
-            'instagram' => $request->instagram,
-            'facebook'  => $request->facebook,
-            'twitter'   => $request->twitter,
-            'youtube'   => $request->youtube,
-            'other'     => $request->other,
-            'updated_at'=> now(),]
-        );
 
         
         // Assign role user
