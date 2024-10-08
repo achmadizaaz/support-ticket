@@ -151,13 +151,16 @@ body {
             <div class="fs-4">
                 Universitas Merdeka Pasuruan
             </div>
-          <h1>Selamat Datang di Sistem Support Ticket</h1>
+          <h1>Selamat Datang di Sistem Tiket Dukungan</h1>
           
           <br>
-          <p class="lead" >Sistem kami dirancang untuk membantu Anda mengelola dan menyelesaikan tiket support. Di sini, Anda dapat dengan mudah membuat, melacak, dan mengelola setiap permintaan bantuan atau masalah teknis yang Anda hadapi.</p>
+          <p class="lead" >Sistem kami dirancang untuk membantu Anda mengelola dan menyelesaikan tiket dukungan. Di sini, Anda dapat dengan mudah membuat, melacak, dan mengelola setiap permintaan bantuan atau masalah teknis yang Anda hadapi.</p>
           <p class="lead">
             <a href="{{ route('login') }}" class="btn btn-lg btn-bd-primary fw-bold border-white ">
-                Login Page
+                Log in
+            </a>
+            <a href="{{ route('register') }}" class="btn btn-lg text-bg-secondary fw-bold border-white ">
+                Register
             </a>
           </p>
         </main>
