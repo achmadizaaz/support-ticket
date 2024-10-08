@@ -135,11 +135,11 @@ body {
 
             <div class="mb-3">
                 <label class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter username" name="login" value="{{ old('login') }}" autofocus>
+                <input type="text" class="form-control" id="username" placeholder="Masukan NIM/Email/Username" name="login" value="{{ old('login') }}" autofocus>
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-                <input type="password" class="form-control" placeholder="Enter password" name="password">
+                <input type="password" class="form-control" placeholder="Masukan katasandi" name="password">
             </div>
             <div class="row mb-4">
                 <div class="col">
