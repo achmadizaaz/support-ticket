@@ -119,7 +119,7 @@ body {
         <div class="row">
             <div class="d-flex justify-content-between align-items-center p-2 mb-4 border-bottom">
                 <div class="text-start col-8">
-                    <h5 class="fw-bold">Verify Email</h5>
+                    <h5 class="fw-bold">Verifikasi Email Anda</h5>
                 </div>
                 <div class="text-center d-block auth-logo col-4">
                   <img src="{{ asset($option['favicon']->value ? 'storage/'. $option['favicon']->value : 'assets/images/laravel.png') }}" alt="" height="28">
