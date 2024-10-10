@@ -9,6 +9,11 @@ Route::get('/', function(){
     // return view('welcome');
 })->middleware(['guest']);
 
+Route::get('/ketentuan-penggunaan', function(){
+    return view('terms');
+    // return view('welcome');
+})->middleware(['guest'])->name('terms-of-use');
+
 // Jika user belum diaktifkan
 Route::get('dashboard/profile/activated', function(){
     return view('profile.is_active');

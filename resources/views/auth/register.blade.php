@@ -152,19 +152,19 @@ body {
             @endif
 
                 <div class="auth-content row">
-                    <div class="col-6 mb-3">
+                    <div class="col-12 col-sm-6 mb-3">
                       <label class="form-label">Name <span class="text-danger">*</span></label>
                       <input type="text" class="form-control" id="name" placeholder="Nama lengkap kamu" name="name" value="{{ old('name') }}" autofocus required>
                   </div>
-                  <div class="col-6 mb-3">
+                  <div class="col-12 col-sm-6 mb-3">
                     <label class="form-label">NIM <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="username" placeholder="Nomor induk mahasiswa kamu" minlength="13" name="username" value="{{ old('username') }}"  required>
                   </div>
-                  <div class="col-6 mb-3">
+                  <div class="col-12 col-sm-6 mb-3">
                     <label class="form-label">Email <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" placeholder="Alamat email kamu" name="email" value="{{ old('email') }}"  required>
                   </div>
-                  <div class="col-6 mb-3">
+                  <div class="col-12 col-sm-6 mb-3">
                     <label class="form-label">Program Studi <span class="text-danger">*</span></label>
                     <select name="program_studi" id="unit" class="form-select">
                       <option value="">Pilih prodi sesuai, jurusan kamu</option>
@@ -173,7 +173,7 @@ body {
                       @endforeach
                     </select>
                   </div>
-                  <div class="col-6 mb-3">
+                  <div class="col-12 col-sm-6 mb-3">
                     <label class="form-label">Phone <span class="text-danger">*</span></label>
                     <div class="input-group">
                       <span class="input-group-text" id="basic-addon1">+62</span>
@@ -196,9 +196,9 @@ body {
     
     
             
-            <div class="d-flex justify-content-between align-items-center gap-1 mb-3">
+            <div class="d-flex justify-content-start justify-content-md-between align-items-center gap-1 mb-3 flex-wrap">
               <div class="text-start fst-italic">
-                By registering you agree to the {{ config('app.name', 'Laravel') }} Terms of Use
+                Dengan mendaftar, Anda menyetujui <a href="{{ route('terms-of-use') }}">Ketentuan Penggunaan</a> {{ config('app.name', 'Laravel') }}
               </div>
               <div>
                 <a href="{{ route('login') }}" class="btn btn-secondary">Kembali</a>
