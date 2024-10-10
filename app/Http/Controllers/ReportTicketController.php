@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReportTicketRequest;
 use App\Models\Role;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ReportTicketController extends Controller
         return view('reports.index', compact('roles'));
     }
 
-    public function show(Request $request)
+    public function show(ReportTicketRequest $request)
     {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
