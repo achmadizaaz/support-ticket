@@ -15,7 +15,7 @@ Route::get('dashboard/profile/activated', function(){
 })->middleware('auth')->name('not_active');
 
 // Route utama
-Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
+Route::prefix('/')->middleware(['auth', 'active', 'verified'])->group(function () {
     
     // dashboard route
     Route::get('/dashboard', function () { return view('dashboard');
@@ -111,7 +111,6 @@ Route::prefix('/')->middleware(['auth', 'active'])->group(function () {
         Route::put('/edit', 'update')->name('profile.update');
         Route::put('/change-password', 'changePassword')->name('profile.change.password');
         Route::post('/delete', 'destroy')->name('profile.delete');
-       
     });
 
     // user routes
