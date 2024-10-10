@@ -201,7 +201,7 @@
     <div class="navbar" id="navbar">
         <div class="container">
             <div class="title">
-                Laporan Pengguna
+                Report Support Ticket
             </div>
             <div class="back">
                 <a href="{{ route('report.ticket') }}" class="btn-back">
@@ -238,7 +238,7 @@
         <br>
 
         <div class="headline">
-            Report Ticket
+            Report Support Ticket
         </div>
 
         <!-- Start Info -->
