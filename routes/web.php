@@ -263,6 +263,11 @@ Route::prefix('/')->middleware(['auth', 'active', 'verified'])->group(function (
             ->name('options.update');
     });
 
+    Route::controller(ReportTicketController::class)->prefix('report-tickets')->group(function(){
+        Route::get('/', 'index')->name('report.ticket');
+        Route::post('/show', 'show')->name('report.ticket.show');
+    });
+
 });
 
 require __DIR__.'/auth.php';

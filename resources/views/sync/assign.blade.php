@@ -437,6 +437,57 @@
                             </td>
                         </tr>
                         {{-- End Modul Role --}}
+
+                        {{-- Modul Report --}}
+                        <tr>
+                            <td class="fw-bold">Report</td>
+                            <td>
+                                <input class="form-check-input me-2 checkbox checkAllReport" type="checkbox" id="all-report" onclick="checkAllReport(this)">
+                                <label class="form-check-label" for="all-report">
+                                    All Report
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'create-reports')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox report-group" type="checkbox" id="createReport" value="{{ $permission->id }}"  name="permission[]" @checked($currentRole->hasPermissionTo('create-reports'))>
+                                <label class="form-check-label" for="createReport">
+                                    Create
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'read-reports')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox report-group" type="checkbox" id="readReport"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('read-reports'))>
+                                <label class="form-check-label" for="readReport">
+                                    Read
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'update-reports')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox report-group" type="checkbox" id="updateReport"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-reports'))>
+                                <label class="form-check-label" for="updateReport">
+                                    Update
+                                </label>
+                            </td>
+                            <td>
+                                @php
+                                    $permission = $permissions->where('name', 'delete-reports')->first();
+                                @endphp
+                                <input class="form-check-input me-2 checkbox report-group" type="checkbox" id="deleteReport"  value="{{ $permission->id }}" name="permission[]" @checked($currentRole->hasPermissionTo('update-reports'))>
+                                <label class="form-check-label" for="deleteReport">
+                                    Delete
+                                </label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        {{-- End Modul Report --}}
                     </tbody>
                 </table>
             </div>

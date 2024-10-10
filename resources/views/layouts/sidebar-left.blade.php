@@ -116,6 +116,15 @@
                     @endcanany
                 </li>
                 @endcanany
+                @can('read-reports')
+                    <li class="menu-title" data-key="t-components">Reports</li>
+                    <li>
+                        <a href="{{ route('report.ticket') }}">
+                            <i class="bi bi-bar-chart"></i>
+                            <span data-key="t-rolepermission">Report Ticket</span>
+                        </a>
+                    </li>
+                @endcan
                 @can('read-options')
                     <li class="menu-title" data-key="t-components">Options</li>
                     <li>

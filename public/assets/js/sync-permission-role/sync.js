@@ -171,5 +171,29 @@ $(".role-group").on("change", function () {
 
 // End Checklist Role
 
+// Checklist Report
+let reportUnChecked = document.querySelectorAll(".report-group").length,
+    reportChecked = document.querySelectorAll(".report-group:checked").length;
+function checkAllReport(e) {
+    document
+        .querySelectorAll(".report-group")
+        .forEach((n) => (n.checked = e.checked));
+}
+function setCheckAllReport() {
+    document.querySelector("input.checkAllReport").checked =
+        reportUnChecked == reportChecked;
+}
+$(".report-group").on("change", function () {
+    let e;
+    document.querySelectorAll(".report-group").length ==
+    document.querySelectorAll(".report-group:checked").length
+        ? (document.getElementById("all-report").checked = !0)
+        : (document.getElementById("all-report").checked = !1);
+}),
+    reportUnChecked == reportChecked &&
+        (document.getElementById("all-report").checked = !0);
+
+// End Checklist Report
+
 // Tambahkan log untuk memastikan script ter-load
 // console.log("Script loaded successfully");
