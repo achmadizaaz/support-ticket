@@ -79,6 +79,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-options']);
         Permission::create(['name' => 'delete-options']);
 
+        // Create permission option
+        Permission::create(['name' => 'read-reports']);
+        Permission::create(['name' => 'create-reports']);
+        Permission::create(['name' => 'update-reports']);
+        Permission::create(['name' => 'delete-reports']);
+
         //  Create role Super Administrator
         $roleAdmin = Role::create(['id' => '01j7fjspk9ke4tqn6xp5w628tj','name' => 'Super Administrator', 'level' => 10, 'is_admin' => 1]);
         $roleAdministrator= Role::create(['id' => '01j7fjspkfr6c2qmz2d16aqrxe','name' => 'Administrator', 'level' => 3, 'is_admin' => 1]);
