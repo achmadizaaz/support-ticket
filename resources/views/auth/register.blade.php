@@ -167,7 +167,7 @@ body {
                   <div class="col-12 col-sm-6 mb-3">
                     <label class="form-label">Program Studi <span class="text-danger">*</span></label>
                     <select name="program_studi" id="unit" class="form-select">
-                      <option value="">Pilih prodi sesuai, jurusan kamu</option>
+                      <option value="">Pilih prodi, sesuai jurusan kamu</option>
                       @foreach ($units as $unit)
                           <option value="{{ $unit->slug }}">{{ $unit->name }}</option>
                       @endforeach
@@ -197,7 +197,7 @@ body {
     
             
             <div class="d-flex justify-content-start justify-content-md-between align-items-center gap-1 mb-3 flex-wrap">
-              <div class="text-start fst-italic">
+              <div class="text-start fst-italic mb-3">
                 Dengan mendaftar, Anda menyetujui <a href="{{ route('terms-of-use') }}">Ketentuan Penggunaan</a> {{ config('app.name', 'Laravel') }}
               </div>
               <div>
