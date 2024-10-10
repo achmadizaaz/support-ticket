@@ -160,13 +160,13 @@ body {
         <div class="d-flex justify-content-between py-2">
           
           @if ($option['can-register']->value == 'yes')
-            <p class="text-muted mb-0">Don't have an account? <a href="{{ route('register') }}"
+            <p class="text-muted mb-0">Tidak memiliki akun? <a href="{{ route('register') }}"
               class="text-primary fw-semibold fst-italic">Register </a> 
             </p>
           @endif
 
           @if ($option['can-forget-password']->value == 'yes')
-            <a href="{{ route('password.request') }}" class="text-secondary fst-italic">Forgot password?</a>
+            <a href="{{ route('password.request') }}" class="text-secondary fst-italic">Lupa katasandi?</a>
           @endif
 
         </div>

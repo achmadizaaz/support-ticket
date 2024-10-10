@@ -120,11 +120,11 @@ body {
         <div class="row">
             <div class="d-flex justify-content-between align-items-center p-2 mb-4 border-bottom">
                 <div class="text-start">
-                    <h5 class="fw-bold">Register Account</h5>
-                    <span class="small text-secondary">Fill out the form carefully for registration</span>
+                    <h5 class="fw-bold">Pendaftaraan Akun</h5>
+                    {{-- <span class="small text-secondary">Fill out the form carefully for registration</span> --}}
                 </div>
-                <div class="text-center d-flex align-items-center auth-logo">
-                  <img src="{{ asset($option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/laravel.png') }}" alt="" height="28">
+                <div class=" d-flex align-items-center auth-logo">
+                  <img src="{{ asset($option['sidebar-icon']->value ? 'storage/'. $option['sidebar-icon']->value : 'assets/images/laravel.png') }}" height="25">
                   <span class="logo-txt">{{ $option['site-title']->value ?? config('app.name', 'Laravel') }}</span>
                 </div>
             </div>

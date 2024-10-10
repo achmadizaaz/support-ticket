@@ -12,6 +12,9 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <style>
+      .lead {
+        font-size: 18px;
+      }
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -152,6 +155,7 @@ body {
                 Universitas Merdeka Pasuruan
             </div>
           <h1>Selamat Datang di Sistem Tiket Dukungan</h1>
+          <h5>( <i>Support Ticket</i> )</h5>
           
           <br>
           <p class="lead" >Sistem kami dirancang untuk membantu Anda mengelola dan menyelesaikan tiket dukungan. Di sini, Anda dapat dengan mudah membuat, melacak, dan mengelola setiap permintaan bantuan atau masalah teknis yang Anda hadapi.</p>
