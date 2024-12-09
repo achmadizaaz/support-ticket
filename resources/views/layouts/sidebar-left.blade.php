@@ -41,7 +41,26 @@
                     </a>
                 </li>
                 @endcan
-                
+
+                <li class="menu-title" data-key="t-components">Wi-Fi</li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class="bi bi-wifi"></i>
+                        <span data-key="t-hotspot">Hotspot <small class="fst-italic">( Wi-Fi )</small></span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('hotspot.active') }}">
+                                <span data-key="t-role">Active</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('hotspot') }}">
+                                <span data-key="t-role">Account</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 
                 @canany(['read-categories', 'read-units'])
                 <li class="menu-title" data-key="t-referensi">Referensi</li>

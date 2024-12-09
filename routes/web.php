@@ -273,6 +273,15 @@ Route::prefix('/')->middleware(['auth', 'active', 'verified'])->group(function (
         Route::post('/show', 'show')->name('report.ticket.show');
     });
 
+    Route::controller(HotspotController::class)->prefix('hotspots')->group(function(){
+        Route::get('/', 'index')->name('hotspot');
+        Route::post('/', 'store')->name('hotspot.store');
+        Route::post('/{id}/verify', 'verify')->name('hotspot.verify');
+        Route::get('/active', 'active')->name('hotspot.active');
+        Route::get('/per-page', 'showPerPage')->name('hotpost.session.perpage');
+        Route::delete('/{id}/logout', 'logOutUser')->name('hotspot.logout');
+    });
+
 });
 
 require __DIR__.'/auth.php';
