@@ -33,7 +33,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
         $request->validate([
             'username' => ['required', 'string', 'min:13', 'max:13', 'unique:'.User::class],
             'name' => ['required', 'string', 'max:255'],
@@ -41,7 +40,13 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'numeric', 'digits_between:8,14' ],
             'program_studi' => ['required', 'exists:units,slug'],
+            'angkatan' => ['required'],
         ]);
+
+        // Check NIM by Tahun Angkatan
+        if(substr($request->angkatan, 2) != substr($request->username, 2, 2)){
+            return back()->withInput($request->all())->with('failed', 'Pendaftaran akun gagal, terdapat data yang tidak sesuai');
+        }
 
         $unit = Unit::where('slug', $request->program_studi)->first();
 
