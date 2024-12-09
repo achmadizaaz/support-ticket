@@ -24,7 +24,7 @@ class TicketRequest extends FormRequest
         return [
             'subject' => 'required|string',
             'category' => 'required|numeric',
-            'attachment.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:20048',
+            'attachment.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:7168',
             'content' => 'required',
             'progress' => 'nullable|numeric|min:0|max:100',
         ];
